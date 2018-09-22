@@ -1,0 +1,52 @@
+type Post {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  isPublished: Boolean! @default(value: "false")
+  title: String!
+  text: String!
+  author: User!
+}
+
+type User {
+  id: ID! @unique
+  email: String! @unique
+  password: String!
+  name: String!
+  posts: [Post!]!
+  profile: PersonalDetails
+  address: Address
+  farmingActivities: FarmingActivities
+  role: Role @default(value: "FARMER")
+}
+
+type PersonalDetails {
+  lastName: String
+  cellNo: String
+  landLine: String
+  idSA: String
+  person: User!
+}
+
+type Address {
+  line1: String
+  line2: String
+  line3: String
+  area: String
+  postalCode: String
+  province: String
+  resident: User!
+}
+
+type FarmingActivities {
+  category: String!
+  shortDescription: String
+  longDescription: String
+  farmer: User!  
+}
+
+enum Role {
+  ADMIN
+  CUSTOMER
+  FARMER
+}
