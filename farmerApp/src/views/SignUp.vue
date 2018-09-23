@@ -76,14 +76,14 @@ export default {
           this.$refs.form.validate()
         );
         var doc = {
-          _id: "user1",
+          _id: "me",
           nm: this.name,
           pw: this.password,
           em: this.email
         };
         db.put(doc);
         this.$router.replace("/");
-        db.get("user1").then(function(doc) {
+        db.get("me").then(function(doc) {
           console.log(doc);
         });
 

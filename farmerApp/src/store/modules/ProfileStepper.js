@@ -6,11 +6,11 @@ import db from '@/api/pouchDB'
 
 function upsertToPouch(docName, data){
     db.upsert(docName, function (doc) {
+        doc = {...data}
         if (!doc.count) {
             doc.count = 0;
         }
         doc.count++;
-        doc.data = data
         doc.isOnline = false
         return doc;
     }).then(function (res) {
@@ -28,10 +28,10 @@ function upsertToPouch(docName, data){
 
 const state = {
     element: 1,
-    personalDetails: null,
-    address: null,
-    farmingActivities: null,
-    me: null
+    gotPersonalDetails: false,
+    gotAddress: false,
+    gotFarmingActivities: false,
+    // me: null
 }
 
 const getters = {
@@ -49,19 +49,23 @@ const actions = {
     personalDetails({
         state
     }, payload) {
-        state.personalDetails = payload
-        var docName = "Profile/PersonalDetails"
+        var docName = "personalDetails"
         upsertToPouch(docName, payload)
+        state.gotPersonalDetails = true
     },
     address({
         state
     }, payload) {
-        state.address = payload
+        var docName = "address"
+        upsertToPouch(docName, payload)
+        state.gotAddress = true
     },
     farmingActivities({
         state
     }, payload) {
-        state.farmingActivities = payload
+        var docName = "farmingActivities";
+        upsertToPouch(docName, payload);
+        state.gotFarmingActivities = true
     },
     async fetchMe({
         state

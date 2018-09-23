@@ -8,7 +8,7 @@
             ></v-text-field>
             <v-text-field
                 label="Cell Number"
-                v-model="person.cellNo"
+                v-model="person.cell"
                 :counter="10"
                 mask="phone"
             ></v-text-field>
@@ -29,7 +29,8 @@
         </v-card-text>
         <v-btn
             color="primary"
-            @click="$store.dispatch('changeElement', 2)"
+            @click="$store.dispatch('changeElement', 2)
+                ; $store.dispatch('personalDetails', person)"
         >
             Continue
         </v-btn> 
@@ -40,7 +41,12 @@
 import { PERSONALDETAILS_MUTATION } from "@/graphql/mutations";
 export default {
   data: () => ({
-    person: {}
+    person: {
+        lastName: null,
+        cell: null,
+        landLine: null,
+        idSA: null,
+    }
   }),
   methods: {
     // submit() {

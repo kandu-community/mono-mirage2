@@ -32,7 +32,7 @@
     ></v-select>                  
     <v-btn
         color="primary"
-        @click="$store.dispatch('changeElement', 3)"
+        @click="$store.dispatch('changeElement', 3); submit()"
       >
         Continue
     </v-btn>    
@@ -46,12 +46,12 @@ import db from "@/api/pouchDB";
 export default {
   data: () => ({
     address: {
-      line1: "",
-      line2: "",
-      line3: "",
-      area: "",
-      postalCode: "",
-      province: ""
+      line1: null,
+      line2: null,
+      line3: null,
+      area: null,
+      postalCode: null,
+      province: null
     },
 
     provinces: [
@@ -68,6 +68,9 @@ export default {
   }),
 
   methods: {
+    submit() {
+      this.$store.dispatch('address', this.address)
+    }
     // submit() {
     //   this.$apollo
     //     .mutate({
