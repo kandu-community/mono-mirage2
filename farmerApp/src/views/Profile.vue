@@ -8,42 +8,28 @@
         </template>  
         <v-btn color="success" @click="$store.dispatch('fetchMe')">text</v-btn>
         <br>
-        <v-stepper v-model="el">
-          <v-stepper-header>
-            <v-stepper-step :complete="el > 1" step="1">Name of step 1</v-stepper-step>
-      
-            <v-divider></v-divider>
-      
-            <v-stepper-step :complete="el > 2" step="2">Name of step 2</v-stepper-step>
-      
-            <v-divider></v-divider>
-      
-            <v-stepper-step step="3">Name of step 3</v-stepper-step>
-          </v-stepper-header>
-      
-          <v-stepper-items>
+        <v-stepper vertical v-model="el">
+
+            <v-stepper-step :complete="el > 0" step="1">Who You ARE</v-stepper-step>
             <v-stepper-content step="1">
               <personal-details></personal-details>
-      
-
-      
             </v-stepper-content>
       
+            <!-- <v-divider></v-divider> -->
+      
+            <v-stepper-step :complete="el > 1" step="2">Where You Are</v-stepper-step>
             <v-stepper-content step="2">
               <address-details></address-details>
-      
-
-      
             </v-stepper-content>
       
-            <v-stepper-content step="3">
+            <!-- <v-divider></v-divider> -->
+      
+            <v-stepper-step :complete="el > 2" step="3">What You Do</v-stepper-step>
+
+            <v-stepper-content  step="3">
               <farming-activities></farming-activities>
-      
-
-      
-
             </v-stepper-content>
-          </v-stepper-items>
+      
         </v-stepper>
       </v-flex>
     </v-layout>

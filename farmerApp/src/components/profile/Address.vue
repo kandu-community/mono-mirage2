@@ -33,7 +33,7 @@
     ></v-select>                  
     <v-btn
         color="primary"
-        @click="$store.dispatch('changeElement', 3); submit()"
+        @click="$store.dispatch('changeElement', 2); submit()"
       >
         Continue
     </v-btn>    

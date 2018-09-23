@@ -15,7 +15,7 @@
     ></v-textarea>        
     <v-btn
         color="primary"
-        @click="$store.dispatch('changeElement', 1); submit()"
+        @click="$store.dispatch('changeElement', 3); submit()"
     >
     Continue
     </v-btn>
@@ -35,6 +35,12 @@ export default {
   },
   methods: {
     submit() {
+      this.$store.dispatch('farmingActivities', {
+            category: this.activities,
+            shortDescription: null,
+            longDescription: this.longDescription
+          })
+      // TODO Move this out
       this.$apollo
         .mutate({
           mutation: FARMINGACTIVITIES_MUTATION,

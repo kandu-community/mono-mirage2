@@ -27,7 +27,7 @@
         ></v-text-field>         
         <v-btn
             color="primary"
-            @click="$store.dispatch('changeElement', 2); submit()"
+            @click="$store.dispatch('changeElement', 1); submit()"
         >
             Continue
         </v-btn>

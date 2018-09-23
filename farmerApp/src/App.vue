@@ -41,11 +41,13 @@ export default {
   name: "App",
   created () {
     this.$on('online', function () {
-      this.onlineState = "I'm online now!" 
-      
+      this.onlineState = "I'm online now!"
+      this.$store.dispatch('isOnline', true) 
+
     })
     this.$on('offline', function () {
       this.onlineState = "I'm offline now!"
+      this.$store.dispatch('isOnline', false) 
     })
   },
   data() {

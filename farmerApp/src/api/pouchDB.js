@@ -5,6 +5,7 @@
 
 import PouchDB from "pouchdb-browser"
 // PouchDB.plugin(require('pouchdb-find'));
+PouchDB.plugin(require("pouchdb-upsert"));
 
 var db = new PouchDB('farmer-app');
 
