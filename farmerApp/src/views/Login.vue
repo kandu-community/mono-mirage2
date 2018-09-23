@@ -69,6 +69,7 @@ export default {
               "​login -> response.data.login.token",
               response.data.login.token
             );
+            this.$router.replace('/')
           })
           .catch(error => console.error(error));
       }
