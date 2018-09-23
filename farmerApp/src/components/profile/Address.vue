@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="headline">Where You Are</div> 
     <v-text-field
         label="Address Line 1"
         hint="Required of you want to sell through us"
@@ -33,7 +32,7 @@
     ></v-select>                  
     <v-btn
         color="primary"
-        @click="$store.dispatch('changeElement', 2); submit()"
+        @click="$store.dispatch('changeElement', 3)"
       >
         Continue
     </v-btn>    
@@ -69,27 +68,27 @@ export default {
   }),
 
   methods: {
-    submit() {
-      this.$apollo
-        .mutate({
-          mutation: ADDRESS_MUTATION,
-          variables: {
-            line1: this.address.line1,
-            line2: this.address.line2,
-            line3: this.address.line3,
-            area: this.address.area,
-            postalCode: this.address.postalCode,
-            province: this.address.province
-          }
-        })
-        .then(response => {
-          console.log("​login -> response.data", response.data);
-        })
-        .catch(error => console.error(error));
-    },
-    clear() {
-      this.$refs.form.reset();
-    }
+    // submit() {
+    //   this.$apollo
+    //     .mutate({
+    //       mutation: ADDRESS_MUTATION,
+    //       variables: {
+    //         line1: this.address.line1,
+    //         line2: this.address.line2,
+    //         line3: this.address.line3,
+    //         area: this.address.area,
+    //         postalCode: this.address.postalCode,
+    //         province: this.address.province
+    //       }
+    //     })
+    //     .then(response => {
+    //       console.log("​login -> response.data", response.data);
+    //     })
+    //     .catch(error => console.error(error));
+    // },
+    // clear() {
+    //   this.$refs.form.reset();
+    // }
   }
 };
 </script>

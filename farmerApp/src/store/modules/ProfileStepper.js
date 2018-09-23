@@ -11,6 +11,7 @@ function upsertToPouch(docName, data){
         }
         doc.count++;
         doc.data = data
+        doc.isOnline = false
         return doc;
     }).then(function (res) {
         console.log('TCL: -------------');
@@ -26,7 +27,7 @@ function upsertToPouch(docName, data){
 }
 
 const state = {
-    element: 0,
+    element: 1,
     personalDetails: null,
     address: null,
     farmingActivities: null,

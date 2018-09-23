@@ -1,6 +1,5 @@
 <template>
   <div>
-    <div class="headline">What You Do</div>
     <v-select
         label="Farming Activities"
         :items="activitiesSelection"
@@ -15,7 +14,7 @@
     ></v-textarea>        
     <v-btn
         color="primary"
-        @click="$store.dispatch('changeElement', 3); submit()"
+        @click="$store.dispatch('changeElement', 4)"
     >
     Continue
     </v-btn>
@@ -34,27 +33,27 @@ export default {
     };
   },
   methods: {
-    submit() {
-      this.$store.dispatch('farmingActivities', {
-            category: this.activities,
-            shortDescription: null,
-            longDescription: this.longDescription
-          })
-      // TODO Move this out
-      this.$apollo
-        .mutate({
-          mutation: FARMINGACTIVITIES_MUTATION,
-          variables: {
-            category: this.activities,
-            shortDescription: null,
-            longDescription: this.longDescription
-          }
-        })
-        .then(response => {
-          console.log("​response.data", response.data);
-        })
-        .catch(error => console.error(error));
-    }
+    // submit() {
+    //   this.$store.dispatch('farmingActivities', {
+    //         category: this.activities,
+    //         shortDescription: null,
+    //         longDescription: this.longDescription
+    //       })
+    //   // TODO Move this out
+    //   this.$apollo
+    //     .mutate({
+    //       mutation: FARMINGACTIVITIES_MUTATION,
+    //       variables: {
+    //         category: this.activities,
+    //         shortDescription: null,
+    //         longDescription: this.longDescription
+    //       }
+    //     })
+    //     .then(response => {
+    //       console.log("​response.data", response.data);
+    //     })
+    //     .catch(error => console.error(error));
+    // }
   }
 };
 </script>
