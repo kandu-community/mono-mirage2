@@ -2,6 +2,7 @@ import '@babel/polyfill'
 import Vue from 'vue'
 import './plugins/vuetify'
 import Vuelidate from 'vuelidate'
+import VueOffline from 'vue-offline'
 
 import {
   ApolloClient
@@ -33,8 +34,7 @@ import './registerServiceWorker'
 Vue.config.productionTip = false
 
 // install the vue-moment plugin
-Vue.use(vueMoment, Vuelidate.default) // I've always done this wrong: importing into each component that uses it instead of here as a "global"
-
+Vue.use(VueOffline, vueMoment, Vuelidate.default); // I've always done this wrong: importing into each component that uses it instead of here as a "global"
 
 const httpLink = new HttpLink({ // Here, we create a new instance of httpLink with the URL ( http://localhost:4000/) of our GraphQL server.
   // uri: 'https://mirage-advanced-frdudlwdkj.now.sh/'

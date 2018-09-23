@@ -21,6 +21,10 @@
        </v-toolbar-items>
     </v-toolbar>
     <v-content>
+      <v-alert transition="scale-transition" dismissible type="info" :value="OfflineOnly">
+        You are now offline, but can still capture your data. I will attempt to upload your local data when next we're connected.
+      </v-alert>
+    <div> {{ onlineState }} </div>
             <v-slide-y-transition mode="out-in">
               <router-view/>
             </v-slide-y-transition>
@@ -35,8 +39,18 @@
 import logo from "@/assets/kandu.png";
 export default {
   name: "App",
+  created () {
+    this.$on('online', function () {
+      this.onlineState = "I'm online now!" 
+      
+    })
+    this.$on('offline', function () {
+      this.onlineState = "I'm offline now!"
+    })
+  },
   data() {
     return {
+      onlineState: navigator.onLine,
       clipped: false,
       drawer: true,
       fixed: false,
