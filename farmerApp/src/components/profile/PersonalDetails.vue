@@ -1,7 +1,6 @@
 <template>
     <div>
         <div class="headline">Who You Are</div>
-
         <v-text-field
             label="Last Name"
             v-model="person.lastName"
@@ -26,19 +25,15 @@
             :counter="13"
             mask="###### #### ###"
         ></v-text-field>         
-
         <v-btn
             color="primary"
             @click="$store.dispatch('changeElement', 2); submit()"
         >
             Continue
         </v-btn>
-
     </div>
-
-    
-
 </template>
+
 <script>
 import { PERSONALDETAILS_MUTATION } from "@/graphql/mutations";
 export default {

@@ -1,28 +1,25 @@
 <template>
-    <div>
-                <div class="headline">What You Do</div>
-                <v-select
-                    label="Farming Activities"
-                    :items="activitiesSelection"
-                    v-model="activities"
+  <div>
+    <div class="headline">What You Do</div>
+    <v-select
+        label="Farming Activities"
+        :items="activitiesSelection"
+        v-model="activities"
 
-                    hint="Whichever best describes your operation"
-                    persistent-hint
-                ></v-select>
-                <v-textarea
-                    v-model="longDescription"
-                    label="Care to go into more detail?"
-                ></v-textarea>        
-                
-        
-            <v-btn
-                color="primary"
-                @click="$store.dispatch('changeElement', 1); submit()"
-            >
-            Continue
-            </v-btn>
-
-    </div>
+        hint="Whichever best describes your operation"
+        persistent-hint
+    ></v-select>
+    <v-textarea
+        v-model="longDescription"
+        label="Care to go into more detail?"
+    ></v-textarea>        
+    <v-btn
+        color="primary"
+        @click="$store.dispatch('changeElement', 1); submit()"
+    >
+    Continue
+    </v-btn>
+  </div>
 </template>
 
 <script>
