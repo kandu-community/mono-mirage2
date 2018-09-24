@@ -3,6 +3,14 @@ import {
     ME_QUERY
 } from '@/graphql/queries'
 import db from '@/api/pouchDB'
+// import { idDataExtraction } from '@/helpers/idDataExtraction'
+
+// var zaId = "7701025046083"
+// console.log('TCL: -----------');
+// console.log('TCL: zaId', zaId);
+// console.log('TCL: -----------');
+// idDataExtraction(zaId)
+
 
 function upsertToPouch(docName, data){
     db.upsert(docName, function (doc) {
@@ -49,8 +57,9 @@ const actions = {
     }, payload){
         console.log('action successfully dispatched', payload)
         state.address = payload.address
-        state.personalDetails = payload.personalDetails
+        var personalDetails = payload.personalDetails
         state.farmingActivities = payload.farmingActivities
+        //state.personalDetails.id
     },
     changeElement({
         state

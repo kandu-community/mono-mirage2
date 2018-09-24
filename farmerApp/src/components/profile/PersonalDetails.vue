@@ -25,7 +25,19 @@
                 :counter="13"
                 mask="###### #### ###"
             ></v-text-field>         
-            
+            <v-layout row justify-center>
+                <v-dialog v-if="idData !== null"  v-model="dialog" persistent max-width="290">
+                    <v-card>
+                        <v-card-title class="headline">Checking Integrity of ID Number</v-card-title>
+                        <v-card-text>Are you a <strong>{{ idData.gender}}</strong>, with a birthdate of <strong>{{idData.birthDate}}</strong> and a <strong>{{ idData.isZaCitizen ? "Citizen" : "Non-Citizen"}}</strong> of South Africa? If not, please re-check your ID number below.</v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="primary" flat @click.native="dialog = false">OK</v-btn>
+                            <v-spacer></v-spacer>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+            </v-layout>
         </v-card-text>
         <v-btn
             color="primary"
@@ -39,8 +51,12 @@
 
 <script>
 import { PERSONALDETAILS_MUTATION } from "@/graphql/mutations";
+import { idDataExtraction } from '@/helpers/idDataExtraction'
+
 export default {
   data: () => ({
+      dialog: false,
+    idData: null,
     person: {
         lastName: null,
         cell: null,
@@ -48,7 +64,16 @@ export default {
         idSA: null,
     }
   }),
+  computed: {
+      idSA() {
+          return this.person.idSA
+      }
+  },
   methods: {
+      checkID(val) {
+          this.idData = idDataExtraction(val)
+          this.dialog = true
+      }
     // submit() {
     //   this.$apollo
     //     .mutate({
@@ -65,6 +90,14 @@ export default {
     //     })
     //     .catch(error => console.error(error));
     // }
+  },
+  watch: {
+      idSA(newVal) {
+          if(newVal.length === 13) {
+              this.checkID(newVal)
+          }
+          
+      }
   }
 };
 </script>
