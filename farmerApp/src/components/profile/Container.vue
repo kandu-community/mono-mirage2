@@ -40,6 +40,11 @@ export default {
   mounted() {
     console.log("onCreated el is: ", this.el);
     this.elGood = true;
+    var stepperData = this.stepperData
+    console.log('TCL: ----------------------------------------');
+    console.log('TCL: mounted -> stepperData', stepperData);
+    console.log('TCL: ----------------------------------------');
+    
   },
   data() {
     return {
@@ -57,8 +62,11 @@ export default {
       }
     },
     name() {
-      return this.$store.getters.docs.me.nm
+      return this.$store.getters.docs.me.nm // TODO change to new deconstructed me object in AppState
     },
+    stepperData() {
+      return this.$store.getters.stepperData
+    }
   },
 
   // apollo: {

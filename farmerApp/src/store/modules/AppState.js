@@ -2,6 +2,27 @@ import db from '@/api/pouchDB'
 import {store} from "../store";
 
 
+var id = "7701025046083"
+console.log('TCL: -----------');
+console.log('TCL: id', id);
+console.log('TCL: -----------');
+
+var bdaySlice = id.slice(0, 6)
+console.log('TCL: -------------------------');
+console.log('TCL: bdaySlice', bdaySlice);
+console.log('TCL: -------------------------');
+
+var genderChar = id[6]
+console.log('TCL: ---------------------------');
+console.log('TCL: genderChar', genderChar);
+console.log('TCL: ---------------------------');
+
+var citizenChar = id[10]
+console.log('TCL: -----------------------------');
+console.log('TCL: citizenChar', citizenChar);
+console.log('TCL: -----------------------------');
+
+
 // https://bl.ocks.org/nolanlawson/3e096160b848689f1058
 var docs = [];
 
@@ -64,7 +85,7 @@ function arrangeState(docsObj) {
     // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
     farmingActivities = null;
   } else {
-    personalDetails = docsObj.farmingActivities;
+    farmingActivities = docsObj.farmingActivities;
   }
   if (typeof docsObj.me === "undefined") {
     // from https://flaviocopes.com/how-to-check-undefined-property-javascript/

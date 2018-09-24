@@ -38,6 +38,9 @@ const getters = {
     element(state) {
         return state.element
     },
+    stepperData(state){
+        return state
+    }
 }
 
 const actions = {
@@ -45,6 +48,9 @@ const actions = {
         state
     }, payload){
         console.log('action successfully dispatched', payload)
+        state.address = payload.address
+        state.personalDetails = payload.personalDetails
+        state.farmingActivities = payload.farmingActivities
     },
     changeElement({
         state
@@ -56,21 +62,18 @@ const actions = {
     }, payload) {
         var docName = "personalDetails"
         upsertToPouch(docName, payload)
-        state.gotPersonalDetails = true
     },
     address({
         state
     }, payload) {
         var docName = "address"
         upsertToPouch(docName, payload)
-        state.gotAddress = true
     },
     farmingActivities({
         state
     }, payload) {
         var docName = "farmingActivities";
         upsertToPouch(docName, payload);
-        state.gotFarmingActivities = true
     },
     async fetchMe({
         state
