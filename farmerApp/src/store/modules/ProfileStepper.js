@@ -27,10 +27,10 @@ function upsertToPouch(docName, data){
 }
 
 const state = {
-    element: 1,
-    gotPersonalDetails: false,
-    gotAddress: false,
-    gotFarmingActivities: false,
+    address: {},
+    personalDetails: {},
+    farmingActivities: {},
+
     // me: null
 }
 
@@ -41,6 +41,11 @@ const getters = {
 }
 
 const actions = {
+    dbProfile({
+        state
+    }, payload){
+        console.log('action successfully dispatched', payload)
+    },
     changeElement({
         state
     }, payload) {

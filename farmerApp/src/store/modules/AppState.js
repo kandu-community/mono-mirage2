@@ -1,4 +1,5 @@
 import db from '@/api/pouchDB'
+import {store} from "../store";
 
 
 // https://bl.ocks.org/nolanlawson/3e096160b848689f1058
@@ -42,16 +43,63 @@ function arrayToObj(allDocs) {
   return obj
 }
 
+function arrangeState(docsObj) {
+  var address = {}
+  var personalDetails = {}
+  var farmingActivities = {}
+  var me = {}
+
+  if (typeof docsObj.address === 'undefined') { // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
+    address = null
+  } else {
+    address = docsObj.address
+  }
+  if (typeof docsObj.personalDetails === "undefined") {
+    // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
+    personalDetails = null;
+  } else {
+    personalDetails = docsObj.personalDetails;
+  }
+  if (typeof docsObj.farmingActivities === "undefined") {
+    // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
+    farmingActivities = null;
+  } else {
+    personalDetails = docsObj.farmingActivities;
+  }
+  if (typeof docsObj.me === "undefined") {
+    // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
+    me = null;
+  } else {
+    me = docsObj.me;
+  }
+  state.me = me
+  var payload = {
+    address,
+    personalDetails,
+    farmingActivities,
+    
+  }
+  store.dispatch('dbProfile', payload)
+}
+
+
 function fetchInitialDocs() {
   return db.allDocs({
     include_docs: true
   }).then(function (res) {
-    docs = res.rows.map(function (row) {
-      return row.doc;
-    });
-    state.docs = arrayToObj(docs)
-    console.log('TCL: fetchInitialDocs -> state.docs', state.docs);
-    state.docsIsInitialized = true
+    docs = res.rows.map(
+      function(row) {
+        return row.doc;
+      }
+    );
+    state.docsArray = docs;
+    console.log("TCL: ---------------------------------------------------------");
+    console.log("TCL: fetchInitialDocs -> state.docsArray", state.docsArray);
+    console.log("TCL: ---------------------------------------------------------");
+    state.docs = arrayToObj(docs);
+    console.log("TCL: fetchInitialDocs -> state.docs", state.docs);
+    state.docsIsInitialized = true;
+    arrangeState(state.docs)
   });
 }
 
@@ -68,9 +116,13 @@ function reactToChanges() {
       // change.doc holds the new doc
       onUpdatedOrInserted(change.doc);
     }
+    state.docsArray = docs
+    console.log('TCL: -------------------------------------------------------');
+    console.log('TCL: reactToChanges -> state.docsArray', state.docsArray);
+    console.log('TCL: -------------------------------------------------------');
     state.docs = arrayToObj(docs)
     console.log('TCL: reactToChanges -> state.docs', state.docs);
-    // renderDocs();
+    arrangeState(state.docs)
   }).on('error', console.log.bind(console));
 }
 
@@ -80,6 +132,8 @@ fetchInitialDocs()
 
 
 const state = {
+  car: "",
+  docsArray: [],
   docs: {},
   docsIsInitialized: false,
   isOnline: false,
