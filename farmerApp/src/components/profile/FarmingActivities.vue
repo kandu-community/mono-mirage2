@@ -3,31 +3,23 @@
     <v-select
         label="Farming Activities"
         :items="activitiesSelection"
-        v-model="activities"
+        v-model="farmingActivities.category"
 
         hint="Whichever best describes your operation"
         persistent-hint
     ></v-select>
+    <br>
     <p>What kind of things do you do? That is: What would you want to sell via our network?</p>        
-    <v-checkbox label="I grow crops" v-model="crops"></v-checkbox>
-    <v-checkbox label="I raise livestock" v-model="livestock"></v-checkbox>
-    <v-checkbox label="I value-add and have crafts or products to sell" v-model="products"></v-checkbox>
+    <v-checkbox label="I grow crops" v-model="farmingActivities.selling.crops"></v-checkbox>
+    <v-checkbox label="I raise livestock" v-model="farmingActivities.selling.livestock"></v-checkbox>
+    <v-checkbox label="I value-add and have crafts or products to sell" v-model="farmingActivities.selling.products"></v-checkbox>
     <v-textarea
-        v-model="longDescription"
+        v-model="farmingActivities.description"
         label="Care to go into more detail?"
     ></v-textarea>
     <v-btn
         color="primary"
-        @click="$store.dispatch('changeElement', 4)
-          ; $store.dispatch('farmingActivities', 
-            {
-              category: activities,
-              shortDescription: activities,
-              longDescription: longDescription,
-              selling: {
-                crops, livestock, products
-              }
-            })"
+        @click="$store.dispatch('changeElement', 4);submit()"
     >
     Continue
     </v-btn>
@@ -37,17 +29,48 @@
 <script>
 // import { FARMINGACTIVITIES_MUTATION } from "@/graphql/mutations";
 export default {
+  mounted() {
+    if(this.$store.getters.farmingActivities !== null) {
+        this.farmingActivities = this.$store.getters.farmingActivities
+    }
+  },
   data() {
     return {
+
+
       activitiesSelection: ["Commercial", "Semi-Commercial", "Market-Farmer"],
-      activities: "",
-      crops: false,
-      livestock: false,
-      products: false,
-      longDescription: ""
+      farmingActivities:             {
+              category: "",
+              description: "",
+              selling: {
+                crops : true, 
+                livestock : false, 
+                products : false
+              }
+            }
     };
   },
+  // computed: {
+  //   storedActivities() {
+  //     return this.$store.getters.farmingActivities
+  //   }
+  // },
   methods: {
+    submit() {
+      this.$store.dispatch('farmingActivities', this.farmingActivities)
+    }
+  },
+  // watch: {
+  //   storedActivities(newVal){
+  //     if (newVal !== null) {
+  //       this.activities = newVal.category
+  //       this.longDescription = newVal.longDescription
+  //       this.crops = newVal.selling.crops
+  //       this.livestock = newVal.selling.livestock
+  //       this.products = newVal.selling.products
+  //     }
+  //   }
+  // }
     // submit() {
     //   this.$store.dispatch('farmingActivities', {
     //         category: this.activities,
@@ -69,7 +92,6 @@ export default {
     //     })
     //     .catch(error => console.error(error));
     // }
-  }
 };
 </script>
 

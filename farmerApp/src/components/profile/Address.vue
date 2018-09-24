@@ -44,6 +44,11 @@ import { ADDRESS_MUTATION } from "@/graphql/mutations";
 import db from "@/api/pouchDB";
 
 export default {
+  mounted() {
+      if(this.$store.getters.address !== null) {
+          this.address = this.$store.getters.address
+      }
+  },
   data: () => ({
     address: {
       line1: null,
@@ -66,11 +71,25 @@ export default {
       "Western Cape"
     ]
   }),
-
+  computed: {
+    storedAddress() {
+      return this.$store.getters.address
+    }
+  },
   methods: {
     submit() {
       this.$store.dispatch('address', this.address)
     }
+
+  },
+  watch: {
+    storedAddress(newVal){
+      if(newVal !== null) {
+        this.address = newVal
+      }
+    }
+  }
+};
     // submit() {
     //   this.$apollo
     //     .mutate({
@@ -92,6 +111,4 @@ export default {
     // clear() {
     //   this.$refs.form.reset();
     // }
-  }
-};
 </script>

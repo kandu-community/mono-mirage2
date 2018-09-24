@@ -41,8 +41,7 @@
         </v-card-text>
         <v-btn
             color="primary"
-            @click="$store.dispatch('changeElement', 2)
-                ; $store.dispatch('personalDetails', person)"
+            @click="$store.dispatch('changeElement', 2); submit()"
         >
             Continue
         </v-btn> 
@@ -54,51 +53,58 @@ import { PERSONALDETAILS_MUTATION } from "@/graphql/mutations";
 import { idDataExtraction } from '@/helpers/idDataExtraction'
 
 export default {
-  data: () => ({
-      dialog: false,
-    idData: null,
-    person: {
-        lastName: null,
-        cell: null,
-        landLine: null,
-        idSA: null,
+    mounted() {
+        if(this.$store.getters.personalDetails !== null) {
+            this.person = this.$store.getters.personalDetails
+        }
+    },
+    data: () => ({
+        dialog: false,
+        idData: null,
+        person: {
+            lastName: null,
+            cell: null,
+            landLine: null,
+            idSA: null,
+        }
+    }),
+    computed: {
+        idSA() {
+            return this.person.idSA
+        },
+    },
+    methods: {
+        checkID(val) {
+            this.idData = idDataExtraction(val)
+            this.dialog = true
+        },
+        submit() {
+            this.$store.dispatch('personalDetails', this.person)
+        }
+    },
+    watch: {
+        idSA(newVal) {
+            if(newVal.length === 13) {
+                this.checkID(newVal)
+            }
+        },
     }
-  }),
-  computed: {
-      idSA() {
-          return this.person.idSA
-      }
-  },
-  methods: {
-      checkID(val) {
-          this.idData = idDataExtraction(val)
-          this.dialog = true
-      }
-    // submit() {
-    //   this.$apollo
-    //     .mutate({
-    //       mutation: PERSONALDETAILS_MUTATION,
-    //       variables: {
-    //         lastName: this.person.lastName,
-    //         cellNo: this.person.cellNo,
-    //         landLine: this.person.landLine,
-    //         idSA: this.person.idSA
-    //       }
-    //     })
-    //     .then(response => {
-    //       console.log("​login -> response.data", response.data);
-    //     })
-    //     .catch(error => console.error(error));
-    // }
-  },
-  watch: {
-      idSA(newVal) {
-          if(newVal.length === 13) {
-              this.checkID(newVal)
-          }
-          
-      }
-  }
 };
+// submit() {
+//   this.$apollo
+//     .mutate({
+//       mutation: PERSONALDETAILS_MUTATION,
+//       variables: {
+//         lastName: this.person.lastName,
+//         cellNo: this.person.cellNo,
+//         landLine: this.person.landLine,
+//         idSA: this.person.idSA
+//       }
+//     })
+//     .then(response => {
+//       console.log("​login -> response.data", response.data);
+//     })
+//     .catch(error => console.error(error));
+// }
 </script>
 

@@ -35,8 +35,8 @@ function upsertToPouch(docName, data){
 }
 
 const state = {
-    address: null,
     personalDetails: null,
+    address: null,
     farmingActivities: null,
     element: 1
 
@@ -49,6 +49,15 @@ const getters = {
     },
     stepperData(state){
         return state
+    },
+    personalDetails(state) {
+        return state.personalDetails
+    },
+    address(state) {
+        return state.address
+    },
+    farmingActivities(state) {
+        return state.farmingActivities
     }
 }
 
@@ -56,14 +65,14 @@ const actions = {
     infoCheck({
         state
     }) {
-
+        
     },
     dbProfile({
         state
     }, payload){
         console.log('action successfully dispatched', payload)
         state.address = payload.address
-        var personalDetails = payload.personalDetails
+        state.personalDetails = payload.personalDetails
         state.farmingActivities = payload.farmingActivities
         //state.personalDetails.id
     },
@@ -75,6 +84,9 @@ const actions = {
     personalDetails({
         state
     }, payload) {
+        console.log('TCL: ---------------------');
+        console.log('TCL: personalDetails', payload);
+        console.log('TCL: ---------------------');
         var docName = "personalDetails"
         upsertToPouch(docName, payload)
     },
@@ -88,6 +100,7 @@ const actions = {
         state
     }, payload) {
         var docName = "farmingActivities";
+        console.log(`farmingActivities has: ${payload}`)
         upsertToPouch(docName, payload);
     },
     async fetchMe({
