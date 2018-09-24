@@ -35,9 +35,10 @@ function upsertToPouch(docName, data){
 }
 
 const state = {
-    address: {},
-    personalDetails: {},
-    farmingActivities: {},
+    address: null,
+    personalDetails: null,
+    farmingActivities: null,
+    element: 1
 
     // me: null
 }
@@ -52,6 +53,11 @@ const getters = {
 }
 
 const actions = {
+    infoCheck({
+        state
+    }) {
+
+    },
     dbProfile({
         state
     }, payload){

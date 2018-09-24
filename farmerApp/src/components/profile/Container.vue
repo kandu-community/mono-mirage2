@@ -7,8 +7,10 @@
         </template>   -->
         <!-- <v-btn color="success" @click="$store.dispatch('fetchMe')">text</v-btn> -->
         <br>
-        <v-stepper v-model="el" vertical>
-          <v-stepper-step :complete="el > 1" step="1">
+        <v-stepper value="el" vertical 
+>
+          <v-stepper-step :editable="stepsEditable" :complete="stepperData.PersonalDetails 
+          !== null" step="1">
             Who You Are
             <small>So {{ name }}, tell us a bit about yourself</small>
           </v-stepper-step>
@@ -16,12 +18,14 @@
             <personal-details></personal-details>
           </v-stepper-content>
       
-          <v-stepper-step :complete="el > 2" step="2">Where You Are</v-stepper-step>
+          <v-stepper-step :editable="stepsEditable" :complete="stepperData.address 
+          !== null" step="2">Where You Are</v-stepper-step>
           <v-stepper-content step="2">
             <address-details></address-details>
           </v-stepper-content>
       
-          <v-stepper-step :complete="el > 3" step="3">What You Do</v-stepper-step> 
+          <v-stepper-step :editable="stepsEditable" :complete="stepperData.farmingActivities 
+          !== null" step="3">What You Do</v-stepper-step> 
           <v-stepper-content step="3">
             <farming-activities></farming-activities>
           </v-stepper-content>
@@ -48,8 +52,8 @@ export default {
   },
   data() {
     return {
+      stepsEditable: false
       // me: "",
-      elGood: false
     };
   },
   computed: {
