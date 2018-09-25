@@ -38,8 +38,8 @@ const state = {
     personalDetails: null,
     address: null,
     farmingActivities: null,
-    element: 1
-
+    element: 1,
+    draftDone: false
     // me: null
 }
 
@@ -58,14 +58,20 @@ const getters = {
     },
     farmingActivities(state) {
         return state.farmingActivities
+    },
+    draftDone(state) {
+        return state.draftDone
     }
 }
 
 const actions = {
-    infoCheck({
+    draftDone({
         state
-    }) {
-        
+    }, bool) {
+       state.draftDone = bool 
+       console.log('TCL: ---------------------------------------');
+       console.log('TCL: state.draftDone', state.draftDone);
+       console.log('TCL: ---------------------------------------');
     },
     dbProfile({
         state

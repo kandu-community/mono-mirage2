@@ -34,7 +34,7 @@
         color="primary"
         @click="$store.dispatch('changeElement', 3); submit()"
       >
-        Continue
+        Save Draft
     </v-btn>    
   </div>
 </template>

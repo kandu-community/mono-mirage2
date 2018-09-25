@@ -43,7 +43,7 @@
             color="primary"
             @click="$store.dispatch('changeElement', 2); submit()"
         >
-            Continue
+            Save Draft
         </v-btn> 
     </v-card>
 </template>

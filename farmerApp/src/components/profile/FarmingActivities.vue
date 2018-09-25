@@ -19,9 +19,9 @@
     ></v-textarea>
     <v-btn
         color="primary"
-        @click="$store.dispatch('changeElement', 4);submit()"
+        @click="submit()"
     >
-    Continue
+    Save Draft
     </v-btn>
   </div>
 </template>
@@ -58,6 +58,8 @@ export default {
   methods: {
     submit() {
       this.$store.dispatch('farmingActivities', this.farmingActivities)
+      this.$store.dispatch('changeElement', 4)
+      this.$store.dispatch('draftDone', true)
     }
   },
   // watch: {

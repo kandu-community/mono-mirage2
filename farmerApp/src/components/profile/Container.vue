@@ -1,36 +1,44 @@
 <template>
-    <v-layout row justify-center>
-      <v-flex v-if="name !== null" xs12 sm8 lg4 xl4>
-        <!-- <template v-if="me.name !== ''">
-          <div v-if="$apollo.loading">Loading...</div>
-          <div v-else>Hi {{ me.name }}, please share a bit more about yourself for us...</div>
-        </template>   -->
-        <!-- <v-btn color="success" @click="$store.dispatch('fetchMe')">text</v-btn> -->
-        <br>
-        <v-stepper :value="el" vertical>
-          <v-stepper-step  :complete="stepperData.personalDetails 
-          !== null" step="1">
-            Who You Are
-            <small>So {{ name }}, tell us a bit about yourself</small>
-          </v-stepper-step>
-          <v-stepper-content step="1">
-            <personal-details></personal-details>
-          </v-stepper-content>
-      
-          <v-stepper-step  :complete="stepperData.address 
-          !== null" step="2">Where You Are</v-stepper-step>
-          <v-stepper-content step="2">
-            <address-details></address-details>
-          </v-stepper-content>
-      
-          <v-stepper-step  :complete="stepperData.farmingActivities 
-          !== null" step="3">What You Do</v-stepper-step> 
-          <v-stepper-content step="3">
-            <farming-activities></farming-activities>
-          </v-stepper-content>
-        </v-stepper>
-      </v-flex>
-    </v-layout>
+  <v-layout row justify-center>
+    <v-flex v-if="name !== null" xs12 sm8 lg4 xl4>
+      <!-- <template v-if="me.name !== ''">
+        <div v-if="$apollo.loading">Loading...</div>
+        <div v-else>Hi {{ me.name }}, please share a bit more about yourself for us...</div>
+      </template>   -->
+      <!-- <v-btn color="success" @click="$store.dispatch('fetchMe')">text</v-btn> -->
+      <br>
+      <v-card v-show="draftDone">
+        <v-card-text xs12>
+          <strong>Check your work</strong>  This draft is saved locally on your machine. When you're ready to share it online, click 
+          "SEND"
+          <v-btn @click="sendOnline()" color="success">send</v-btn>
+        </v-card-text> 
+      </v-card>
+      <br>
+      <v-stepper :non-linear="stepsEditable" :value="el" vertical>
+        <v-stepper-step :editable="stepsEditable" :complete="stepperData.personalDetails 
+        !== null" step="1">
+          Who You Are
+          <small>So {{ name }}, tell us a bit about yourself</small>
+        </v-stepper-step>
+        <v-stepper-content step="1">
+          <personal-details></personal-details>
+        </v-stepper-content>
+    
+        <v-stepper-step :editable="stepsEditable" :complete="stepperData.address 
+        !== null" step="2">Where You Are</v-stepper-step>
+        <v-stepper-content step="2">
+          <address-details></address-details>
+        </v-stepper-content>
+    
+        <v-stepper-step :editable="stepsEditable" :complete="stepperData.farmingActivities 
+        !== null" step="3">What You Do</v-stepper-step> 
+        <v-stepper-content step="3">
+          <farming-activities></farming-activities>
+        </v-stepper-content>
+      </v-stepper>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -69,15 +77,27 @@ export default {
     },
     stepperData() {
       return this.$store.getters.stepperData
+    },
+    draftDone() {
+      return this.$store.getters.draftDone
+    }
+  },
+  methods: {
+    sendOnline(){
+    console.log('TCL: -----------------------------------------');
+    console.log('TCL: sendOnline -> sendOnline');
+    console.log('TCL: -----------------------------------------');
+      
     }
   },
   watch: {
-    stepperData(newVal) {
-      if(newVal.address !== null && newVal.PersonalDetails !== null && newVal.farmingActivities !== null) {
-        this.stepsEditable = true
+    draftDone(newVal) {
+    console.log('TCL: ---------------------------------');
+    console.log('TCL: draftDone -> newVal', newVal);
+    console.log('TCL: ---------------------------------');
+        this.stepsEditable = newVal
       }
-    }
-  },
+    },
 
   // apollo: {
   //   me: gql`
