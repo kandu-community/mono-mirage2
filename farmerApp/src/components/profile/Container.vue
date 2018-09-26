@@ -28,7 +28,7 @@
         <v-stepper-step :editable="stepsEditable" :complete="stepperData.address 
         !== null" step="2">Where You Are</v-stepper-step>
         <v-stepper-content step="2">
-          <address-details></address-details>
+          <address-details></address-details> 
         </v-stepper-content>
     
         <v-stepper-step :editable="stepsEditable" :complete="stepperData.farmingActivities 
@@ -51,11 +51,10 @@ export default {
   mounted() {
     console.log("onCreated el is: ", this.el);
     this.elGood = true;
-    var stepperData = this.stepperData
-    console.log('TCL: ----------------------------------------');
-    console.log('TCL: mounted -> stepperData', stepperData);
-    console.log('TCL: ----------------------------------------');
-    
+    var stepperData = this.stepperData;
+    console.log("TCL: ----------------------------------------");
+    console.log("TCL: mounted -> stepperData", stepperData);
+    console.log("TCL: ----------------------------------------");
   },
   data() {
     return {
@@ -73,31 +72,31 @@ export default {
       }
     },
     name() {
-      return this.$store.getters.docs.me.nm // TODO change to new deconstructed me object in AppState
+      return this.$store.getters.docs.me.nm; // TODO change to new deconstructed me object in AppState
     },
     stepperData() {
-      return this.$store.getters.stepperData
+      return this.$store.getters.stepperData;
     },
     draftDone() {
-      return this.$store.getters.draftDone
+      return this.$store.getters.draftDone;
     }
   },
   methods: {
-    sendOnline(){
-    console.log('TCL: -----------------------------------------');
-    console.log('TCL: sendOnline -> sendOnline');
-    console.log('TCL: -----------------------------------------');
-      
+    sendOnline() {
+      console.log("TCL: -----------------------------------------");
+      console.log("TCL: sendOnline -> sendOnline");
+      console.log("TCL: -----------------------------------------");
+      this.$store.dispatch("sendProfile");
     }
   },
   watch: {
     draftDone(newVal) {
-    console.log('TCL: ---------------------------------');
-    console.log('TCL: draftDone -> newVal', newVal);
-    console.log('TCL: ---------------------------------');
-        this.stepsEditable = newVal
-      }
-    },
+      console.log("TCL: ---------------------------------");
+      console.log("TCL: draftDone -> newVal", newVal);
+      console.log("TCL: ---------------------------------");
+      this.stepsEditable = newVal;
+    }
+  },
 
   // apollo: {
   //   me: gql`

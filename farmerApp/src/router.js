@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
-import UserProfile from './views/Profile.vue';
+import ProfileForm from './views/ProfileForm.vue';
 import LogIn from './views/Login.vue';
 import SignUp from './views/SignUp.vue';
 
@@ -28,7 +28,7 @@ export default new Router({
     {
       path: '/profile',
       name: 'profile',
-      component: UserProfile,
+      component: ProfileForm,
       meta: {
         requiresAuth: true
       }
