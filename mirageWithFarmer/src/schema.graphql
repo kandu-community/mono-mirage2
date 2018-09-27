@@ -28,6 +28,11 @@ type Mutation {
     postalCode: String
     province: String
   ): Address
+  updateStableInfo(
+    personalDetails: PersonalDetailsCreateWithoutPersonInput!, 
+    address: AddressCreateWithoutResidentInput!,
+    farmingActivities: FarmingActivitiesCreateWithoutFarmerInput!
+  ): User
   createPersonalDetails(  
     lastName: String
     cellNo: String

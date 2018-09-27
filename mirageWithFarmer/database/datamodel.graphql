@@ -14,7 +14,7 @@ type User {
   password: String!
   name: String!
   posts: [Post!]!
-  profile: PersonalDetails
+  personalDetails: PersonalDetails
   address: Address
   farmingActivities: FarmingActivities
   role: Role @default(value: "FARMER")

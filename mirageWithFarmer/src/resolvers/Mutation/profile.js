@@ -4,6 +4,31 @@ const {
 
 
 const profile = {
+    async updateStableInfo(parent, {
+        personalDetails,
+        address,
+        farmingActivities
+    }, ctx, info) {
+        const userId = getUserId(ctx)
+        return ctx.db.mutation.updateUser({
+                data: {
+                    personalDetails: {
+                        create: personalDetails
+                    },
+                    address: {
+                        create: address
+                    },
+                    farmingActivities: {
+                        create: farmingActivities
+                    }
+                },
+                where: {
+                    id: userId
+                }
+            },
+            info
+        )
+    },
 
     /** Example from post.js
      * 
@@ -28,6 +53,7 @@ const profile = {
             )
         },
      */
+    // TODO: Change these to update mutations
     async createAddress(parent, {
         line1,
         line2,

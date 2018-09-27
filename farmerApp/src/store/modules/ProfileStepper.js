@@ -12,9 +12,10 @@ import db from '@/api/pouchDB'
 // idDataExtraction(zaId)
 
 
-function upsertToPouch(docName, data){
+function upsertToPouch(docName, data) {
     db.upsert(docName, function (doc) {
-        doc = {...data}
+        doc = { ...data
+        }
         if (!doc.count) {
             doc.count = 0;
         }
@@ -47,7 +48,7 @@ const getters = {
     element(state) {
         return state.element
     },
-    stepperData(state){
+    stepperData(state) {
         return state
     },
     personalDetails(state) {
@@ -64,18 +65,71 @@ const getters = {
     }
 }
 
+/**
+ * paula @p.com
+
+ Password
+
+personalDetails
+cell: $cell,
+idSA: $idSA,
+isOnline: $isOnline,
+landLine: $landLine,
+lastName: $lastName
+
+  $cell: String,
+      $idSA: String,
+      $isOnline: String,
+      $landLine: String,
+      $lastName: String
+
+  $cellNo: String,
+      $idSA: String,
+      $landLine: String,
+      $lastName: String
+
+
+      {
+          cellNo: $cellNo,
+          idSA: $idSA,
+          landLine: $landLine,
+          lastName: $lastName
+      }
+
+      SO THIS IS HOW YOU MAKE A MUTATION WITH MULTIPLE THINGYS
+      mutation($personalDetails: PersonalDetailsCreateWithoutPersonInput!, $address: AddressCreateWithoutResidentInput!) {
+          updateUser(data: {
+                  personalDetails: {
+                      create: $personalDetails
+                  }
+                  address: {
+                      create: $address
+                  }
+              },
+              where: {
+                  email: "dylan@vandenbosch.co.za"
+              }) {
+              role
+              email
+          }
+      }
+ */
+
 const actions = {
+    sendProfile() {
+
+    },
     draftDone({
         state
     }, bool) {
-       state.draftDone = bool 
-       console.log('TCL: ---------------------------------------');
-       console.log('TCL: state.draftDone', state.draftDone);
-       console.log('TCL: ---------------------------------------');
+        state.draftDone = bool
+        console.log('TCL: ---------------------------------------');
+        console.log('TCL: state.draftDone', state.draftDone);
+        console.log('TCL: ---------------------------------------');
     },
     dbProfile({
         state
-    }, payload){
+    }, payload) {
         console.log('action successfully dispatched', payload)
         state.address = payload.address
         state.personalDetails = payload.personalDetails
