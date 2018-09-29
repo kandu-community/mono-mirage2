@@ -3,6 +3,7 @@
 # import PersonalDetails from "./generated/prisma.graphql"
 # import Address from "./generated/prisma.graphql"
 # import FarmingActivities from "./generated/prisma.graphql"
+# import updateUser from "./generated/prisma.graphql"
 
 type Query {
   feed: [Post!]!
@@ -29,13 +30,13 @@ type Mutation {
     province: String
   ): Address
   updateStableInfo(
-    personalDetails: PersonalDetailsCreateWithoutPersonInput!, 
-    address: AddressCreateWithoutResidentInput!,
-    farmingActivities: FarmingActivitiesCreateWithoutFarmerInput!
+    personalDetails: PersonalDetailsUpsertWithoutPersonInput!, 
+    address: AddressUpsertWithoutResidentInput!,
+    farmingActivities: FarmingActivitiesUpsertWithoutFarmerInput!
   ): User
   createPersonalDetails(  
     lastName: String
-    cellNo: String
+    cell: String
     landLine: String
     idSA: String
   ): PersonalDetails
@@ -48,13 +49,13 @@ type Mutation {
 }
 
 
-type PersonalDetails {
-  lastName: String
-  cellNo: String
-  landLine: String
-  idSA: String
-  person: User!
-}
+# type PersonalDetails {
+#   lastName: String
+#   cell: String
+#   landLine: String
+#   idSA: String
+#   person: User!
+# }
 
 type Subscription {
   feedSubscription: PostSubscriptionPayload!
@@ -72,4 +73,5 @@ type User {
   posts: [Post!]!
   profile: PersonalDetails
   address: Address
+  mainActivities: FarmingActivities
 }

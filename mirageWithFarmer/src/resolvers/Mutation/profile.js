@@ -3,6 +3,21 @@ const {
 } = require('../../utils')
 
 
+/**
+{
+  "personalDetails": {"update": {"cell": "88888888","idSA": "7777777777777", "landLine": "88888888", "lastName": "Wetter"},
+  										"create": {"cell": "88888888","idSA": "7777777777777", "landLine": "88888888", "lastName": "Wetter"}},
+  "address": {"update": {"area": "there","line1": "What there is","postalCode": "66644"},
+    						"create": {"area": "there","line1": "What there is","postalCode": "66644"}},
+  "farmingActivities": {"update": {"category": "Market Garden", "shortDescription": "Market Garden", "longDescription": "Carrots and Beans"},
+    											"create": {"category": "Market Garden", "shortDescription": "Market Garden", "longDescription": "Carrots and Beans"}}
+}
+
+
+
+
+
+ */
 const profile = {
     async updateStableInfo(parent, {
         personalDetails,
@@ -13,13 +28,13 @@ const profile = {
         return ctx.db.mutation.updateUser({
                 data: {
                     personalDetails: {
-                        create: personalDetails
+                        upsert: personalDetails
                     },
                     address: {
-                        create: address
+                        upsert: address
                     },
                     farmingActivities: {
-                        create: farmingActivities
+                        upsert: farmingActivities
                     }
                 },
                 where: {
@@ -83,7 +98,7 @@ const profile = {
     },
     async createPersonalDetails(parent, {
         lastName,
-        cellNo,
+        cell,
         landLine,
         idSA,
     }, ctx, info) {
@@ -91,7 +106,7 @@ const profile = {
         return ctx.db.mutation.createPersonalDetails({
                 data: {
                     lastName,
-                    cellNo,
+                    cell,
                     landLine,
                     idSA,
                     person: {

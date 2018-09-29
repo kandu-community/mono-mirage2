@@ -75,7 +75,7 @@ export default {
     return {
       person: {
         lastName: "",
-        cellNo: null,
+        cell: null,
         landLine: null,
         id: null,
         address: {

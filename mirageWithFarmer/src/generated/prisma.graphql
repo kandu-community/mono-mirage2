@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/public-forkbell-321/mirage-advanced/dev
-# timestamp: Wed Sep 26 2018 19:03:44 GMT+0200 (SAST)
+# timestamp: Thu Sep 27 2018 17:47:51 GMT+0200 (SAST)
 
 type Address {
   line1: String
@@ -753,7 +753,7 @@ type PageInfo {
 
 type PersonalDetails {
   lastName: String
-  cellNo: String
+  cell: String
   landLine: String
   idSA: String
   person: User!
@@ -771,7 +771,7 @@ type PersonalDetailsConnection {
 
 input PersonalDetailsCreateInput {
   lastName: String
-  cellNo: String
+  cell: String
   landLine: String
   idSA: String
   person: UserCreateOneWithoutPersonalDetailsInput!
@@ -783,7 +783,7 @@ input PersonalDetailsCreateOneWithoutPersonInput {
 
 input PersonalDetailsCreateWithoutPersonInput {
   lastName: String
-  cellNo: String
+  cell: String
   landLine: String
   idSA: String
 }
@@ -800,8 +800,8 @@ type PersonalDetailsEdge {
 enum PersonalDetailsOrderByInput {
   lastName_ASC
   lastName_DESC
-  cellNo_ASC
-  cellNo_DESC
+  cell_ASC
+  cell_DESC
   landLine_ASC
   landLine_DESC
   idSA_ASC
@@ -816,7 +816,7 @@ enum PersonalDetailsOrderByInput {
 
 type PersonalDetailsPreviousValues {
   lastName: String
-  cellNo: String
+  cell: String
   landLine: String
   idSA: String
 }
@@ -862,7 +862,7 @@ input PersonalDetailsSubscriptionWhereInput {
 
 input PersonalDetailsUpdateInput {
   lastName: String
-  cellNo: String
+  cell: String
   landLine: String
   idSA: String
   person: UserUpdateOneRequiredWithoutPersonalDetailsInput
@@ -878,7 +878,7 @@ input PersonalDetailsUpdateOneWithoutPersonInput {
 
 input PersonalDetailsUpdateWithoutPersonDataInput {
   lastName: String
-  cellNo: String
+  cell: String
   landLine: String
   idSA: String
 }
@@ -937,46 +937,46 @@ input PersonalDetailsWhereInput {
 
   """All values not ending with the given string."""
   lastName_not_ends_with: String
-  cellNo: String
+  cell: String
 
   """All values that are not equal to given value."""
-  cellNo_not: String
+  cell_not: String
 
   """All values that are contained in given list."""
-  cellNo_in: [String!]
+  cell_in: [String!]
 
   """All values that are not contained in given list."""
-  cellNo_not_in: [String!]
+  cell_not_in: [String!]
 
   """All values less than the given value."""
-  cellNo_lt: String
+  cell_lt: String
 
   """All values less than or equal the given value."""
-  cellNo_lte: String
+  cell_lte: String
 
   """All values greater than the given value."""
-  cellNo_gt: String
+  cell_gt: String
 
   """All values greater than or equal the given value."""
-  cellNo_gte: String
+  cell_gte: String
 
   """All values containing the given string."""
-  cellNo_contains: String
+  cell_contains: String
 
   """All values not containing the given string."""
-  cellNo_not_contains: String
+  cell_not_contains: String
 
   """All values starting with the given string."""
-  cellNo_starts_with: String
+  cell_starts_with: String
 
   """All values not starting with the given string."""
-  cellNo_not_starts_with: String
+  cell_not_starts_with: String
 
   """All values ending with the given string."""
-  cellNo_ends_with: String
+  cell_ends_with: String
 
   """All values not ending with the given string."""
-  cellNo_not_ends_with: String
+  cell_not_ends_with: String
   landLine: String
 
   """All values that are not equal to given value."""

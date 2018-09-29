@@ -14,7 +14,7 @@
     <v-checkbox label="I raise livestock" v-model="farmingActivities.selling.livestock"></v-checkbox>
     <v-checkbox label="I value-add and have crafts or products to sell" v-model="farmingActivities.selling.products"></v-checkbox>
     <v-textarea
-        v-model="farmingActivities.description"
+        v-model="farmingActivities.shortDescription"
         label="Care to go into more detail?"
     ></v-textarea>
     <v-btn
@@ -30,24 +30,22 @@
 // import { FARMINGACTIVITIES_MUTATION } from "@/graphql/mutations";
 export default {
   mounted() {
-    if(this.$store.getters.farmingActivities !== null) {
-        this.farmingActivities = this.$store.getters.farmingActivities
+    if (this.$store.getters.farmingActivities !== null) {
+      this.farmingActivities = this.$store.getters.farmingActivities;
     }
   },
   data() {
     return {
-
-
       activitiesSelection: ["Commercial", "Semi-Commercial", "Market-Farmer"],
-      farmingActivities:             {
-              category: "",
-              description: "",
-              selling: {
-                crops : true, 
-                livestock : false, 
-                products : false
-              }
-            }
+      farmingActivities: {
+        category: "",
+        shortDescription: "",
+        selling: {
+          crops: true,
+          livestock: false,
+          products: false
+        }
+      }
     };
   },
   // computed: {
@@ -57,11 +55,11 @@ export default {
   // },
   methods: {
     submit() {
-      this.$store.dispatch('farmingActivities', this.farmingActivities)
-      this.$store.dispatch('changeElement', 4)
-      this.$store.dispatch('draftDone', true)
+      this.$store.dispatch("farmingActivities", this.farmingActivities);
+      this.$store.dispatch("changeElement", 4);
+      this.$store.dispatch("draftDone", true);
     }
-  },
+  }
   // watch: {
   //   storedActivities(newVal){
   //     if (newVal !== null) {
@@ -73,27 +71,27 @@ export default {
   //     }
   //   }
   // }
-    // submit() {
-    //   this.$store.dispatch('farmingActivities', {
-    //         category: this.activities,
-    //         shortDescription: null,
-    //         longDescription: this.longDescription
-    //       })
-    //   // TODO Move this out
-    //   this.$apollo
-    //     .mutate({
-    //       mutation: FARMINGACTIVITIES_MUTATION,
-    //       variables: {
-    //         category: this.activities,
-    //         shortDescription: null,
-    //         longDescription: this.longDescription
-    //       }
-    //     })
-    //     .then(response => {
-    //       console.log("​response.data", response.data);
-    //     })
-    //     .catch(error => console.error(error));
-    // }
+  // submit() {
+  //   this.$store.dispatch('farmingActivities', {
+  //         category: this.activities,
+  //         shortDescription: null,
+  //         longDescription: this.longDescription
+  //       })
+  //   // TODO Move this out
+  //   this.$apollo
+  //     .mutate({
+  //       mutation: FARMINGACTIVITIES_MUTATION,
+  //       variables: {
+  //         category: this.activities,
+  //         shortDescription: null,
+  //         longDescription: this.longDescription
+  //       }
+  //     })
+  //     .then(response => {
+  //       console.log("​response.data", response.data);
+  //     })
+  //     .catch(error => console.error(error));
+  // }
 };
 </script>
 

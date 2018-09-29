@@ -3,6 +3,8 @@ import {
     ME_QUERY
 } from '@/graphql/queries'
 import db from '@/api/pouchDB'
+import gql from 'graphql-tag'
+
 // import { idDataExtraction } from '@/helpers/idDataExtraction'
 
 // var zaId = "7701025046083"
@@ -16,11 +18,6 @@ function upsertToPouch(docName, data) {
     db.upsert(docName, function (doc) {
         doc = { ...data
         }
-        if (!doc.count) {
-            doc.count = 0;
-        }
-        doc.count++;
-        doc.isOnline = false
         return doc;
     }).then(function (res) {
         console.log('TCL: -------------');
@@ -40,7 +37,8 @@ const state = {
     address: null,
     farmingActivities: null,
     element: 1,
-    draftDone: false
+    draftDone: false,
+    profileIsOnline: false,
     // me: null
 }
 
@@ -116,7 +114,82 @@ lastName: $lastName
  */
 
 const actions = {
-    sendProfile() {
+    /**
+        async fetchMe({
+            state
+        }) {
+            const response = await apollo.query({ // The way to speak to gql database from vuex
+                query: ME_QUERY
+            })
+            console.log('TCL: response', response);
+        }
+     */
+
+    /**
+
+
+     */
+    async sendProfile({
+        state
+    }) {
+
+        // : state.personalDetails: state.address: state.farmingActivities
+
+        function prepareForPrisma(dbObj) { // function that removes _id and _revision from objects I want to send to prisma
+            delete dbObj._id
+            delete dbObj._rev
+            return dbObj
+        }
+
+        var personalDetails = prepareForPrisma(state.personalDetails)
+        console.log('TCL: personalDetails', personalDetails);
+        var address = prepareForPrisma(state.address)
+        console.log('TCL: address', address);
+        var farmingActivities = prepareForPrisma(state.farmingActivities)
+        delete farmingActivities.selling
+        if (typeof farmingActivities.description !== "undefined") {
+            delete farmingActivities.description
+        }
+        console.log('TCL: farmingActivities', farmingActivities);
+
+
+        const response = await apollo.mutate({
+            mutation: gql `
+                mutation updateStableInfo(
+                    $personalDetails: PersonalDetailsCreateWithoutPersonInput!,
+                    $address: AddressCreateWithoutResidentInput!,
+                    $farmingActivities: FarmingActivitiesCreateWithoutFarmerInput!
+                ) {
+                    updateStableInfo(
+                            personalDetails: $personalDetails
+
+                            address: $address
+
+                            farmingActivities: $farmingActivities
+
+                        ) {
+                            address {
+                                line1
+                                line2
+                                line3
+                            }
+                            mainActivities {
+                                category
+                            }
+                            profile {
+                                idSA
+                            }
+                    }
+                }
+            `,
+            variables: {
+                personalDetails,
+                address,
+                farmingActivities
+            }
+        })
+        const data = await response.data
+        console.log('TCL: data', data);
 
     },
     draftDone({

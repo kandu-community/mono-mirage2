@@ -48,13 +48,13 @@ mutation addAddress(
 export const PERSONALDETAILS_MUTATION = gql `
 mutation addPersonalDetails(
     $lastName: String,
-    $cellNo: String,
+    $cell: String,
     $landLine: String,
     $idSA: String
 ) {
     createPersonalDetails(
         lastName: $lastName,
-        cellNo: $cellNo,
+        cell: $cell,
         landLine: $landLine,
         idSA: $idSA
     ) {
