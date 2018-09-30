@@ -156,9 +156,9 @@ const actions = {
         const response = await apollo.mutate({
             mutation: gql `
                 mutation updateStableInfo(
-                    $personalDetails: PersonalDetailsCreateWithoutPersonInput!,
-                    $address: AddressCreateWithoutResidentInput!,
-                    $farmingActivities: FarmingActivitiesCreateWithoutFarmerInput!
+                    $personalDetails: PersonalDetailsUpsertWithoutPersonInput!,
+                    $address: AddressUpsertWithoutResidentInput!,
+                    $farmingActivities: FarmingActivitiesUpsertWithoutFarmerInput!
                 ) {
                     updateStableInfo(
                             personalDetails: $personalDetails
