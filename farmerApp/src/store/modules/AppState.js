@@ -19,7 +19,7 @@ function binarySearch(arr, docId) {
 function onDeleted(id) {
   var index = binarySearch(docs, id);
   var doc = docs[index];
-  if (doc && doc._id === id) {
+  if (doc && doc._id === id) { 
     docs.splice(index, 1);
   }
 }
@@ -158,7 +158,10 @@ const actions = {
         console.log('TCL: -----------------------------------------------');
         console.log('TCL: isOnline -> state.isOnline', state.isOnline);
         console.log('TCL: -----------------------------------------------');
-  },
+    },
+    swAlertOffline({ state }) {
+      console.log('Service Worker has let vuex know that we be offline')
+    }
 };
 
 export default {

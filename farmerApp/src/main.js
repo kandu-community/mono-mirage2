@@ -42,7 +42,6 @@ const httpLink = new HttpLink({ // Here, we create a new instance of httpLink wi
 })
 
 const errorLink = onError(
-  // TODO find out how apollo-link-error works
   ({
     operation,
     response,
@@ -71,7 +70,7 @@ const httpLinkAuth = setContext((_, { // Then we make use of the setContext obje
   return {
     headers: {
       ...headers,
-      Authorization: token ? `Bearer ${token}` : '' // TODO Dylan: IN Monthly reports app: use this method in place of string concatenation
+      Authorization: token ? `Bearer ${token}` : '' 
     }
   }
 })

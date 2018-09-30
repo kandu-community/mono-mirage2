@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { store } from "./store/store";
 
 import {
   register
@@ -16,10 +17,12 @@ if (process.env.NODE_ENV === 'production') {
       console.log('Content has been cached for offline use.')
     },
     updated() {
-      console.log('New content is available; please refresh.') // TODO send this to vuex
+      console.log('New content is available; please refresh.') 
+      store.dispatch('requestRefresh')  // TODO send this to vuex
     },
     offline() {
       console.log('No internet connection found. App is running in offline mode.')
+      store.dispatch('swAlertOffline')
     },
     error(error) {
       console.error('Error during service worker registration:', error)

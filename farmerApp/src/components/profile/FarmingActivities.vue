@@ -77,7 +77,6 @@ export default {
   //         shortDescription: null,
   //         longDescription: this.longDescription
   //       })
-  //   // TODO Move this out
   //   this.$apollo
   //     .mutate({
   //       mutation: FARMINGACTIVITIES_MUTATION,
