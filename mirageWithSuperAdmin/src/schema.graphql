@@ -1,0 +1,78 @@
+# import Post from "./generated/prisma.graphql"
+# import User from "./generated/prisma.graphql"
+# import PersonalDetails from "./generated/prisma.graphql"
+# import Address from "./generated/prisma.graphql"
+# import FarmingActivities from "./generated/prisma.graphql"
+# import updateUser from "./generated/prisma.graphql"
+
+type Query {
+  feed: [Post!]!
+  # Every user should only be able to access their own drafts (i.e. where they're set as the author of the Post
+  drafts: [Post!]! 
+  # Only the author of a Post or an ADMIN user should be able to access Post nodes using the post query.
+  post(id: ID!): Post
+  me: User
+  users: [User!]!
+  tenUsers: [User!]!
+}
+
+type Mutation {
+  signup(email: String!, password: String!, name: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  createDraft(title: String!, text: String!): Post!
+  deletePost(id: ID!): Post!
+  publish(id: ID!): Post!
+  createAddress(
+    line1: String
+    line2: String
+    line3: String
+    area: String
+    postalCode: String
+    province: String
+  ): Address
+  updateStableInfo(
+    personalDetails: PersonalDetailsUpsertWithoutPersonInput!, 
+    address: AddressUpsertWithoutResidentInput!,
+    farmingActivities: FarmingActivitiesUpsertWithoutFarmerInput!
+  ): User
+  createPersonalDetails(  
+    lastName: String
+    cell: String
+    landLine: String
+    idSA: String
+  ): PersonalDetails
+  createFarmingActivities(
+      category: String!
+      shortDescription: String
+      longDescription: String
+  ): FarmingActivities
+ 
+}
+
+
+# type PersonalDetails {
+#   lastName: String
+#   cell: String
+#   landLine: String
+#   idSA: String
+#   person: User!
+# }
+
+type Subscription {
+  feedSubscription: PostSubscriptionPayload!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  posts: [Post!]!
+  profile: PersonalDetails
+  address: Address
+  mainActivities: FarmingActivities
+}

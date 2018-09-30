@@ -1,0 +1,11 @@
+projects:
+  app:
+    schemaPath: src/schema.graphql
+    extensions:
+      endpoints:
+        desktop-admin: http://localhost:4001
+        live: https://mirage-advanced-frdudlwdkj.now.sh/
+  database:
+    schemaPath: src/generated/prisma.graphql
+    extensions:
+      prisma: database/prisma.yml
