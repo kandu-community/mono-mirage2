@@ -1,4 +1,4 @@
-import apollo from '@/main.js'
+import apollo from '@/apollo'
 import {
     ME_QUERY
 } from '@/graphql/queries'
