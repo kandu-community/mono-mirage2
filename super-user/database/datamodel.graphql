@@ -42,7 +42,7 @@ type FarmingActivities {
   category: String!
   shortDescription: String
   longDescription: String
-  farmer: User!  
+  farmer: User!
 }
 
 enum Role {
