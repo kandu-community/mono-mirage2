@@ -1,9 +1,14 @@
 # import Post from "./generated/prisma.graphql"
+# import Post from "./generated/prisma.graphql"
+# import User from "./generated/prisma.graphql"
+# import PersonalDetails from "./generated/prisma.graphql"
+# import Address from "./generated/prisma.graphql"
+# import FarmingActivities from "./generated/prisma.graphql"
 
 type Query {
-  users: [User!]!
+  usersFilterByName(filter: String): [User!]!
 }
 
 type Mutation {
-
+  createUser(data: UserCreateInput!): User!
 }

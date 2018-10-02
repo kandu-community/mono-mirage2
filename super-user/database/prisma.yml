@@ -1,13 +1,13 @@
 # The endpoint of your Prisma API (deployed to a Prisma Sandbox).
 #  ex https://eu1.prisma.sh/public-petalcloud-613/super-user/dev
-endpoint: https://eu1.prisma.sh/dylan-van-den-bosch-905763/mirage/dev
+endpoint: https://eu1.prisma.sh/public-forkbell-321/mirage-advanced/dev
 
 # The file containing the definition of your data model.
 datamodel: datamodel.graphql
 
 # Seed your service with initial data based on `seed.graphql`.
-seed:
-  import: seed.graphql
+# seed:
+#   import: seed.graphql
 
 # Download the GraphQL schema of the Prisma API into 
 # `src/generated/prisma.graphql` (as specfied in `.graphqlconfig.yml`).
