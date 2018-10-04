@@ -18,7 +18,8 @@ export default {
     return {
       filterValue: null
     };
-  }
+  },
+  computed: {}
 };
 </script>
 

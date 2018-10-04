@@ -28,7 +28,8 @@ const actions = {
                 filter: payload
             }
         })
-        console.log('TCL: response', response);
+        console.log('TCL: response', response.data.usersFilterByName);
+        state.filteredFarmers = response.data.usersFilterByName
     }
 }
 
