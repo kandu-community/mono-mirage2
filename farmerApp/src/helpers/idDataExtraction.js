@@ -4,8 +4,9 @@ import moment from "moment";
 
 function idDataExtraction(zaId) {
     var bdaySlice = zaId.slice(0, 6)
+    var bdaySlice = '19' + bdaySlice
 
-    var birthDate = moment(bdaySlice, "YYMMDD").format("YYYY-MM-DD"); // using moment.js for date extraction and manipulation
+    var birthDate = moment(bdaySlice, "YYYYMMDD").format("YYYY-MM-DD"); // using moment.js for date extraction and manipulation
 
     var genderChar = zaId[6]
 
@@ -35,7 +36,6 @@ function idDataExtraction(zaId) {
     return idData
 }
 
-export { idDataExtraction }
-
-
-
+export {
+    idDataExtraction
+}
