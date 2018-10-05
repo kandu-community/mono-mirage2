@@ -8,7 +8,7 @@
             <h3>Filter By Name or Email</h3>
           </v-card-title>
           <v-card-text>
-            <v-text-field   @keypress.enter="$store.dispatch('filterFarmers', filterValue)" box label="name or email contains: " v-model="filterValue"></v-text-field>
+            <v-text-field @keypress.enter="$store.dispatch('filterFarmers', filterValue)" box label="name or email contains: " v-model="filterValue"></v-text-field>
             <v-btn :loading="loading" :disabled="loading"
               @click="$store.dispatch('filterFarmers', filterValue)" color="success">Filter By Selection</v-btn>        
           </v-card-text>

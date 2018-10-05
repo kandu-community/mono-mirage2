@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import ProfileForm from './views/ProfileForm.vue';
 import LogIn from './views/Login.vue';
 import SignUp from './views/SignUp.vue';
+import FarmProfile from './views/FarmProfile.vue';
 
 Vue.use(Router)
 
@@ -27,8 +28,16 @@ export default new Router({
     },
     {
       path: '/profile',
-      name: 'profile',
+      name: 'ProfileForm',
       component: ProfileForm,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/farm-profile',
+      name: 'FarmProfile',
+      component: FarmProfile,
       meta: {
         requiresAuth: true
       }

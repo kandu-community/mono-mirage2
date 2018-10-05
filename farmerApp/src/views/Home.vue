@@ -4,7 +4,7 @@
       <v-flex xs12 sm10 md8 lg6 xl4  >
 
         <v-btn to="/profile" block color="primary" dark>My Profile</v-btn>
-        <v-btn block color="primary" dark>The Farm</v-btn>
+        <v-btn to="/farm-profile" block color="primary" dark>The Farm</v-btn>
         <v-btn block color="primary" dark>Our Crops</v-btn>
         <v-btn block color="primary" dark>Our Products</v-btn>
         <v-btn block color="primary" dark>Our Livestock</v-btn>

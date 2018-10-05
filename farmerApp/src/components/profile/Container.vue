@@ -1,5 +1,6 @@
 <template>
   <v-layout row justify-center>
+
     <v-flex v-if="name !== null" xs12 sm8 lg4 xl4>
       <!-- <template v-if="me.name !== ''">
         <div v-if="$apollo.loading">Loading...</div>
@@ -8,6 +9,7 @@
       <!-- <v-btn color="success" @click="$store.dispatch('fetchMe')">text</v-btn> -->
       <br>
       <v-card v-show="draftDone">
+
         <v-card-text xs12>
           <strong>Check your work</strong>  This draft is saved locally on your machine. When you're ready to share it online, click 
           "SEND"
@@ -16,6 +18,9 @@
       </v-card>
       <br>
       <v-stepper :non-linear="stepsEditable" :value="el" vertical>
+        <v-card-title primary-title>
+          <h2>Farmer Profile</h2>
+        </v-card-title>
         <v-stepper-step :editable="stepsEditable" :complete="stepperData.personalDetails 
         !== null" step="1">
           Who You Are
