@@ -14,17 +14,18 @@
         <v-checkbox label="Do you want to show your location on Kandu Community?" 
         v-model="farmProfile.shareLocation"></v-checkbox>
         <p>If you're near your farm now, please click the button below, accept location discovery, and then move the marker to a nice central spot on your land.</p>
-        <v-btn @click="getGPS" color="info">Find Me</v-btn>
-        <v-flex v-if="farmProfile.gpsPoints" xs12>
-            Lat: {{farmProfile.gpsPoints.lat}}
-            Long: {{farmProfile.gpsPoints.lng}}
-        </v-flex>
+        <v-btn @click="alternatively=false; getGPS()" color="info">Find Me</v-btn>
         <farm-map v-if="showFarmMap"></farm-map>
         <p v-if="municipalData.province">{{municipalData.province}} | {{municipalData.ward}}</p>
-        <p>Alternatively - if you already know your GPS co-ordinates by heart you can just type them in here (You crazy beautiful, savant you...) </p>
+        <p v-if="alternatively">Alternatively - if you already know your GPS co-ordinates by heart you can just type them in here (You crazy beautiful, savant you...) </p>
         <v-text-field
-        v-model="farmProfile.gpsPoints"
-        label="Location of the Land"
+        v-model="farmProfile.gpsPoints.lat"
+        label="Latitude"
+        required
+        ></v-text-field>
+        <v-text-field
+        v-model="farmProfile.gpsPoints.lng"
+        label="Longitude"
         required
         ></v-text-field>
         <v-text-field
@@ -42,10 +43,14 @@ import FarmMap from '@/components/profile/FarmMap'
 export default {
   data() {
     return {
+      alternatively: true,
       farmProfile: {
         totalLand: "",
         cultivatedLand: "",
-        gpsPoints: null,
+        gpsPoints: {
+          lat: null,
+          lng: null
+        },
         farmersAssociations: "",
         shareLocation: true
       }
