@@ -20,6 +20,7 @@
             Long: {{farmProfile.gpsPoints.lng}}
         </v-flex>
         <farm-map v-if="showFarmMap"></farm-map>
+        <p v-if="municipalData.province">{{municipalData.province}} | {{municipalData.ward}}</p>
         <p>Alternatively - if you already know your GPS co-ordinates by heart you can just type them in here (You crazy beautiful, savant you...) </p>
         <v-text-field
         v-model="farmProfile.gpsPoints"
@@ -58,6 +59,10 @@ export default {
       set(val) {
         this.$store.dispatch("showFarmMap", val)
       }
+    },
+
+    municipalData() {
+      return this.$store.getters.municipalData
     }
   },
   methods: {

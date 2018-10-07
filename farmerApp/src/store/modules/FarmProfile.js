@@ -1,9 +1,12 @@
-import { locationGeoData } from '@/api/zaMapAxios'
+import { locationWardData, locationProvince } from "@/api/zaMapAxios";
 
 const state = {
     farmLocation: null,
     showFarmMap: false,
-    municipalData: null
+    municipalData: {
+        ward: null,
+        province: null
+    }
 }
 
 const getters = {
@@ -13,8 +16,8 @@ const getters = {
     showFarmMap(state) {
         return state.showFarmMap
     },
-    showFarmMap(state) {
-        return state.showFarmMap
+    municipalData(state) {
+        return state.municipalData
     },
 }
 
@@ -29,9 +32,14 @@ const actions = {
     }, payload) {
         state.showFarmMap = payload
     },
-    getMunicipalData({
+    async getMunicipalData({
         state
     }, payload) {
+        state.municipalData.ward = await locationWardData(payload)
+        state.municipalData.province = await locationProvince(payload)
+        console.log('TCL: ---------------------------------------------');
+        console.log('TCL: state.municipalData', state.municipalData);
+        console.log('TCL: ---------------------------------------------');
         
     }
 }

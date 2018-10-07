@@ -10,7 +10,7 @@
               <v-toolbar-title>Put Your Farm "On the Map"</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-toolbar-items>
-                <v-btn dark flat @click.native="showFarmMap = false">Save</v-btn>
+                <v-btn dark flat @click.native="$store.dispatch('getMunicipalData', autoLocation); showFarmMap = false">Save</v-btn>
               </v-toolbar-items>
             </v-toolbar>
             <p>{{autoLocation.lat}} {{autoLocation.lng}}</p>
@@ -141,7 +141,8 @@ export default {
       set(gps) {
         this.$store.dispatch('setFarmLocation', gps)
       }
-    }
+    },
+
   },
   methods: {
 
