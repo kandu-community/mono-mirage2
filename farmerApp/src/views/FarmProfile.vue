@@ -19,6 +19,7 @@
             Lat: {{farmProfile.gpsPoints.lat}}
             Long: {{farmProfile.gpsPoints.lng}}
         </v-flex>
+        <farm-map v-if="showFarmMap"></farm-map>
         <p>Alternatively - if you already know your GPS co-ordinates by heart you can just type them in here (You crazy beautiful, savant you...) </p>
         <v-text-field
         v-model="farmProfile.gpsPoints"
@@ -35,7 +36,7 @@
 
 <script>
 // TODO: Move to HelperFunctions
-function getLocation() {}
+import FarmMap from '@/components/profile/FarmMap'
 
 export default {
   data() {
@@ -49,6 +50,16 @@ export default {
       }
     };
   },
+  computed: {
+    showFarmMap: {
+      get(){
+        return this.$store.getters.showFarmMap
+      },
+      set(val) {
+        this.$store.dispatch("showFarmMap", val)
+      }
+    }
+  },
   methods: {
     getGPS() {
       var that = this;
@@ -61,15 +72,21 @@ export default {
             lat,
             lng
           };
+          that.$store.dispatch('setFarmLocation', that.farmProfile.gpsPoints)
+          that.$store.dispatch('showFarmMap', true)
           console.log(
             "TCL: getGPS -> this.farmProfile.gpsPoints",
             that.farmProfile.gpsPoints
           );
         });
+
       } else {
         console.log("Geo Location not supported by browser");
       }
     }
+  },
+  components: {
+    FarmMap
   }
 };
 </script>

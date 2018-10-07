@@ -1,26 +1,40 @@
 <template>
-  <div>
-    <div>
-      <h1>Map</h1>
-    </div>
-      <l-map style="height: 70vh" :zoom="map.zoom" :options="map.options"
-      :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
-      <l-control-layers :position="map.layersPosition"/>
-      <l-tile-layer v-for="(tileProvider, index) in tileProviders" :key="index"
-        layerType="base" :name="tileProvider.name" :visible="tileProvider.visible"
-        :url="tileProvider.url" :attribution="tileProvider.attribution" :token="token"/>
-      <l-control-zoom :position="map.zoomPosition" />
-      <l-control-attribution :position="map.attributionPosition" :prefix="map.attributionPrefix" />
-      <l-control-scale :imperial="map.imperial" />
-      <l-layer-group v-for="item in stuff" :key="item.id" :visible="item.visible" >
-        <l-layer-group :visible="item.markersVisible" >
-          <l-marker v-for="(row, index) in visitData" :key="index"
-            :visible="true" :draggable="true"
-            :lat-lng="row.gps" @click="alert(row)" />
-        </l-layer-group>
-       </l-layer-group>
-    </l-map>
-  </div>
+      <v-layout row justify-center>
+        <v-dialog v-model="showFarmMap" fullscreen transition="dialog-bottom-transition" :overlay="false">
+          <v-btn color="primary" dark slot="activator">Open Dialog</v-btn>
+          <v-card>
+            <v-toolbar dark color="primary">
+              <v-btn icon @click.native="dialog = false" dark>
+                <v-icon>close</v-icon>
+              </v-btn>
+              <v-toolbar-title>Put Your Farm "On the Map"</v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-toolbar-items>
+                <v-btn dark flat @click.native="showFarmMap = false">Save</v-btn>
+              </v-toolbar-items>
+            </v-toolbar>
+            <p>{{autoLocation.lat}} {{autoLocation.lng}}</p>
+            <p>Zoom: {{map.zoom}}</p>
+            <p>Center: {{map.center}}</p>
+            <v-layout justify-center row wrap>
+            <l-map ref="map" style="height: 60vh; width: 90vw" :zoom="map.zoom" :options="map.options"
+            :center="map.center" :min-zoom="map.minZoom" :max-zoom="map.maxZoom" >
+            <l-control-layers :position="map.layersPosition"/>
+            <l-tile-layer v-for="(tileProvider, index) in tileProviders" :key="index"
+              layerType="base" :name="tileProvider.name" :visible="tileProvider.visible"
+              :url="tileProvider.url" :attribution="tileProvider.attribution" :token="token"/>
+            <l-control-zoom :position="map.zoomPosition" />
+            <l-control-attribution :position="map.attributionPosition" :prefix="map.attributionPrefix" />
+            <l-control-scale :imperial="map.imperial" />
+              <l-marker 
+                :visible="true" :draggable="true"
+                :lat-lng="autoLocation"/>
+          </l-map>
+              
+            </v-layout>
+          </v-card>
+        </v-dialog>
+      </v-layout>
 </template>
 
 <script>
@@ -75,16 +89,24 @@ export default {
     LControlScale,
     LControlLayers
   },
+  mounted() {
+    var map = this.$refs.map
+    console.log('TCL: ------------------------');
+    console.log('TCL: created -> map', map);
+    console.log('TCL: ------------------------');
+  },
   data() {
     return {
       map: {
-        center: { lng: 30.8021097164601, lat: -29.9852711241692 },
-        bounds: L.latLngBounds(
-          { lat: 46.573931908971865, lng: -4.757080078125001 },
-          { lat: 48.850224803672056, lng: 4.603271484375001 }
-        ),
+        // center: { lng: 31.00454079, lat: -29.91917 },
+        center:  {lat: -27.54618041742035, lng: 24.125976562500004} ,
+        // bounds: L.latLngBounds(
+        //   { lat: 46.573931908971865, lng: -4.757080078125001 },
+        //   { lat: 48.850224803672056, lng: 4.603271484375001 }
+        // ),
+        markerPos: null,
         options: { zoomControl: false, attributionControl: false },
-        zoom: 10,
+        zoom: 5,
         minZoom: 1,
         maxZoom: 20,
         zoomPosition: "topleft",
@@ -94,7 +116,7 @@ export default {
         imperial: false
       },
 
-      opacity: 0.6,
+      opacity: 0.8,
       token: "your token if using mapbox",
 
       Positions: ["topleft", "topright", "bottomleft", "bottomright"],
@@ -103,14 +125,26 @@ export default {
     };
   },
   computed: {
-    visitData() {
-      return this.$store.getters.mapData;
+    showFarmMap: {
+      get(){
+        return this.$store.getters.showFarmMap
+      },
+      set(val) {
+        this.$store.dispatch("showFarmMap", val)
+      }
+    },
+    
+    autoLocation: {
+      get(){
+        return this.$store.getters.farmLocation
+      },
+      set(gps) {
+        this.$store.dispatch('setFarmLocation', gps)
+      }
     }
   },
   methods: {
-    alert(item) {
-      alert("this is " + JSON.stringify(item));
-    }
+
   }
 };
 </script>
