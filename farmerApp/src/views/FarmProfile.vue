@@ -1,6 +1,6 @@
 <template>
     <v-container grid-list-xs>
-        <h3>Farm Profile</h3>
+        <h3 class="display-1">Farm Profile</h3>
         <v-text-field
         v-model="farmProfile.totalLand"
         label="Total Arable Land in Square Meters"
@@ -13,11 +13,11 @@
         ></v-text-field>
         <v-checkbox label="Do you want to show your location on Kandu Community?" 
         v-model="farmProfile.shareLocation"></v-checkbox>
-        <p>If you're near your farm now, please click the button below, accept location discovery, and then move the marker to a nice central spot on your land.</p>
+        <p class="font-weight-light" >If you're near your farm now, please click the button below, accept location discovery, and then move the marker to a nice central spot on your land.</p>
         <v-btn @click="alternatively=false; getGPS()" color="info">Find Me</v-btn>
         <farm-map v-if="showFarmMap"></farm-map>
         <p v-if="municipalData.province">{{municipalData.province}} | {{municipalData.ward}}</p>
-        <p v-if="alternatively">Alternatively - if you already know your GPS co-ordinates by heart you can just type them in here (You crazy beautiful, savant you...) </p>
+        <p class="font-weight-light" v-if="alternatively">Alternatively - if you already know your GPS co-ordinates by heart you can just type them in here (You crazy beautiful, savant you...)</p>
         <v-text-field
         v-model="farmProfile.gpsPoints.lat"
         label="Latitude"
@@ -28,6 +28,11 @@
         label="Longitude"
         required
         ></v-text-field>
+        <v-autocomplete
+          label="Cultivation Approach"
+          :items="cultivationSelection"
+          v-model="farmProfile.cultivationApproach"
+        ></v-autocomplete>
         <v-text-field
         v-model="farmProfile.farmersAssociations"
         label="If you belong to any Farmer's Associations or groups please add them here"
@@ -38,15 +43,22 @@
 
 <script>
 // TODO: Move to HelperFunctions
-import FarmMap from '@/components/profile/FarmMap'
+import FarmMap from "@/components/profile/FarmMap";
 
 export default {
   data() {
     return {
+      cultivationSelection: [
+        "Organic",
+        "Certified Organic",
+        "Some Chemicals Used",
+        "Fully Chemical Approach"
+      ],
       alternatively: true,
       farmProfile: {
         totalLand: "",
         cultivatedLand: "",
+        cultivationApproach: "",
         gpsPoints: {
           lat: null,
           lng: null
@@ -58,16 +70,16 @@ export default {
   },
   computed: {
     showFarmMap: {
-      get(){
-        return this.$store.getters.showFarmMap
+      get() {
+        return this.$store.getters.showFarmMap;
       },
       set(val) {
-        this.$store.dispatch("showFarmMap", val)
+        this.$store.dispatch("showFarmMap", val);
       }
     },
 
     municipalData() {
-      return this.$store.getters.municipalData
+      return this.$store.getters.municipalData;
     }
   },
   methods: {
@@ -82,14 +94,13 @@ export default {
             lat,
             lng
           };
-          that.$store.dispatch('setFarmLocation', that.farmProfile.gpsPoints)
-          that.$store.dispatch('showFarmMap', true)
+          that.$store.dispatch("setFarmLocation", that.farmProfile.gpsPoints);
+          that.$store.dispatch("showFarmMap", true);
           console.log(
             "TCL: getGPS -> this.farmProfile.gpsPoints",
             that.farmProfile.gpsPoints
           );
         });
-
       } else {
         console.log("Geo Location not supported by browser");
       }
@@ -100,3 +111,7 @@ export default {
   }
 };
 </script>
+
+<style>
+</style>
+

@@ -4,7 +4,7 @@
           <v-btn color="primary" dark slot="activator">Open Dialog</v-btn>
           <v-card>
             <v-toolbar dark color="primary">
-              <v-btn icon @click.native="dialog = false" dark>
+              <v-btn icon @click.native="showFarmMap = false" dark>
                 <v-icon>close</v-icon>
               </v-btn>
               <v-toolbar-title>Put Your Farm "On the Map"</v-toolbar-title>
@@ -90,16 +90,16 @@ export default {
     LControlLayers
   },
   mounted() {
-    var map = this.$refs.map
-    console.log('TCL: ------------------------');
-    console.log('TCL: created -> map', map);
-    console.log('TCL: ------------------------');
+    var map = this.$refs.map;
+    console.log("TCL: ------------------------");
+    console.log("TCL: created -> map", map);
+    console.log("TCL: ------------------------");
   },
   data() {
     return {
       map: {
         // center: { lng: 31.00454079, lat: -29.91917 },
-        center:  {lat: -27.54618041742035, lng: 24.125976562500004} ,
+        center: { lat: -27.54618041742035, lng: 24.125976562500004 },
         // bounds: L.latLngBounds(
         //   { lat: 46.573931908971865, lng: -4.757080078125001 },
         //   { lat: 48.850224803672056, lng: 4.603271484375001 }
@@ -126,26 +126,23 @@ export default {
   },
   computed: {
     showFarmMap: {
-      get(){
-        return this.$store.getters.showFarmMap
+      get() {
+        return this.$store.getters.showFarmMap;
       },
       set(val) {
-        this.$store.dispatch("showFarmMap", val)
+        this.$store.dispatch("showFarmMap", val);
       }
     },
-    
+
     autoLocation: {
-      get(){
-        return this.$store.getters.farmLocation
+      get() {
+        return this.$store.getters.farmLocation;
       },
       set(gps) {
-        this.$store.dispatch('setFarmLocation', gps)
+        this.$store.dispatch("setFarmLocation", gps);
       }
-    },
-
+    }
   },
-  methods: {
-
-  }
+  methods: {}
 };
 </script>

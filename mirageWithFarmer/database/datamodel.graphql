@@ -41,8 +41,53 @@ type Address {
 type FarmingActivities {
   category: String!
   shortDescription: String
-  longDescription: String
+  cultivationApproach: String
   farmer: User!  
+}
+
+type Farm {
+  totalLand: Int!
+  cultivatedLand: Int!
+  shareLocation: Boolean!
+  gpsPoints: Location!
+  farmersAssociations: String
+}
+
+type Crop {
+  category: CropCategory!
+  description: String!
+  harvestWindow: HarvestWindow!
+}
+
+type _ProduceTable {
+  name: String
+  produce: [_Produce!]! @relation(name: "SeedData")
+}
+
+type _Produce {
+  name: String! @unique
+  type: CropCategory!
+  # spacing in mm
+  spacing: Int
+  plantsPerM: Int
+  group: _ProduceTable! @relation(name: "SeedData")
+}
+
+type Location {
+  lat: Int!
+  lng: Int!
+}
+
+# eg. datetime: "2015-11-22"
+type HarvestWindow {
+  from: DateTime!
+  to: DateTime!
+}
+
+enum CropCategory {
+  VEGETABLE
+  FRUIT
+  HERB
 }
 
 enum Role {

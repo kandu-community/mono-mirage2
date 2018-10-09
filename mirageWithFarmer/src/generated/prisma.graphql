@@ -1,5 +1,425 @@
 # source: https://eu1.prisma.sh/public-forkbell-321/mirage-advanced/dev
-# timestamp: Thu Sep 27 2018 17:47:51 GMT+0200 (SAST)
+# timestamp: Tue Oct 09 2018 19:53:06 GMT+0200 (SAST)
+
+type _Produce {
+  name: String!
+  type: CropCategory!
+  spacing: Int
+  plantsPerM: Int
+  group: _ProduceTable!
+}
+
+"""A connection to a list of items."""
+type _ProduceConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [_ProduceEdge]!
+  aggregate: Aggregate_Produce!
+}
+
+input _ProduceCreateInput {
+  name: String!
+  type: CropCategory!
+  spacing: Int
+  plantsPerM: Int
+  group: _ProduceTableCreateOneWithoutProduceInput!
+}
+
+input _ProduceCreateManyWithoutGroupInput {
+  create: [_ProduceCreateWithoutGroupInput!]
+  connect: [_ProduceWhereUniqueInput!]
+}
+
+input _ProduceCreateWithoutGroupInput {
+  name: String!
+  type: CropCategory!
+  spacing: Int
+  plantsPerM: Int
+}
+
+"""An edge in a connection."""
+type _ProduceEdge {
+  """The item at the end of the edge."""
+  node: _Produce!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum _ProduceOrderByInput {
+  name_ASC
+  name_DESC
+  type_ASC
+  type_DESC
+  spacing_ASC
+  spacing_DESC
+  plantsPerM_ASC
+  plantsPerM_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type _ProducePreviousValues {
+  name: String!
+  type: CropCategory!
+  spacing: Int
+  plantsPerM: Int
+}
+
+type _ProduceSubscriptionPayload {
+  mutation: MutationType!
+  node: _Produce
+  updatedFields: [String!]
+  previousValues: _ProducePreviousValues
+}
+
+input _ProduceSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [_ProduceSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [_ProduceSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [_ProduceSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: _ProduceWhereInput
+}
+
+type _ProduceTable {
+  name: String
+  produce(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_Produce!]
+}
+
+"""A connection to a list of items."""
+type _ProduceTableConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [_ProduceTableEdge]!
+  aggregate: Aggregate_ProduceTable!
+}
+
+input _ProduceTableCreateInput {
+  name: String
+  produce: _ProduceCreateManyWithoutGroupInput
+}
+
+input _ProduceTableCreateOneWithoutProduceInput {
+  create: _ProduceTableCreateWithoutProduceInput
+}
+
+input _ProduceTableCreateWithoutProduceInput {
+  name: String
+}
+
+"""An edge in a connection."""
+type _ProduceTableEdge {
+  """The item at the end of the edge."""
+  node: _ProduceTable!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum _ProduceTableOrderByInput {
+  name_ASC
+  name_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type _ProduceTablePreviousValues {
+  name: String
+}
+
+type _ProduceTableSubscriptionPayload {
+  mutation: MutationType!
+  node: _ProduceTable
+  updatedFields: [String!]
+  previousValues: _ProduceTablePreviousValues
+}
+
+input _ProduceTableSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [_ProduceTableSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [_ProduceTableSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [_ProduceTableSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: _ProduceTableWhereInput
+}
+
+input _ProduceTableUpdateInput {
+  name: String
+  produce: _ProduceUpdateManyWithoutGroupInput
+}
+
+input _ProduceTableUpdateOneRequiredWithoutProduceInput {
+  create: _ProduceTableCreateWithoutProduceInput
+  update: _ProduceTableUpdateWithoutProduceDataInput
+  upsert: _ProduceTableUpsertWithoutProduceInput
+}
+
+input _ProduceTableUpdateWithoutProduceDataInput {
+  name: String
+}
+
+input _ProduceTableUpsertWithoutProduceInput {
+  update: _ProduceTableUpdateWithoutProduceDataInput!
+  create: _ProduceTableCreateWithoutProduceInput!
+}
+
+input _ProduceTableWhereInput {
+  """Logical AND on all given filters."""
+  AND: [_ProduceTableWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [_ProduceTableWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [_ProduceTableWhereInput!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  produce_every: _ProduceWhereInput
+  produce_some: _ProduceWhereInput
+  produce_none: _ProduceWhereInput
+}
+
+input _ProduceUpdateInput {
+  name: String
+  type: CropCategory
+  spacing: Int
+  plantsPerM: Int
+  group: _ProduceTableUpdateOneRequiredWithoutProduceInput
+}
+
+input _ProduceUpdateManyWithoutGroupInput {
+  create: [_ProduceCreateWithoutGroupInput!]
+  connect: [_ProduceWhereUniqueInput!]
+  disconnect: [_ProduceWhereUniqueInput!]
+  delete: [_ProduceWhereUniqueInput!]
+  update: [_ProduceUpdateWithWhereUniqueWithoutGroupInput!]
+  upsert: [_ProduceUpsertWithWhereUniqueWithoutGroupInput!]
+}
+
+input _ProduceUpdateWithoutGroupDataInput {
+  name: String
+  type: CropCategory
+  spacing: Int
+  plantsPerM: Int
+}
+
+input _ProduceUpdateWithWhereUniqueWithoutGroupInput {
+  where: _ProduceWhereUniqueInput!
+  data: _ProduceUpdateWithoutGroupDataInput!
+}
+
+input _ProduceUpsertWithWhereUniqueWithoutGroupInput {
+  where: _ProduceWhereUniqueInput!
+  update: _ProduceUpdateWithoutGroupDataInput!
+  create: _ProduceCreateWithoutGroupInput!
+}
+
+input _ProduceWhereInput {
+  """Logical AND on all given filters."""
+  AND: [_ProduceWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [_ProduceWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [_ProduceWhereInput!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
+  type: CropCategory
+
+  """All values that are not equal to given value."""
+  type_not: CropCategory
+
+  """All values that are contained in given list."""
+  type_in: [CropCategory!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [CropCategory!]
+  spacing: Int
+
+  """All values that are not equal to given value."""
+  spacing_not: Int
+
+  """All values that are contained in given list."""
+  spacing_in: [Int!]
+
+  """All values that are not contained in given list."""
+  spacing_not_in: [Int!]
+
+  """All values less than the given value."""
+  spacing_lt: Int
+
+  """All values less than or equal the given value."""
+  spacing_lte: Int
+
+  """All values greater than the given value."""
+  spacing_gt: Int
+
+  """All values greater than or equal the given value."""
+  spacing_gte: Int
+  plantsPerM: Int
+
+  """All values that are not equal to given value."""
+  plantsPerM_not: Int
+
+  """All values that are contained in given list."""
+  plantsPerM_in: [Int!]
+
+  """All values that are not contained in given list."""
+  plantsPerM_not_in: [Int!]
+
+  """All values less than the given value."""
+  plantsPerM_lt: Int
+
+  """All values less than or equal the given value."""
+  plantsPerM_lte: Int
+
+  """All values greater than the given value."""
+  plantsPerM_gt: Int
+
+  """All values greater than or equal the given value."""
+  plantsPerM_gte: Int
+  group: _ProduceTableWhereInput
+}
+
+input _ProduceWhereUniqueInput {
+  name: String
+}
 
 type Address {
   line1: String
@@ -406,11 +826,35 @@ input AddressWhereInput {
   resident: UserWhereInput
 }
 
+type Aggregate_Produce {
+  count: Int!
+}
+
+type Aggregate_ProduceTable {
+  count: Int!
+}
+
 type AggregateAddress {
   count: Int!
 }
 
+type AggregateCrop {
+  count: Int!
+}
+
+type AggregateFarm {
+  count: Int!
+}
+
 type AggregateFarmingActivities {
+  count: Int!
+}
+
+type AggregateHarvestWindow {
+  count: Int!
+}
+
+type AggregateLocation {
   count: Int!
 }
 
@@ -431,12 +875,209 @@ type BatchPayload {
   count: Long!
 }
 
+type Crop {
+  category: CropCategory!
+  description: String!
+  harvestWindow: HarvestWindow!
+}
+
+enum CropCategory {
+  VEGETABLE
+  FRUIT
+  HERB
+}
+
+"""A connection to a list of items."""
+type CropConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [CropEdge]!
+  aggregate: AggregateCrop!
+}
+
+input CropCreateInput {
+  category: CropCategory!
+  description: String!
+  harvestWindow: HarvestWindowCreateOneInput!
+}
+
+"""An edge in a connection."""
+type CropEdge {
+  """The item at the end of the edge."""
+  node: Crop!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum CropOrderByInput {
+  category_ASC
+  category_DESC
+  description_ASC
+  description_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type CropPreviousValues {
+  category: CropCategory!
+  description: String!
+}
+
+type CropSubscriptionPayload {
+  mutation: MutationType!
+  node: Crop
+  updatedFields: [String!]
+  previousValues: CropPreviousValues
+}
+
+input CropSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CropSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CropSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CropSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: CropWhereInput
+}
+
+input CropUpdateInput {
+  category: CropCategory
+  description: String
+  harvestWindow: HarvestWindowUpdateOneRequiredInput
+}
+
+input CropWhereInput {
+  """Logical AND on all given filters."""
+  AND: [CropWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [CropWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [CropWhereInput!]
+  category: CropCategory
+
+  """All values that are not equal to given value."""
+  category_not: CropCategory
+
+  """All values that are contained in given list."""
+  category_in: [CropCategory!]
+
+  """All values that are not contained in given list."""
+  category_not_in: [CropCategory!]
+  description: String
+
+  """All values that are not equal to given value."""
+  description_not: String
+
+  """All values that are contained in given list."""
+  description_in: [String!]
+
+  """All values that are not contained in given list."""
+  description_not_in: [String!]
+
+  """All values less than the given value."""
+  description_lt: String
+
+  """All values less than or equal the given value."""
+  description_lte: String
+
+  """All values greater than the given value."""
+  description_gt: String
+
+  """All values greater than or equal the given value."""
+  description_gte: String
+
+  """All values containing the given string."""
+  description_contains: String
+
+  """All values not containing the given string."""
+  description_not_contains: String
+
+  """All values starting with the given string."""
+  description_starts_with: String
+
+  """All values not starting with the given string."""
+  description_not_starts_with: String
+
+  """All values ending with the given string."""
+  description_ends_with: String
+
+  """All values not ending with the given string."""
+  description_not_ends_with: String
+  harvestWindow: HarvestWindowWhereInput
+}
+
 scalar DateTime
+
+type Farm {
+  totalLand: Int!
+  cultivatedLand: Int!
+  shareLocation: Boolean!
+  gpsPoints: Location!
+  farmersAssociations: String
+}
+
+"""A connection to a list of items."""
+type FarmConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [FarmEdge]!
+  aggregate: AggregateFarm!
+}
+
+input FarmCreateInput {
+  totalLand: Int!
+  cultivatedLand: Int!
+  shareLocation: Boolean!
+  farmersAssociations: String
+  gpsPoints: LocationCreateOneInput!
+}
+
+"""An edge in a connection."""
+type FarmEdge {
+  """The item at the end of the edge."""
+  node: Farm!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
 
 type FarmingActivities {
   category: String!
   shortDescription: String
-  longDescription: String
+  cultivationApproach: String
   farmer: User!
 }
 
@@ -453,7 +1094,7 @@ type FarmingActivitiesConnection {
 input FarmingActivitiesCreateInput {
   category: String!
   shortDescription: String
-  longDescription: String
+  cultivationApproach: String
   farmer: UserCreateOneWithoutFarmingActivitiesInput!
 }
 
@@ -464,7 +1105,7 @@ input FarmingActivitiesCreateOneWithoutFarmerInput {
 input FarmingActivitiesCreateWithoutFarmerInput {
   category: String!
   shortDescription: String
-  longDescription: String
+  cultivationApproach: String
 }
 
 """An edge in a connection."""
@@ -481,8 +1122,8 @@ enum FarmingActivitiesOrderByInput {
   category_DESC
   shortDescription_ASC
   shortDescription_DESC
-  longDescription_ASC
-  longDescription_DESC
+  cultivationApproach_ASC
+  cultivationApproach_DESC
   id_ASC
   id_DESC
   updatedAt_ASC
@@ -494,7 +1135,7 @@ enum FarmingActivitiesOrderByInput {
 type FarmingActivitiesPreviousValues {
   category: String!
   shortDescription: String
-  longDescription: String
+  cultivationApproach: String
 }
 
 type FarmingActivitiesSubscriptionPayload {
@@ -539,7 +1180,7 @@ input FarmingActivitiesSubscriptionWhereInput {
 input FarmingActivitiesUpdateInput {
   category: String
   shortDescription: String
-  longDescription: String
+  cultivationApproach: String
   farmer: UserUpdateOneRequiredWithoutFarmingActivitiesInput
 }
 
@@ -554,7 +1195,7 @@ input FarmingActivitiesUpdateOneWithoutFarmerInput {
 input FarmingActivitiesUpdateWithoutFarmerDataInput {
   category: String
   shortDescription: String
-  longDescription: String
+  cultivationApproach: String
 }
 
 input FarmingActivitiesUpsertWithoutFarmerInput {
@@ -651,47 +1292,550 @@ input FarmingActivitiesWhereInput {
 
   """All values not ending with the given string."""
   shortDescription_not_ends_with: String
-  longDescription: String
+  cultivationApproach: String
 
   """All values that are not equal to given value."""
-  longDescription_not: String
+  cultivationApproach_not: String
 
   """All values that are contained in given list."""
-  longDescription_in: [String!]
+  cultivationApproach_in: [String!]
 
   """All values that are not contained in given list."""
-  longDescription_not_in: [String!]
+  cultivationApproach_not_in: [String!]
 
   """All values less than the given value."""
-  longDescription_lt: String
+  cultivationApproach_lt: String
 
   """All values less than or equal the given value."""
-  longDescription_lte: String
+  cultivationApproach_lte: String
 
   """All values greater than the given value."""
-  longDescription_gt: String
+  cultivationApproach_gt: String
 
   """All values greater than or equal the given value."""
-  longDescription_gte: String
+  cultivationApproach_gte: String
 
   """All values containing the given string."""
-  longDescription_contains: String
+  cultivationApproach_contains: String
 
   """All values not containing the given string."""
-  longDescription_not_contains: String
+  cultivationApproach_not_contains: String
 
   """All values starting with the given string."""
-  longDescription_starts_with: String
+  cultivationApproach_starts_with: String
 
   """All values not starting with the given string."""
-  longDescription_not_starts_with: String
+  cultivationApproach_not_starts_with: String
 
   """All values ending with the given string."""
-  longDescription_ends_with: String
+  cultivationApproach_ends_with: String
 
   """All values not ending with the given string."""
-  longDescription_not_ends_with: String
+  cultivationApproach_not_ends_with: String
   farmer: UserWhereInput
+}
+
+enum FarmOrderByInput {
+  totalLand_ASC
+  totalLand_DESC
+  cultivatedLand_ASC
+  cultivatedLand_DESC
+  shareLocation_ASC
+  shareLocation_DESC
+  farmersAssociations_ASC
+  farmersAssociations_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type FarmPreviousValues {
+  totalLand: Int!
+  cultivatedLand: Int!
+  shareLocation: Boolean!
+  farmersAssociations: String
+}
+
+type FarmSubscriptionPayload {
+  mutation: MutationType!
+  node: Farm
+  updatedFields: [String!]
+  previousValues: FarmPreviousValues
+}
+
+input FarmSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FarmSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FarmSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FarmSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: FarmWhereInput
+}
+
+input FarmUpdateInput {
+  totalLand: Int
+  cultivatedLand: Int
+  shareLocation: Boolean
+  farmersAssociations: String
+  gpsPoints: LocationUpdateOneRequiredInput
+}
+
+input FarmWhereInput {
+  """Logical AND on all given filters."""
+  AND: [FarmWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [FarmWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [FarmWhereInput!]
+  totalLand: Int
+
+  """All values that are not equal to given value."""
+  totalLand_not: Int
+
+  """All values that are contained in given list."""
+  totalLand_in: [Int!]
+
+  """All values that are not contained in given list."""
+  totalLand_not_in: [Int!]
+
+  """All values less than the given value."""
+  totalLand_lt: Int
+
+  """All values less than or equal the given value."""
+  totalLand_lte: Int
+
+  """All values greater than the given value."""
+  totalLand_gt: Int
+
+  """All values greater than or equal the given value."""
+  totalLand_gte: Int
+  cultivatedLand: Int
+
+  """All values that are not equal to given value."""
+  cultivatedLand_not: Int
+
+  """All values that are contained in given list."""
+  cultivatedLand_in: [Int!]
+
+  """All values that are not contained in given list."""
+  cultivatedLand_not_in: [Int!]
+
+  """All values less than the given value."""
+  cultivatedLand_lt: Int
+
+  """All values less than or equal the given value."""
+  cultivatedLand_lte: Int
+
+  """All values greater than the given value."""
+  cultivatedLand_gt: Int
+
+  """All values greater than or equal the given value."""
+  cultivatedLand_gte: Int
+  shareLocation: Boolean
+
+  """All values that are not equal to given value."""
+  shareLocation_not: Boolean
+  farmersAssociations: String
+
+  """All values that are not equal to given value."""
+  farmersAssociations_not: String
+
+  """All values that are contained in given list."""
+  farmersAssociations_in: [String!]
+
+  """All values that are not contained in given list."""
+  farmersAssociations_not_in: [String!]
+
+  """All values less than the given value."""
+  farmersAssociations_lt: String
+
+  """All values less than or equal the given value."""
+  farmersAssociations_lte: String
+
+  """All values greater than the given value."""
+  farmersAssociations_gt: String
+
+  """All values greater than or equal the given value."""
+  farmersAssociations_gte: String
+
+  """All values containing the given string."""
+  farmersAssociations_contains: String
+
+  """All values not containing the given string."""
+  farmersAssociations_not_contains: String
+
+  """All values starting with the given string."""
+  farmersAssociations_starts_with: String
+
+  """All values not starting with the given string."""
+  farmersAssociations_not_starts_with: String
+
+  """All values ending with the given string."""
+  farmersAssociations_ends_with: String
+
+  """All values not ending with the given string."""
+  farmersAssociations_not_ends_with: String
+  gpsPoints: LocationWhereInput
+}
+
+type HarvestWindow {
+  from: DateTime!
+  to: DateTime!
+}
+
+"""A connection to a list of items."""
+type HarvestWindowConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [HarvestWindowEdge]!
+  aggregate: AggregateHarvestWindow!
+}
+
+input HarvestWindowCreateInput {
+  from: DateTime!
+  to: DateTime!
+}
+
+input HarvestWindowCreateOneInput {
+  create: HarvestWindowCreateInput
+}
+
+"""An edge in a connection."""
+type HarvestWindowEdge {
+  """The item at the end of the edge."""
+  node: HarvestWindow!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum HarvestWindowOrderByInput {
+  from_ASC
+  from_DESC
+  to_ASC
+  to_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type HarvestWindowPreviousValues {
+  from: DateTime!
+  to: DateTime!
+}
+
+type HarvestWindowSubscriptionPayload {
+  mutation: MutationType!
+  node: HarvestWindow
+  updatedFields: [String!]
+  previousValues: HarvestWindowPreviousValues
+}
+
+input HarvestWindowSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [HarvestWindowSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [HarvestWindowSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [HarvestWindowSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: HarvestWindowWhereInput
+}
+
+input HarvestWindowUpdateDataInput {
+  from: DateTime
+  to: DateTime
+}
+
+input HarvestWindowUpdateInput {
+  from: DateTime
+  to: DateTime
+}
+
+input HarvestWindowUpdateOneRequiredInput {
+  create: HarvestWindowCreateInput
+  update: HarvestWindowUpdateDataInput
+  upsert: HarvestWindowUpsertNestedInput
+}
+
+input HarvestWindowUpsertNestedInput {
+  update: HarvestWindowUpdateDataInput!
+  create: HarvestWindowCreateInput!
+}
+
+input HarvestWindowWhereInput {
+  """Logical AND on all given filters."""
+  AND: [HarvestWindowWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [HarvestWindowWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [HarvestWindowWhereInput!]
+  from: DateTime
+
+  """All values that are not equal to given value."""
+  from_not: DateTime
+
+  """All values that are contained in given list."""
+  from_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  from_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  from_lt: DateTime
+
+  """All values less than or equal the given value."""
+  from_lte: DateTime
+
+  """All values greater than the given value."""
+  from_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  from_gte: DateTime
+  to: DateTime
+
+  """All values that are not equal to given value."""
+  to_not: DateTime
+
+  """All values that are contained in given list."""
+  to_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  to_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  to_lt: DateTime
+
+  """All values less than or equal the given value."""
+  to_lte: DateTime
+
+  """All values greater than the given value."""
+  to_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  to_gte: DateTime
+}
+
+type Location {
+  lat: Int!
+  lng: Int!
+}
+
+"""A connection to a list of items."""
+type LocationConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [LocationEdge]!
+  aggregate: AggregateLocation!
+}
+
+input LocationCreateInput {
+  lat: Int!
+  lng: Int!
+}
+
+input LocationCreateOneInput {
+  create: LocationCreateInput
+}
+
+"""An edge in a connection."""
+type LocationEdge {
+  """The item at the end of the edge."""
+  node: Location!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum LocationOrderByInput {
+  lat_ASC
+  lat_DESC
+  lng_ASC
+  lng_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type LocationPreviousValues {
+  lat: Int!
+  lng: Int!
+}
+
+type LocationSubscriptionPayload {
+  mutation: MutationType!
+  node: Location
+  updatedFields: [String!]
+  previousValues: LocationPreviousValues
+}
+
+input LocationSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LocationSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LocationSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LocationSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: LocationWhereInput
+}
+
+input LocationUpdateDataInput {
+  lat: Int
+  lng: Int
+}
+
+input LocationUpdateInput {
+  lat: Int
+  lng: Int
+}
+
+input LocationUpdateOneRequiredInput {
+  create: LocationCreateInput
+  update: LocationUpdateDataInput
+  upsert: LocationUpsertNestedInput
+}
+
+input LocationUpsertNestedInput {
+  update: LocationUpdateDataInput!
+  create: LocationCreateInput!
+}
+
+input LocationWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LocationWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LocationWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LocationWhereInput!]
+  lat: Int
+
+  """All values that are not equal to given value."""
+  lat_not: Int
+
+  """All values that are contained in given list."""
+  lat_in: [Int!]
+
+  """All values that are not contained in given list."""
+  lat_not_in: [Int!]
+
+  """All values less than the given value."""
+  lat_lt: Int
+
+  """All values less than or equal the given value."""
+  lat_lte: Int
+
+  """All values greater than the given value."""
+  lat_gt: Int
+
+  """All values greater than or equal the given value."""
+  lat_gte: Int
+  lng: Int
+
+  """All values that are not equal to given value."""
+  lng_not: Int
+
+  """All values that are contained in given list."""
+  lng_in: [Int!]
+
+  """All values that are not contained in given list."""
+  lng_not_in: [Int!]
+
+  """All values less than the given value."""
+  lng_lt: Int
+
+  """All values less than or equal the given value."""
+  lng_lte: Int
+
+  """All values greater than the given value."""
+  lng_gt: Int
+
+  """All values greater than or equal the given value."""
+  lng_gte: Int
 }
 
 """
@@ -706,22 +1850,43 @@ type Mutation {
   createPersonalDetails(data: PersonalDetailsCreateInput!): PersonalDetails!
   createAddress(data: AddressCreateInput!): Address!
   createFarmingActivities(data: FarmingActivitiesCreateInput!): FarmingActivities!
+  createFarm(data: FarmCreateInput!): Farm!
+  createCrop(data: CropCreateInput!): Crop!
+  create_ProduceTable(data: _ProduceTableCreateInput!): _ProduceTable!
+  create_Produce(data: _ProduceCreateInput!): _Produce!
+  createHarvestWindow(data: HarvestWindowCreateInput!): HarvestWindow!
+  createLocation(data: LocationCreateInput!): Location!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  update_Produce(data: _ProduceUpdateInput!, where: _ProduceWhereUniqueInput!): _Produce
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
+  delete_Produce(where: _ProduceWhereUniqueInput!): _Produce
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsert_Produce(where: _ProduceWhereUniqueInput!, create: _ProduceCreateInput!, update: _ProduceUpdateInput!): _Produce!
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyPersonalDetailses(data: PersonalDetailsUpdateInput!, where: PersonalDetailsWhereInput): BatchPayload!
   updateManyAddresses(data: AddressUpdateInput!, where: AddressWhereInput): BatchPayload!
   updateManyFarmingActivitieses(data: FarmingActivitiesUpdateInput!, where: FarmingActivitiesWhereInput): BatchPayload!
+  updateManyFarms(data: FarmUpdateInput!, where: FarmWhereInput): BatchPayload!
+  updateManyCrops(data: CropUpdateInput!, where: CropWhereInput): BatchPayload!
+  updateMany_ProduceTables(data: _ProduceTableUpdateInput!, where: _ProduceTableWhereInput): BatchPayload!
+  updateMany_Produces(data: _ProduceUpdateInput!, where: _ProduceWhereInput): BatchPayload!
+  updateManyHarvestWindows(data: HarvestWindowUpdateInput!, where: HarvestWindowWhereInput): BatchPayload!
+  updateManyLocations(data: LocationUpdateInput!, where: LocationWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyPersonalDetailses(where: PersonalDetailsWhereInput): BatchPayload!
   deleteManyAddresses(where: AddressWhereInput): BatchPayload!
   deleteManyFarmingActivitieses(where: FarmingActivitiesWhereInput): BatchPayload!
+  deleteManyFarms(where: FarmWhereInput): BatchPayload!
+  deleteManyCrops(where: CropWhereInput): BatchPayload!
+  deleteMany_ProduceTables(where: _ProduceTableWhereInput): BatchPayload!
+  deleteMany_Produces(where: _ProduceWhereInput): BatchPayload!
+  deleteManyHarvestWindows(where: HarvestWindowWhereInput): BatchPayload!
+  deleteManyLocations(where: LocationWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -1393,13 +2558,26 @@ type Query {
   personalDetailses(where: PersonalDetailsWhereInput, orderBy: PersonalDetailsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [PersonalDetails]!
   addresses(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Address]!
   farmingActivitieses(where: FarmingActivitiesWhereInput, orderBy: FarmingActivitiesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FarmingActivities]!
+  farms(where: FarmWhereInput, orderBy: FarmOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Farm]!
+  crops(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Crop]!
+  _ProduceTables(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_ProduceTable]!
+  _Produces(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_Produce]!
+  harvestWindows(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HarvestWindow]!
+  locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
+  _Produce(where: _ProduceWhereUniqueInput!): _Produce
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   personalDetailsesConnection(where: PersonalDetailsWhereInput, orderBy: PersonalDetailsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PersonalDetailsConnection!
   addressesConnection(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AddressConnection!
   farmingActivitiesesConnection(where: FarmingActivitiesWhereInput, orderBy: FarmingActivitiesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FarmingActivitiesConnection!
+  farmsConnection(where: FarmWhereInput, orderBy: FarmOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FarmConnection!
+  cropsConnection(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CropConnection!
+  _ProduceTablesConnection(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceTableConnection!
+  _ProducesConnection(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceConnection!
+  harvestWindowsConnection(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HarvestWindowConnection!
+  locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -1420,6 +2598,12 @@ type Subscription {
   personalDetails(where: PersonalDetailsSubscriptionWhereInput): PersonalDetailsSubscriptionPayload
   address(where: AddressSubscriptionWhereInput): AddressSubscriptionPayload
   farmingActivities(where: FarmingActivitiesSubscriptionWhereInput): FarmingActivitiesSubscriptionPayload
+  farm(where: FarmSubscriptionWhereInput): FarmSubscriptionPayload
+  crop(where: CropSubscriptionWhereInput): CropSubscriptionPayload
+  _ProduceTable(where: _ProduceTableSubscriptionWhereInput): _ProduceTableSubscriptionPayload
+  _Produce(where: _ProduceSubscriptionWhereInput): _ProduceSubscriptionPayload
+  harvestWindow(where: HarvestWindowSubscriptionWhereInput): HarvestWindowSubscriptionPayload
+  location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
 }
 
 type User implements Node {

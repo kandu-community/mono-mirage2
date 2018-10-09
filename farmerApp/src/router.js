@@ -5,6 +5,7 @@ import ProfileForm from './views/ProfileForm.vue';
 import LogIn from './views/Login.vue';
 import SignUp from './views/SignUp.vue';
 import FarmProfile from './views/FarmProfile.vue';
+import CropCapture from './views/CropCapture.vue';
 
 Vue.use(Router)
 
@@ -41,6 +42,14 @@ export default new Router({
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/crop-capture',
+      name: 'CropCapture',
+      component: CropCapture,
+      meta: {
+        requiresAuth: true
+      },
     },
     {
       path: '/about',
