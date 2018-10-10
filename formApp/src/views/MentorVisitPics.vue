@@ -1,7 +1,6 @@
 <template>
    <v-layout row wrap>
       <v-container grid-list-xs>
-
         <v-flex xs12 sm10 offset-sm1 md8 offset-md2>
           <h1 class="not-print">Mentor Visit Pictures</h1>
             <div class="not-print">
@@ -11,9 +10,9 @@
                 <!--UPLOAD-->
                   <div class="dropbox" @drop="multiFile" @dragover="stopDefault">
                   <h1>Upload images</h1>
-                      <p>
-                      Drag your image file(s) here to begin
-                      </p>
+                  <p>
+                  Drag your image file(s) here to begin
+                  </p>
                       <!-- <h3 v-if="photoReport !== null">Number of rows: {{ photoReport.length }}</h3> -->
                   </div>               
                 </div>
@@ -22,8 +21,6 @@
                   v-model="agriActivitiesSelected"
                   label="Commercial or Non?"
                 ></v-select>
-                      
-
                 <next-monthly-visits-map></next-monthly-visits-map>
             </template> 
           </div> 
@@ -36,6 +33,7 @@
       </v-container>  
     </v-layout>
 </template>
+
 <script>
 import MentorPictures from "@/components/MentorPictures";
 import ReportsReceived from "@/components/ReportsReceived";

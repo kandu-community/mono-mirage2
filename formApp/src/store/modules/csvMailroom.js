@@ -104,15 +104,12 @@ const actions = {
                         month: state.reportMonth
                     })
                 }
-
-
                 //   console.log('complete', results)
                 // that.doc = JSON.stringify(results.data, null, 2)
             },
             error(errors) {
                 console.log("error", errors);
             }
-
         })
     },
 };
