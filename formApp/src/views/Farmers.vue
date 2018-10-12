@@ -9,14 +9,34 @@
         </div>
       </v-flex>
       <!-- <v-btn @click="showVegOptions" color="success">Show Veg Options</v-btn> -->
-      <template v-if="vegOptions">
-        <v-flex
-         v-for="(veg, index) in vegOptions" :key="index"
-        >
-          {{ veg.name}}
-        </v-flex>
-
-      </template>
+      <!-- <v-flex xs12>
+        <v-btn @click="addVeg" color="success">Add a New Veg Option for Farmers</v-btn>
+      </v-flex> -->
+      <v-dialog
+        v-model="dialog"
+        max-width="500px"
+        transition="dialog-transition"
+      >
+        <v-btn slot="activator"  color="success">Add a New Veg Option for Farmers</v-btn>
+        <v-container grid-list-xs>
+          <v-card xs12>
+            <v-text-field box label="Veg Name" v-model="veg.name"></v-text-field>
+            <v-text-field box label="Veg Plants Per Square Meter" v-model="veg.plantsPerM"></v-text-field>
+            <v-text-field box label="Veg Spacing" v-model="veg.spacing"></v-text-field>
+            <v-text-field box label="Veg Category" v-model="veg.type"></v-text-field>
+            <v-btn @click="addVeg(); dialog = false" color="success">Save</v-btn>
+          </v-card>
+        </v-container>
+      </v-dialog>
+      <v-layout row wrap>
+        <template v-if="vegOptions">
+          <v-flex
+          v-for="(veg, index) in vegOptions" :key="index"
+          >
+            {{ veg.name}}
+          </v-flex>
+        </template>  
+      </v-layout>
       <v-flex xs4>
         <v-card>
           <v-card-title primary-title>
@@ -60,7 +80,14 @@ export default {
   data() {
     return {
       filterValue: null,
-      selected: []
+      selected: [],
+      veg: {
+        name: null,
+        plantsPerM: null,
+        spacing: null,
+        type: null
+      },
+      dialog: false
     };
   },
   computed: {
@@ -77,6 +104,9 @@ export default {
   methods: {
     showVegOptions() {
       this.$store.dispatch("showVegOptions");
+    },
+    addVeg() {
+      this.$store.dispatch("addVeg", this.veg);
     },
     stopDefault(e) {
       e.preventDefault();

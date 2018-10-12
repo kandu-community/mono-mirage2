@@ -45,7 +45,6 @@ const actions = {
 
         state.filteredFarmers = response.data.usersFilterByName
         console.log('TCL: state.filteredFarmers', state.filteredFarmers);
-
         state.farmerFilterLoading = false
     }
 }

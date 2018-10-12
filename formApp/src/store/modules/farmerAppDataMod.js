@@ -73,6 +73,12 @@ const actions = {
         })
         state.vegOptions = response.data.produceList
         console.log('TCL: state.vegOptions', state.vegOptions);
+    },
+    async addVeg({
+        state
+    }, payload) {
+        console.log('TCL: payload', payload);
+
     }
 }
 
