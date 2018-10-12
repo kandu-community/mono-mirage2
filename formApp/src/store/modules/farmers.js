@@ -28,7 +28,7 @@ const actions = {
                         name
                         farmingActivities {
                             category
-                            longDescription
+                            shortDescription
                         }
                         personalDetails {
                             idSA

@@ -1,0 +1,47 @@
+Produce,ProduceType,PlantsPerMetersSquared,Spacing in mm
+Beans (Dry),VEGETABLE,12,200
+Beans (Green),VEGETABLE,12,200
+Beans (Edamame),VEGETABLE,16,700
+Beetroot,VEGETABLE,20,150
+Broccoli,VEGETABLE,3,400
+Brinjal,VEGETABLE,3.25,400
+Butternut,VEGETABLE,1.5,400
+Cabbage,VEGETABLE,2.5,400
+Cabbage Red,VEGETABLE,5,330
+Cauliflower,VEGETABLE,3,400
+Capsicum Green,VEGETABLE,5,300
+Capsicum hot,VEGETABLE,5,250
+Carrot,VEGETABLE,60,80
+Chard,VEGETABLE,12,200
+Cucumber,VEGETABLE,2.5,250
+Celery,VEGETABLE,10,150
+Leek,VEGETABLE,25,120
+Lettuce (head),VEGETABLE,8,250
+Lettuce (type 2) Loose,VEGETABLE,12,200
+Okra,VEGETABLE,4,350
+Onion,VEGETABLE,25,150
+Onion Red,VEGETABLE,25,150
+Pak Choi,VEGETABLE,12,250
+Parsnip,VEGETABLE,15,80
+Peas,VEGETABLE,12,100
+Potato,VEGETABLE,3.5,250
+Spinach (Baby),VEGETABLE,20,200
+Spring Onion,VEGETABLE,40,70
+Sweet Corn,VEGETABLE,4,330
+Sweet Potato/Madumbe,VEGETABLE,3.5,330
+Garlic,VEGETABLE,20,100
+Tomato,VEGETABLE,3.5,450
+Turnip,VEGETABLE,20,100
+Zuccini,VEGETABLE,1,600
+Parsley,HERB,64,120
+Chives,HERB,200,50
+Corriander,HERB,50,120
+Fennel,HERB,12,120
+Watercress,HERB,64,120
+Banana,FRUIT,0.25,4000
+Ginger,FRUIT,25,200
+Gooseberry,FRUIT,1,750
+Granadilla,FRUIT,0.25,4000
+Papaya,FRUIT,0.25,2000
+Strawberries,FRUIT,16,250
+Watermelon,FRUIT,2,0

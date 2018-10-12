@@ -11,6 +11,7 @@ import pouchFilter from './modules/pouchFilter'
 import csvMailroom from './modules/csvMailroom'
 import visitsMap from './modules/visitsMap'
 import farmers from './modules/farmers'
+import farmerAppDataMod from './modules/farmerAppDataMod'
 
 Vue.use(Vuex)
 
@@ -45,6 +46,7 @@ export const store = new Vuex.Store({
     pouchFilter,
     csvMailroom,
     visitsMap,
-    farmers
+    farmers,
+    farmerAppDataMod
   }
 });

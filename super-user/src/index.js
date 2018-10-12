@@ -26,9 +26,21 @@ const resolvers = {
       // return ctx.db.query.users({args},info)
     },
   },
-  // Mutation: {
-
-  // },
+  Mutation: {
+    create_ProduceTable(parent, {
+      name,
+      objArray
+    }, ctx, info) {
+      return ctx.db.mutation.create_ProduceTable({
+          data: {
+            name: name,
+            produce: objArray
+          }
+        },
+        info
+      )
+    }
+  },
 }
 
 const server = new GraphQLServer({
