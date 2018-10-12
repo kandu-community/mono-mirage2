@@ -77,8 +77,29 @@ const actions = {
     async addVeg({
         state
     }, payload) {
+        payload.group = {}
+        payload.group.create = {}
+        payload.group.create.name = "singles"
         console.log('TCL: payload', payload);
-
+        const response = await apollo.mutate({
+            mutation: gql `
+            mutation addVeg($veg: _ProduceCreateInput!) {
+                addVeg(veg: $veg) {
+                   name
+                   type
+                   spacing
+                   plantsPerM
+                   group {
+                       name
+                   }
+                }
+            }
+            `,
+            variables: {
+                veg: payload
+            }
+        })
+        console.log('TCL: response', response);
     }
 }
 

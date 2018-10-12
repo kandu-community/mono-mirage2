@@ -17,13 +17,17 @@
         max-width="500px"
         transition="dialog-transition"
       >
-        <v-btn slot="activator"  color="success">Add a New Veg Option for Farmers</v-btn>
+        <v-btn slot="activator" color="success">Add a New Veg Option for Farmers</v-btn>
         <v-container grid-list-xs>
           <v-card xs12>
             <v-text-field box label="Veg Name" v-model="veg.name"></v-text-field>
             <v-text-field box label="Veg Plants Per Square Meter" v-model="veg.plantsPerM"></v-text-field>
             <v-text-field box label="Veg Spacing" v-model="veg.spacing"></v-text-field>
-            <v-text-field box label="Veg Category" v-model="veg.type"></v-text-field>
+            <v-select
+              :items="vegCategories"
+              v-model="veg.type"
+              label="Veg Category"
+            ></v-select>
             <v-btn @click="addVeg(); dialog = false" color="success">Save</v-btn>
           </v-card>
         </v-container>
@@ -76,11 +80,13 @@ import Papa from "papaparse";
 export default {
   mounted() {
     this.$store.dispatch("filterFarmers", ""); // Start off with nothing filtered ie. All showing
+    this.showVegOptions();
   },
   data() {
     return {
       filterValue: null,
       selected: [],
+      vegCategories: ["VEGETABLE", "FRUIT", "HERB"],
       veg: {
         name: null,
         plantsPerM: null,

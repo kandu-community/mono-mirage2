@@ -22,4 +22,5 @@ type Query {
 type Mutation {
   createUser(data: UserCreateInput!): User!
   create_ProduceTable(name: String, objArray: _ProduceCreateManyWithoutGroupInput): _ProduceTable!
+  addVeg(veg: _ProduceCreateInput!): _Produce!
 }

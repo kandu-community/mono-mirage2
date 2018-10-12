@@ -42,6 +42,28 @@ const resolvers = {
         },
         info
       )
+    },
+    /**
+mutation create_Produce($veg: _ProduceCreateInput!) {
+  create_Produce(data: $veg) {
+    name
+    type
+    spacing
+    plantsPerM
+    group {
+      name
+    }
+  }
+}
+     */
+    addVeg(parent, {
+      veg
+    }, ctx, info) {
+      return ctx.db.mutation.create_Produce({
+          data: veg
+        },
+        info
+      )
     }
   },
 }
