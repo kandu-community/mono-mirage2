@@ -71,6 +71,9 @@ const Query = {
       }
     }, '{ name email role id }')
   },
+  produceList(parent, args, ctx, info) {
+    return ctx.db.query._Produces({}, info)
+  }
 }
 
 module.exports = {

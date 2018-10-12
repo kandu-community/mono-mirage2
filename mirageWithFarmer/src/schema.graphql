@@ -13,6 +13,7 @@ type Query {
   post(id: ID!): Post
   me: User
   tenUsers: [User!]!
+  produceList: [_Produce!]!
 }
 
 type Mutation {
