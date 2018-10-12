@@ -48,6 +48,27 @@ const actions = {
             }
         })
         console.log('TCL: response', response);
+    },
+    async showVegOptions({
+        state
+    }) {
+        const response = await apollo.query({
+            query: gql `
+                query produceList {
+                    produceList {
+                        name
+                        type
+                        spacing
+                        plantsPerM
+                        group {
+                            name
+                        }
+                    }
+                }
+            `
+        })
+        console.log('TCL: response.data.produceList', response.data.produceList);
+
     }
 }
 

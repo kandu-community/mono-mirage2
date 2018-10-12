@@ -16,6 +16,7 @@
 
 type Query {
   usersFilterByName(filter: String): [User!]!
+  produceList: [_Produce!]!
 }
 
 type Mutation {

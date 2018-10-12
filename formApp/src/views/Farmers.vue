@@ -8,6 +8,7 @@
           <p>Dear Paula, please drag your vegetables metadata csv file here.</p>
         </div>
       </v-flex>
+      <v-btn @click="showVegOptions" color="success">Show Veg Options</v-btn>
       <v-flex xs4>
         <v-card>
           <v-card-title primary-title>
@@ -63,6 +64,9 @@ export default {
     }
   },
   methods: {
+    showVegOptions() {
+      this.$store.dispatch("showVegOptions");
+    },
     stopDefault(e) {
       e.preventDefault();
       e.stopPropagation();

@@ -25,6 +25,9 @@ const resolvers = {
       }, info)
       // return ctx.db.query.users({args},info)
     },
+    produceList(parent, args, ctx, info) {
+      return ctx.db.query._Produces({}, info)
+    }
   },
   Mutation: {
     create_ProduceTable(parent, {
