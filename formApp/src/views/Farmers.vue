@@ -8,7 +8,15 @@
           <p>Dear Paula, please drag your vegetables metadata csv file here.</p>
         </div>
       </v-flex>
-      <v-btn @click="showVegOptions" color="success">Show Veg Options</v-btn>
+      <!-- <v-btn @click="showVegOptions" color="success">Show Veg Options</v-btn> -->
+      <template v-if="vegOptions">
+        <v-flex
+         v-for="(veg, index) in vegOptions" :key="index"
+        >
+          {{ veg.name}}
+        </v-flex>
+
+      </template>
       <v-flex xs4>
         <v-card>
           <v-card-title primary-title>
@@ -61,6 +69,9 @@ export default {
     },
     loading() {
       return this.$store.getters.farmerFilterLoading;
+    },
+    vegOptions() {
+      return this.$store.getters.vegOptions;
     }
   },
   methods: {

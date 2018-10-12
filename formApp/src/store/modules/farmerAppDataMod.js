@@ -2,12 +2,16 @@ import apollo from '@/apollo'
 import gql from 'graphql-tag'
 
 const state = {
-    vegMetadata: null
+    vegMetadata: null,
+    vegOptions: null
 }
 
 const getters = {
     vegMetadata(state) {
         return state.vegetablesMetadata
+    },
+    vegOptions(state) {
+        return state.vegOptions
     }
 }
 
@@ -67,8 +71,8 @@ const actions = {
                 }
             `
         })
-        console.log('TCL: response.data.produceList', response.data.produceList);
-
+        state.vegOptions = response.data.produceList
+        console.log('TCL: state.vegOptions', state.vegOptions);
     }
 }
 
