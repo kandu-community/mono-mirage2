@@ -141,10 +141,43 @@ const profile = {
             info
         )
     },
-
-
-
+    async createFarm(parent, {
+        totalLand,
+        cultivatedLand,
+        shareLocation,
+        farmersAssociations,
+        lat,
+        lng
+    }, ctx, info) {
+        const userId = getUserId(ctx)
+        
+        return ctx.db.mutation.createFarm({
+                data: {
+                    totalLand,
+                    cultivatedLand,
+                    shareLocation,
+                    farmersAssociations,
+                    gpsPoints: {
+                        create: {
+                            lat,
+                            lng
+                        }
+                    },
+                    farmer: {
+                        connect: {
+                            id: userId
+                        }
+                    } 
+                }
+            }, 
+            info
+        ) 
+    }
 }
+
+
+
+
 
 module.exports = {
     profile

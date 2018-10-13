@@ -4,6 +4,7 @@
 # import Address from "./generated/prisma.graphql"
 # import FarmingActivities from "./generated/prisma.graphql"
 # import updateUser from "./generated/prisma.graphql"
+# import Farm from "./generated/prisma.graphql"
 
 type Query {
   feed: [Post!]!
@@ -46,7 +47,14 @@ type Mutation {
       shortDescription: String
       longDescription: String
   ): FarmingActivities
- 
+  createFarm(
+      totalLand: Int!
+      cultivatedLand: Int!
+      shareLocation: Boolean!
+      farmersAssociations: String
+      lat: Float
+      lng: Float
+  ):Farm!
 }
 
 

@@ -1,11 +1,11 @@
 # source: https://eu1.prisma.sh/public-forkbell-321/mirage-advanced/dev
-# timestamp: Tue Oct 09 2018 19:53:06 GMT+0200 (SAST)
+# timestamp: Sat Oct 13 2018 19:23:46 GMT+0200 (SAST)
 
 type _Produce {
   name: String!
   type: CropCategory!
   spacing: Int
-  plantsPerM: Int
+  plantsPerM: Float
   group: _ProduceTable!
 }
 
@@ -23,7 +23,7 @@ input _ProduceCreateInput {
   name: String!
   type: CropCategory!
   spacing: Int
-  plantsPerM: Int
+  plantsPerM: Float
   group: _ProduceTableCreateOneWithoutProduceInput!
 }
 
@@ -36,7 +36,7 @@ input _ProduceCreateWithoutGroupInput {
   name: String!
   type: CropCategory!
   spacing: Int
-  plantsPerM: Int
+  plantsPerM: Float
 }
 
 """An edge in a connection."""
@@ -69,7 +69,7 @@ type _ProducePreviousValues {
   name: String!
   type: CropCategory!
   spacing: Int
-  plantsPerM: Int
+  plantsPerM: Float
 }
 
 type _ProduceSubscriptionPayload {
@@ -280,7 +280,7 @@ input _ProduceUpdateInput {
   name: String
   type: CropCategory
   spacing: Int
-  plantsPerM: Int
+  plantsPerM: Float
   group: _ProduceTableUpdateOneRequiredWithoutProduceInput
 }
 
@@ -297,7 +297,7 @@ input _ProduceUpdateWithoutGroupDataInput {
   name: String
   type: CropCategory
   spacing: Int
-  plantsPerM: Int
+  plantsPerM: Float
 }
 
 input _ProduceUpdateWithWhereUniqueWithoutGroupInput {
@@ -392,28 +392,28 @@ input _ProduceWhereInput {
 
   """All values greater than or equal the given value."""
   spacing_gte: Int
-  plantsPerM: Int
+  plantsPerM: Float
 
   """All values that are not equal to given value."""
-  plantsPerM_not: Int
+  plantsPerM_not: Float
 
   """All values that are contained in given list."""
-  plantsPerM_in: [Int!]
+  plantsPerM_in: [Float!]
 
   """All values that are not contained in given list."""
-  plantsPerM_not_in: [Int!]
+  plantsPerM_not_in: [Float!]
 
   """All values less than the given value."""
-  plantsPerM_lt: Int
+  plantsPerM_lt: Float
 
   """All values less than or equal the given value."""
-  plantsPerM_lte: Int
+  plantsPerM_lte: Float
 
   """All values greater than the given value."""
-  plantsPerM_gt: Int
+  plantsPerM_gt: Float
 
   """All values greater than or equal the given value."""
-  plantsPerM_gte: Int
+  plantsPerM_gte: Float
   group: _ProduceTableWhereInput
 }
 
@@ -1045,6 +1045,7 @@ type Farm {
   shareLocation: Boolean!
   gpsPoints: Location!
   farmersAssociations: String
+  farmer: User
 }
 
 """A connection to a list of items."""
@@ -1058,6 +1059,19 @@ type FarmConnection {
 }
 
 input FarmCreateInput {
+  totalLand: Int!
+  cultivatedLand: Int!
+  shareLocation: Boolean!
+  farmersAssociations: String
+  gpsPoints: LocationCreateOneInput!
+  farmer: UserCreateOneWithoutFarmInput
+}
+
+input FarmCreateOneWithoutFarmerInput {
+  create: FarmCreateWithoutFarmerInput
+}
+
+input FarmCreateWithoutFarmerInput {
   totalLand: Int!
   cultivatedLand: Int!
   shareLocation: Boolean!
@@ -1404,6 +1418,28 @@ input FarmUpdateInput {
   shareLocation: Boolean
   farmersAssociations: String
   gpsPoints: LocationUpdateOneRequiredInput
+  farmer: UserUpdateOneWithoutFarmInput
+}
+
+input FarmUpdateOneWithoutFarmerInput {
+  create: FarmCreateWithoutFarmerInput
+  disconnect: Boolean
+  delete: Boolean
+  update: FarmUpdateWithoutFarmerDataInput
+  upsert: FarmUpsertWithoutFarmerInput
+}
+
+input FarmUpdateWithoutFarmerDataInput {
+  totalLand: Int
+  cultivatedLand: Int
+  shareLocation: Boolean
+  farmersAssociations: String
+  gpsPoints: LocationUpdateOneRequiredInput
+}
+
+input FarmUpsertWithoutFarmerInput {
+  update: FarmUpdateWithoutFarmerDataInput!
+  create: FarmCreateWithoutFarmerInput!
 }
 
 input FarmWhereInput {
@@ -1504,6 +1540,7 @@ input FarmWhereInput {
   """All values not ending with the given string."""
   farmersAssociations_not_ends_with: String
   gpsPoints: LocationWhereInput
+  farmer: UserWhereInput
 }
 
 type HarvestWindow {
@@ -1673,8 +1710,8 @@ input HarvestWindowWhereInput {
 }
 
 type Location {
-  lat: Int!
-  lng: Int!
+  lat: Float!
+  lng: Float!
 }
 
 """A connection to a list of items."""
@@ -1688,8 +1725,8 @@ type LocationConnection {
 }
 
 input LocationCreateInput {
-  lat: Int!
-  lng: Int!
+  lat: Float!
+  lng: Float!
 }
 
 input LocationCreateOneInput {
@@ -1719,8 +1756,8 @@ enum LocationOrderByInput {
 }
 
 type LocationPreviousValues {
-  lat: Int!
-  lng: Int!
+  lat: Float!
+  lng: Float!
 }
 
 type LocationSubscriptionPayload {
@@ -1763,13 +1800,13 @@ input LocationSubscriptionWhereInput {
 }
 
 input LocationUpdateDataInput {
-  lat: Int
-  lng: Int
+  lat: Float
+  lng: Float
 }
 
 input LocationUpdateInput {
-  lat: Int
-  lng: Int
+  lat: Float
+  lng: Float
 }
 
 input LocationUpdateOneRequiredInput {
@@ -1792,50 +1829,50 @@ input LocationWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [LocationWhereInput!]
-  lat: Int
+  lat: Float
 
   """All values that are not equal to given value."""
-  lat_not: Int
+  lat_not: Float
 
   """All values that are contained in given list."""
-  lat_in: [Int!]
+  lat_in: [Float!]
 
   """All values that are not contained in given list."""
-  lat_not_in: [Int!]
+  lat_not_in: [Float!]
 
   """All values less than the given value."""
-  lat_lt: Int
+  lat_lt: Float
 
   """All values less than or equal the given value."""
-  lat_lte: Int
+  lat_lte: Float
 
   """All values greater than the given value."""
-  lat_gt: Int
+  lat_gt: Float
 
   """All values greater than or equal the given value."""
-  lat_gte: Int
-  lng: Int
+  lat_gte: Float
+  lng: Float
 
   """All values that are not equal to given value."""
-  lng_not: Int
+  lng_not: Float
 
   """All values that are contained in given list."""
-  lng_in: [Int!]
+  lng_in: [Float!]
 
   """All values that are not contained in given list."""
-  lng_not_in: [Int!]
+  lng_not_in: [Float!]
 
   """All values less than the given value."""
-  lng_lt: Int
+  lng_lt: Float
 
   """All values less than or equal the given value."""
-  lng_lte: Int
+  lng_lte: Float
 
   """All values greater than the given value."""
-  lng_gt: Int
+  lng_gt: Float
 
   """All values greater than or equal the given value."""
-  lng_gte: Int
+  lng_gte: Float
 }
 
 """
@@ -2615,6 +2652,7 @@ type User implements Node {
   personalDetails: PersonalDetails
   address: Address
   farmingActivities: FarmingActivities
+  farm: Farm
   role: Role
 }
 
@@ -2637,6 +2675,7 @@ input UserCreateInput {
   personalDetails: PersonalDetailsCreateOneWithoutPersonInput
   address: AddressCreateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
+  farm: FarmCreateOneWithoutFarmerInput
 }
 
 input UserCreateOneWithoutAddressInput {
@@ -2646,6 +2685,11 @@ input UserCreateOneWithoutAddressInput {
 
 input UserCreateOneWithoutFarmingActivitiesInput {
   create: UserCreateWithoutFarmingActivitiesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutFarmInput {
+  create: UserCreateWithoutFarmInput
   connect: UserWhereUniqueInput
 }
 
@@ -2667,6 +2711,7 @@ input UserCreateWithoutAddressInput {
   posts: PostCreateManyWithoutAuthorInput
   personalDetails: PersonalDetailsCreateOneWithoutPersonInput
   farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
+  farm: FarmCreateOneWithoutFarmerInput
 }
 
 input UserCreateWithoutFarmingActivitiesInput {
@@ -2677,6 +2722,18 @@ input UserCreateWithoutFarmingActivitiesInput {
   posts: PostCreateManyWithoutAuthorInput
   personalDetails: PersonalDetailsCreateOneWithoutPersonInput
   address: AddressCreateOneWithoutResidentInput
+  farm: FarmCreateOneWithoutFarmerInput
+}
+
+input UserCreateWithoutFarmInput {
+  email: String!
+  password: String!
+  name: String!
+  role: Role
+  posts: PostCreateManyWithoutAuthorInput
+  personalDetails: PersonalDetailsCreateOneWithoutPersonInput
+  address: AddressCreateOneWithoutResidentInput
+  farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
 }
 
 input UserCreateWithoutPersonalDetailsInput {
@@ -2687,6 +2744,7 @@ input UserCreateWithoutPersonalDetailsInput {
   posts: PostCreateManyWithoutAuthorInput
   address: AddressCreateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
+  farm: FarmCreateOneWithoutFarmerInput
 }
 
 input UserCreateWithoutPostsInput {
@@ -2697,6 +2755,7 @@ input UserCreateWithoutPostsInput {
   personalDetails: PersonalDetailsCreateOneWithoutPersonInput
   address: AddressCreateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
+  farm: FarmCreateOneWithoutFarmerInput
 }
 
 """An edge in a connection."""
@@ -2781,6 +2840,7 @@ input UserUpdateInput {
   personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
   address: AddressUpdateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
+  farm: FarmUpdateOneWithoutFarmerInput
 }
 
 input UserUpdateOneRequiredWithoutAddressInput {
@@ -2811,6 +2871,15 @@ input UserUpdateOneRequiredWithoutPostsInput {
   upsert: UserUpsertWithoutPostsInput
 }
 
+input UserUpdateOneWithoutFarmInput {
+  create: UserCreateWithoutFarmInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutFarmDataInput
+  upsert: UserUpsertWithoutFarmInput
+}
+
 input UserUpdateWithoutAddressDataInput {
   email: String
   password: String
@@ -2818,6 +2887,18 @@ input UserUpdateWithoutAddressDataInput {
   role: Role
   posts: PostUpdateManyWithoutAuthorInput
   personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
+  farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
+  farm: FarmUpdateOneWithoutFarmerInput
+}
+
+input UserUpdateWithoutFarmDataInput {
+  email: String
+  password: String
+  name: String
+  role: Role
+  posts: PostUpdateManyWithoutAuthorInput
+  personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
+  address: AddressUpdateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
 }
 
@@ -2829,6 +2910,7 @@ input UserUpdateWithoutFarmingActivitiesDataInput {
   posts: PostUpdateManyWithoutAuthorInput
   personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
   address: AddressUpdateOneWithoutResidentInput
+  farm: FarmUpdateOneWithoutFarmerInput
 }
 
 input UserUpdateWithoutPersonalDetailsDataInput {
@@ -2839,6 +2921,7 @@ input UserUpdateWithoutPersonalDetailsDataInput {
   posts: PostUpdateManyWithoutAuthorInput
   address: AddressUpdateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
+  farm: FarmUpdateOneWithoutFarmerInput
 }
 
 input UserUpdateWithoutPostsDataInput {
@@ -2849,6 +2932,7 @@ input UserUpdateWithoutPostsDataInput {
   personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
   address: AddressUpdateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
+  farm: FarmUpdateOneWithoutFarmerInput
 }
 
 input UserUpsertWithoutAddressInput {
@@ -2859,6 +2943,11 @@ input UserUpsertWithoutAddressInput {
 input UserUpsertWithoutFarmingActivitiesInput {
   update: UserUpdateWithoutFarmingActivitiesDataInput!
   create: UserCreateWithoutFarmingActivitiesInput!
+}
+
+input UserUpsertWithoutFarmInput {
+  update: UserUpdateWithoutFarmDataInput!
+  create: UserCreateWithoutFarmInput!
 }
 
 input UserUpsertWithoutPersonalDetailsInput {
@@ -3056,6 +3145,7 @@ input UserWhereInput {
   personalDetails: PersonalDetailsWhereInput
   address: AddressWhereInput
   farmingActivities: FarmingActivitiesWhereInput
+  farm: FarmWhereInput
 }
 
 input UserWhereUniqueInput {

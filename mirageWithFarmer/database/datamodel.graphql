@@ -17,6 +17,7 @@ type User {
   personalDetails: PersonalDetails
   address: Address
   farmingActivities: FarmingActivities
+  farm: Farm
   role: Role @default(value: "FARMER")
 }
 
@@ -51,6 +52,7 @@ type Farm {
   shareLocation: Boolean!
   gpsPoints: Location!
   farmersAssociations: String
+  farmer: User
 }
 
 type Crop {
@@ -76,103 +78,6 @@ type _Produce {
 type Location {
   lat: Float!
   lng: Float!
-}
-
-# eg. datetime: "2015-11-22"
-type HarvestWindow {
-  from: DateTime!
-  to: DateTime!
-}
-
-enum CropCategory {
-  VEGETABLE
-  FRUIT
-  HERB
-}
-
-enum Role {
-  ADMIN
-  CUSTOMER
-  FARMER
-}
-  id: ID! @unique
-type Post {
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  isPublished: Boolean! @default(value: "false")
-  title: String!
-  text: String!
-  author: User!
-}
-
-type User {
-  id: ID! @unique
-  email: String! @unique
-  password: String!
-  name: String!
-  posts: [Post!]!
-  personalDetails: PersonalDetails
-  address: Address
-  farmingActivities: FarmingActivities
-  role: Role @default(value: "FARMER")
-}
-
-type PersonalDetails {
-  lastName: String
-  cell: String
-  landLine: String
-  idSA: String
-  person: User!
-}
-
-type Address {
-  line1: String
-  line2: String
-  line3: String
-  area: String
-  postalCode: String
-  province: String
-  resident: User!
-}
-
-type FarmingActivities {
-  category: String!
-  shortDescription: String
-  cultivationApproach: String
-  farmer: User!  
-}
-
-type Farm {
-  totalLand: Int!
-  cultivatedLand: Int!
-  shareLocation: Boolean!
-  gpsPoints: Location!
-  farmersAssociations: String
-}
-
-type Crop {
-  category: CropCategory!
-  description: String!
-  harvestWindow: HarvestWindow!
-}
-
-type _ProduceTable {
-  name: String
-  produce: [_Produce!]! @relation(name: "SeedData")
-}
-
-type _Produce {
-  name: String! @unique
-  type: CropCategory!
-  # spacing in mm
-  spacing: Int
-  plantsPerM: Int
-  group: _ProduceTable! @relation(name: "SeedData")
-}
-
-type Location {
-  lat: Int!
-  lng: Int!
 }
 
 # eg. datetime: "2015-11-22"
