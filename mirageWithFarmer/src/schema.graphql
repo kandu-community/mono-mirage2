@@ -87,7 +87,7 @@ type User {
   email: String!
   name: String!
   posts: [Post!]!
-  profile: PersonalDetails
+  personalDetails: PersonalDetails
   address: Address
-  mainActivities: FarmingActivities
+  farmingActivities: FarmingActivities
 }

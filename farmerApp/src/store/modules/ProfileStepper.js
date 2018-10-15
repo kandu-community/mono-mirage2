@@ -148,39 +148,66 @@ const actions = {
         var address = prepareForPrisma(state.address)
         console.log('TCL: address', address);
         var farmingActivities = prepareForPrisma(state.farmingActivities)
-        delete farmingActivities.selling
+        // delete farmingActivities.selling
         if (typeof farmingActivities.description !== "undefined") {
             delete farmingActivities.description
         }
-        console.log('TCL: farmingActivities', farmingActivities);
+        var selling1 = {
+            upsert: {
+                create: farmingActivities.selling,
+                update: farmingActivities.selling
+            }
+        }
 
-        const response = await apollo.mutate({ mutation: gql`
+        var selling2 = {
+            create: farmingActivities.selling,
+        }
+
+        var farmingActivities1 = farmingActivities
+        farmingActivities1.selling = selling1
+        console.log('TCL: selling1', selling1);
+        console.log('TCL: farmingActivities1', farmingActivities1);
+
+
+        var farmingActivities2 = farmingActivities
+        farmingActivities2.selling = selling2
+
+
+        const response = await apollo.mutate({
+            mutation: gql `
             mutation updateStableInfo($personalDetails1: PersonalDetailsUpdateWithoutPersonDataInput!, $personalDetails2: PersonalDetailsCreateWithoutPersonInput!, $farmingActivities1: FarmingActivitiesUpdateWithoutFarmerDataInput!, $farmingActivities2: FarmingActivitiesCreateWithoutFarmerInput!, $address1: AddressUpdateWithoutResidentDataInput!, $address2: AddressCreateWithoutResidentInput!) {
               updateStableInfo(personalDetails1: $personalDetails1, personalDetails2: $personalDetails2, farmingActivities1: $farmingActivities1, farmingActivities2: $farmingActivities2, address1: $address1, address2: $address2) {
-                email
-                personalDetails {
-                  cell
-                }
-                address {
-                  line1
-                }
-                farmingActivities {
-                  category
-                  shortDescription
-                  cultivationApproach
-                  selling {
-                    crops
-                    livestock
-                    products
+                  email
+                  personalDetails {
+                      cell
                   }
-                }
+                  address {
+                      line1
+                  }
+                  farmingActivities {
+                      category
+                      shortDescription
+                      cultivationApproach
+                      selling {
+                          crops
+                          livestock
+                          products
+                      }
+                  }
               }
             }
-          `, 
-          variables: { personalDetails1, address1, farmingActivities1, personalDetails2, address2, farmingActivities2 } });
+          `,
+            variables: {
+                personalDetails1: personalDetails,
+                address1: address,
+                farmingActivities1,
+                personalDetails2: personalDetails,
+                address2: address,
+                farmingActivities2
+            }
+        });
         const data = await response.data
         console.log('TCL: data', data);
-
     },
     draftDone({
         state
@@ -225,7 +252,6 @@ const actions = {
         var docName = "farmingActivities";
         console.log(`farmingActivities has: ${payload}`)
         upsertToPouch(docName, payload);
-
     },
     async fetchMe({
         state

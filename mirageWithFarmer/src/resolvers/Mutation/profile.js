@@ -14,29 +14,32 @@ const profile = {
     }, ctx, info) {
         const userId = getUserId(ctx)
         return ctx.db.mutation.updateUser({
-            data: {
-                personalDetails: {
-                    upsert: {
-                        update: personalDetails1,
-                        create: personalDetails2
-                    }
+                where: {
+                    id: userId
                 },
-                farmingActivities: {
-                    upsert: {
-                        update: farmingActivities1,
-                        create: farmingActivities2
+                data: {
+                    personalDetails: {
+                        upsert: {
+                            update: personalDetails1,
+                            create: personalDetails2
+                        }
+                    },
+                    farmingActivities: {
+                        upsert: {
+                            update: farmingActivities1,
+                            create: farmingActivities2
+                        }
+                    },
+                    address: {
+                        upsert: {
+                            update: address1,
+                            create: address2
+                        }
                     }
+
                 },
-                address: {
-                    upsert: {
-                        update: address1,
-                        create: address2
-                    }
-                }
 
             },
-
-        },
             info)
     },
 
@@ -155,7 +158,7 @@ const profile = {
         lng
     }, ctx, info) {
         const userId = getUserId(ctx)
-        
+
         return ctx.db.mutation.createFarm({
                 data: {
                     totalLand,
@@ -172,11 +175,11 @@ const profile = {
                         connect: {
                             id: userId
                         }
-                    } 
+                    }
                 }
-            }, 
+            },
             info
-        ) 
+        )
     }
 }
 
