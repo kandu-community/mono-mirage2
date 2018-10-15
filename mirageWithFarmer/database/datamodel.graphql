@@ -60,6 +60,7 @@ type Farm {
   gpsPoints: Location!
   farmersAssociations: String
   farmer: User
+  crops: [Crop!]!
 }
 
 type Crop {

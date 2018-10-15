@@ -43,30 +43,58 @@ const profile = {
             info)
     },
 
-    /** Example from post.js
-     * 
-        async createDraft(parent, {
-            title,
-            text
-        }, ctx, info) {
-            const userId = getUserId(ctx)
-            return ctx.db.mutation.createPost({
-                    data: {
-                        title,
-                        text,
-                        isPublished: false,
-                        author: {
-                            connect: {
-                                id: userId
-                            },
+    async createFarm(parent, {
+        totalLand,
+        cultivatedLand,
+        shareLocation,
+        lat,
+        lng,
+        farmersAssociations,
+    }, ctx, info) {
+        const userId = getUserId(ctx)
+        return ctx.db.mutation.updateUser({
+            where: {
+                id: userId
+            },
+            data: {
+                farm: {
+                    upsert: {
+                        update: {
+                            totalLand,
+                            cultivatedLand,
+                            shareLocation,
+                            farmersAssociations,
+                            gpsPoints: {
+                                upsert: {
+                                    update: {
+                                        lat: lat,
+                                        lng: lng
+                                    },
+                                    create: {
+                                        lat: lat,
+                                        lng: lng
+                                    }
+                                }
+                            }
                         },
-                    },
-                },
-                info
-            )
-        },
-     */
-    // TODO: Change these to update mutations
+                        create: {
+                            totalLand,
+                            cultivatedLand,
+                            shareLocation,
+                            farmersAssociations,
+                            gpsPoints: {
+                                create: {
+                                    lat: $lat,
+                                    lng: $lng
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    },
+
     async createAddress(parent, {
         line1,
         line2,

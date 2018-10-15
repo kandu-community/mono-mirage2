@@ -34,6 +34,7 @@
         label="If you belong to any Farmer's Associations or groups please add them here"
         required
         ></v-text-field>
+        <v-btn @click="saveFarmProfile" color="success">Save</v-btn>
     </v-container>
 </template> 
 
@@ -44,7 +45,6 @@ import FarmMap from "@/components/profile/FarmMap";
 export default {
   data() {
     return {
-
       alternatively: true,
       farmProfile: {
         totalLand: "",
@@ -95,6 +95,9 @@ export default {
       } else {
         console.log("Geo Location not supported by browser");
       }
+    },
+    saveFarmProfile() {
+      this.$store.dispatch("saveFarmProfile", this.farmProfile);
     }
   },
   components: {

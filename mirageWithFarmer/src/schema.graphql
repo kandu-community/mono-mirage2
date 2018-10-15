@@ -40,6 +40,14 @@ type Mutation {
     address1: AddressUpdateWithoutResidentDataInput!
     address2: AddressCreateWithoutResidentInput!
   ): User
+  updateFarm(
+    totalLand: Int!
+    cultivatedLand: Int!
+    shareLocation: Boolean!
+    lat: Float!
+    lng: Float!
+    farmersAssociations: String
+  ): Farm
   createPersonalDetails(  
     lastName: String
     cell: String
