@@ -64,9 +64,12 @@ type Farm {
 }
 
 type Crop {
+  id: ID! @unique
   category: CropCategory!
+  name: String!
   description: String!
   harvestWindow: HarvestWindow!
+  farm: Farm!
 }
 
 type _ProduceTable {

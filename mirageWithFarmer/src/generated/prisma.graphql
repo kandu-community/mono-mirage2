@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/public-forkbell-321/mirage-advanced/dev
-# timestamp: Mon Oct 15 2018 17:39:17 GMT+0200 (SAST)
+# timestamp: Mon Oct 15 2018 20:36:43 GMT+0200 (SAST)
 
 type _Produce {
   name: String!
@@ -879,10 +879,13 @@ type BatchPayload {
   count: Long!
 }
 
-type Crop {
+type Crop implements Node {
+  id: ID!
   category: CropCategory!
+  name: String!
   description: String!
   harvestWindow: HarvestWindow!
+  farm: Farm!
 }
 
 enum CropCategory {
@@ -903,12 +906,22 @@ type CropConnection {
 
 input CropCreateInput {
   category: CropCategory!
+  name: String!
   description: String!
   harvestWindow: HarvestWindowCreateOneInput!
+  farm: FarmCreateOneWithoutCropsInput!
 }
 
-input CropCreateManyInput {
-  create: [CropCreateInput!]
+input CropCreateManyWithoutFarmInput {
+  create: [CropCreateWithoutFarmInput!]
+  connect: [CropWhereUniqueInput!]
+}
+
+input CropCreateWithoutFarmInput {
+  category: CropCategory!
+  name: String!
+  description: String!
+  harvestWindow: HarvestWindowCreateOneInput!
 }
 
 """An edge in a connection."""
@@ -921,12 +934,14 @@ type CropEdge {
 }
 
 enum CropOrderByInput {
-  category_ASC
-  category_DESC
-  description_ASC
-  description_DESC
   id_ASC
   id_DESC
+  category_ASC
+  category_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -934,7 +949,9 @@ enum CropOrderByInput {
 }
 
 type CropPreviousValues {
+  id: ID!
   category: CropCategory!
+  name: String!
   description: String!
 }
 
@@ -979,12 +996,37 @@ input CropSubscriptionWhereInput {
 
 input CropUpdateInput {
   category: CropCategory
+  name: String
+  description: String
+  harvestWindow: HarvestWindowUpdateOneRequiredInput
+  farm: FarmUpdateOneRequiredWithoutCropsInput
+}
+
+input CropUpdateManyWithoutFarmInput {
+  create: [CropCreateWithoutFarmInput!]
+  connect: [CropWhereUniqueInput!]
+  disconnect: [CropWhereUniqueInput!]
+  delete: [CropWhereUniqueInput!]
+  update: [CropUpdateWithWhereUniqueWithoutFarmInput!]
+  upsert: [CropUpsertWithWhereUniqueWithoutFarmInput!]
+}
+
+input CropUpdateWithoutFarmDataInput {
+  category: CropCategory
+  name: String
   description: String
   harvestWindow: HarvestWindowUpdateOneRequiredInput
 }
 
-input CropUpdateManyInput {
-  create: [CropCreateInput!]
+input CropUpdateWithWhereUniqueWithoutFarmInput {
+  where: CropWhereUniqueInput!
+  data: CropUpdateWithoutFarmDataInput!
+}
+
+input CropUpsertWithWhereUniqueWithoutFarmInput {
+  where: CropWhereUniqueInput!
+  update: CropUpdateWithoutFarmDataInput!
+  create: CropCreateWithoutFarmInput!
 }
 
 input CropWhereInput {
@@ -996,6 +1038,46 @@ input CropWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [CropWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
   category: CropCategory
 
   """All values that are not equal to given value."""
@@ -1006,6 +1088,46 @@ input CropWhereInput {
 
   """All values that are not contained in given list."""
   category_not_in: [CropCategory!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -1047,6 +1169,11 @@ input CropWhereInput {
   """All values not ending with the given string."""
   description_not_ends_with: String
   harvestWindow: HarvestWindowWhereInput
+  farm: FarmWhereInput
+}
+
+input CropWhereUniqueInput {
+  id: ID
 }
 
 scalar DateTime
@@ -1078,11 +1205,24 @@ input FarmCreateInput {
   farmersAssociations: String
   gpsPoints: LocationCreateOneInput!
   farmer: UserCreateOneWithoutFarmInput
-  crops: CropCreateManyInput
+  crops: CropCreateManyWithoutFarmInput
+}
+
+input FarmCreateOneWithoutCropsInput {
+  create: FarmCreateWithoutCropsInput
 }
 
 input FarmCreateOneWithoutFarmerInput {
   create: FarmCreateWithoutFarmerInput
+}
+
+input FarmCreateWithoutCropsInput {
+  totalLand: Int!
+  cultivatedLand: Int!
+  shareLocation: Boolean!
+  farmersAssociations: String
+  gpsPoints: LocationCreateOneInput!
+  farmer: UserCreateOneWithoutFarmInput
 }
 
 input FarmCreateWithoutFarmerInput {
@@ -1091,7 +1231,7 @@ input FarmCreateWithoutFarmerInput {
   shareLocation: Boolean!
   farmersAssociations: String
   gpsPoints: LocationCreateOneInput!
-  crops: CropCreateManyInput
+  crops: CropCreateManyWithoutFarmInput
 }
 
 """An edge in a connection."""
@@ -1440,7 +1580,13 @@ input FarmUpdateInput {
   farmersAssociations: String
   gpsPoints: LocationUpdateOneRequiredInput
   farmer: UserUpdateOneWithoutFarmInput
-  crops: CropUpdateManyInput
+  crops: CropUpdateManyWithoutFarmInput
+}
+
+input FarmUpdateOneRequiredWithoutCropsInput {
+  create: FarmCreateWithoutCropsInput
+  update: FarmUpdateWithoutCropsDataInput
+  upsert: FarmUpsertWithoutCropsInput
 }
 
 input FarmUpdateOneWithoutFarmerInput {
@@ -1451,13 +1597,27 @@ input FarmUpdateOneWithoutFarmerInput {
   upsert: FarmUpsertWithoutFarmerInput
 }
 
+input FarmUpdateWithoutCropsDataInput {
+  totalLand: Int
+  cultivatedLand: Int
+  shareLocation: Boolean
+  farmersAssociations: String
+  gpsPoints: LocationUpdateOneRequiredInput
+  farmer: UserUpdateOneWithoutFarmInput
+}
+
 input FarmUpdateWithoutFarmerDataInput {
   totalLand: Int
   cultivatedLand: Int
   shareLocation: Boolean
   farmersAssociations: String
   gpsPoints: LocationUpdateOneRequiredInput
-  crops: CropUpdateManyInput
+  crops: CropUpdateManyWithoutFarmInput
+}
+
+input FarmUpsertWithoutCropsInput {
+  update: FarmUpdateWithoutCropsDataInput!
+  create: FarmCreateWithoutCropsInput!
 }
 
 input FarmUpsertWithoutFarmerInput {
@@ -1914,20 +2074,23 @@ type Mutation {
   createAddress(data: AddressCreateInput!): Address!
   createFarmingActivities(data: FarmingActivitiesCreateInput!): FarmingActivities!
   createFarm(data: FarmCreateInput!): Farm!
+  createCrop(data: CropCreateInput!): Crop!
   create_ProduceTable(data: _ProduceTableCreateInput!): _ProduceTable!
   create_Produce(data: _ProduceCreateInput!): _Produce!
   createHarvestWindow(data: HarvestWindowCreateInput!): HarvestWindow!
-  createCrop(data: CropCreateInput!): Crop!
   createSalesCatogories(data: SalesCatogoriesCreateInput!): SalesCatogories!
   createLocation(data: LocationCreateInput!): Location!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateCrop(data: CropUpdateInput!, where: CropWhereUniqueInput!): Crop
   update_Produce(data: _ProduceUpdateInput!, where: _ProduceWhereUniqueInput!): _Produce
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteCrop(where: CropWhereUniqueInput!): Crop
   delete_Produce(where: _ProduceWhereUniqueInput!): _Produce
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertCrop(where: CropWhereUniqueInput!, create: CropCreateInput!, update: CropUpdateInput!): Crop!
   upsert_Produce(where: _ProduceWhereUniqueInput!, create: _ProduceCreateInput!, update: _ProduceUpdateInput!): _Produce!
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
@@ -1935,10 +2098,10 @@ type Mutation {
   updateManyAddresses(data: AddressUpdateInput!, where: AddressWhereInput): BatchPayload!
   updateManyFarmingActivitieses(data: FarmingActivitiesUpdateInput!, where: FarmingActivitiesWhereInput): BatchPayload!
   updateManyFarms(data: FarmUpdateInput!, where: FarmWhereInput): BatchPayload!
+  updateManyCrops(data: CropUpdateInput!, where: CropWhereInput): BatchPayload!
   updateMany_ProduceTables(data: _ProduceTableUpdateInput!, where: _ProduceTableWhereInput): BatchPayload!
   updateMany_Produces(data: _ProduceUpdateInput!, where: _ProduceWhereInput): BatchPayload!
   updateManyHarvestWindows(data: HarvestWindowUpdateInput!, where: HarvestWindowWhereInput): BatchPayload!
-  updateManyCrops(data: CropUpdateInput!, where: CropWhereInput): BatchPayload!
   updateManySalesCatogorieses(data: SalesCatogoriesUpdateInput!, where: SalesCatogoriesWhereInput): BatchPayload!
   updateManyLocations(data: LocationUpdateInput!, where: LocationWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
@@ -1947,10 +2110,10 @@ type Mutation {
   deleteManyAddresses(where: AddressWhereInput): BatchPayload!
   deleteManyFarmingActivitieses(where: FarmingActivitiesWhereInput): BatchPayload!
   deleteManyFarms(where: FarmWhereInput): BatchPayload!
+  deleteManyCrops(where: CropWhereInput): BatchPayload!
   deleteMany_ProduceTables(where: _ProduceTableWhereInput): BatchPayload!
   deleteMany_Produces(where: _ProduceWhereInput): BatchPayload!
   deleteManyHarvestWindows(where: HarvestWindowWhereInput): BatchPayload!
-  deleteManyCrops(where: CropWhereInput): BatchPayload!
   deleteManySalesCatogorieses(where: SalesCatogoriesWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
 }
@@ -2625,14 +2788,15 @@ type Query {
   addresses(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Address]!
   farmingActivitieses(where: FarmingActivitiesWhereInput, orderBy: FarmingActivitiesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [FarmingActivities]!
   farms(where: FarmWhereInput, orderBy: FarmOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Farm]!
+  crops(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Crop]!
   _ProduceTables(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_ProduceTable]!
   _Produces(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_Produce]!
   harvestWindows(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HarvestWindow]!
-  crops(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Crop]!
   salesCatogorieses(where: SalesCatogoriesWhereInput, orderBy: SalesCatogoriesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SalesCatogories]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
+  crop(where: CropWhereUniqueInput!): Crop
   _Produce(where: _ProduceWhereUniqueInput!): _Produce
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -2640,10 +2804,10 @@ type Query {
   addressesConnection(where: AddressWhereInput, orderBy: AddressOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): AddressConnection!
   farmingActivitiesesConnection(where: FarmingActivitiesWhereInput, orderBy: FarmingActivitiesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FarmingActivitiesConnection!
   farmsConnection(where: FarmWhereInput, orderBy: FarmOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FarmConnection!
+  cropsConnection(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CropConnection!
   _ProduceTablesConnection(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceTableConnection!
   _ProducesConnection(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceConnection!
   harvestWindowsConnection(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HarvestWindowConnection!
-  cropsConnection(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CropConnection!
   salesCatogoriesesConnection(where: SalesCatogoriesWhereInput, orderBy: SalesCatogoriesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SalesCatogoriesConnection!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
 
@@ -2810,10 +2974,10 @@ type Subscription {
   address(where: AddressSubscriptionWhereInput): AddressSubscriptionPayload
   farmingActivities(where: FarmingActivitiesSubscriptionWhereInput): FarmingActivitiesSubscriptionPayload
   farm(where: FarmSubscriptionWhereInput): FarmSubscriptionPayload
+  crop(where: CropSubscriptionWhereInput): CropSubscriptionPayload
   _ProduceTable(where: _ProduceTableSubscriptionWhereInput): _ProduceTableSubscriptionPayload
   _Produce(where: _ProduceSubscriptionWhereInput): _ProduceSubscriptionPayload
   harvestWindow(where: HarvestWindowSubscriptionWhereInput): HarvestWindowSubscriptionPayload
-  crop(where: CropSubscriptionWhereInput): CropSubscriptionPayload
   salesCatogories(where: SalesCatogoriesSubscriptionWhereInput): SalesCatogoriesSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
 }

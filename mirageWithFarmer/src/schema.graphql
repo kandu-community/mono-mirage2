@@ -6,6 +6,7 @@
 # import SalesCategories from "./generated/prisma.graphql"
 # import updateUser from "./generated/prisma.graphql"
 # import Farm from "./generated/prisma.graphql"
+# import Crop from "./generated/prisma.graphql"
 
 type Query {
   feed: [Post!]!

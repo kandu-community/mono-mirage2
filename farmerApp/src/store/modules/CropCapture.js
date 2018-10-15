@@ -2,7 +2,8 @@ import apollo from '@/apollo'
 import gql from 'graphql-tag'
 
 const state = {
-    vegOptions: null
+    vegOptions: null,
+    crops: []
 }
 
 const getters = {
@@ -33,6 +34,15 @@ const actions = {
         })
         state.vegOptions = response.data.produceList
         console.log('TCL: state.vegOptions', state.vegOptions);
+    },
+    async saveCrop({
+        state
+    }, payload) {
+        console.log('TCL: payload', payload);
+        // const response = await apollo.mutate({
+
+        // })
+
     }
 }
 

@@ -13,6 +13,14 @@
           v-model="crop.name"
         ></v-autocomplete>
         <v-layout row wrap>
+          <v-flex xs12>
+            <v-text-field
+              v-model="crop.description"
+              name="description"
+              label="How About a short Description of the produce?"
+              id="id"
+            ></v-text-field>
+          </v-flex>
             <v-flex xs12>
                 <h4 class="mb-1">Harvest Window</h4>
                 <p class="font-weight-light mb-1" >Over what period of time do you expect to be harvesting the crop?</p>        
@@ -61,6 +69,7 @@
                 <v-date-picker v-model="crop.endDate" @input="$refs.endDate.save(crop.endDate)"></v-date-picker>
                 </v-menu>
             </v-flex>  
+                <v-btn @click="saveCrop" color="success">Save</v-btn>
         </v-layout>
     </v-container>
 </template>
@@ -78,10 +87,8 @@ export default {
         category: null,
         name: null,
         description: null,
-        harvestWindow: {
-          startDate: null,
-          endDate: null
-        }
+        startDate: null,
+        endDate: null
       },
       dateOne: false,
       dateTwo: false
@@ -109,6 +116,9 @@ export default {
       });
       console.log("TCL: setSelection -> fieldMap", fieldMap);
       this.cropNames = fieldMap;
+    },
+    saveCrop() {
+      this.$store.dispatch("saveCrop", this.crop);
     }
   }
 };
