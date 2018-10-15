@@ -47,7 +47,7 @@ type Mutation {
     lat: Float!
     lng: Float!
     farmersAssociations: String
-  ): Farm
+  ): User
   createPersonalDetails(  
     lastName: String
     cell: String
@@ -98,4 +98,5 @@ type User {
   personalDetails: PersonalDetails
   address: Address
   farmingActivities: FarmingActivities
+  farm: Farm
 }

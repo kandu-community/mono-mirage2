@@ -2,6 +2,9 @@ import {
     locationWardData,
     locationProvince
 } from "@/api/zaMapAxios";
+import apollo from '@/apollo'
+import gql from 'graphql-tag'
+
 
 const state = {
     farmLocation: null,
@@ -54,6 +57,44 @@ const actions = {
     }, payload) {
         console.log('TCL: payload', payload);
         state.farmProfile = payload
+        const response = await apollo.mutate({
+            mutation: gql `
+            mutation updateFarm(
+                $totalLand: Int!
+                $cultivatedLand: Int!
+                $shareLocation: Boolean!
+                $lat: Float!
+                $lng: Float!
+                $farmersAssociations: String
+            ) {
+                updateFarm(
+                    totalLand: $totalLand cultivatedLand: $cultivatedLand shareLocation: $shareLocation lat: $lat lng: $lng farmersAssociations: $farmersAssociations
+                ) {
+                    farm {
+                        totalLand
+                        cultivatedLand
+                        shareLocation
+                        gpsPoints {
+                            lat
+                            lng
+                        }
+                        farmersAssociations
+                    }
+
+                }
+            }
+            `,
+            variables: {
+                totalLand: payload.totalLand,
+                cultivatedLand: payload.cultivatedLand,
+                shareLocation: payload.shareLocation,
+                lat: payload.gpsPoints.lat,
+                lng: payload.gpsPoints.lng,
+                farmersAssociations: payload.farmersAssociations
+            }
+        })
+        let farmData = response.data
+        console.log('TCL: farmData', farmData);
     }
 }
 

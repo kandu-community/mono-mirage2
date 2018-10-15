@@ -43,7 +43,7 @@ const profile = {
             info)
     },
 
-    async createFarm(parent, {
+    async updateFarm(parent, {
         totalLand,
         cultivatedLand,
         shareLocation,
@@ -53,46 +53,48 @@ const profile = {
     }, ctx, info) {
         const userId = getUserId(ctx)
         return ctx.db.mutation.updateUser({
-            where: {
-                id: userId
-            },
-            data: {
-                farm: {
-                    upsert: {
-                        update: {
-                            totalLand,
-                            cultivatedLand,
-                            shareLocation,
-                            farmersAssociations,
-                            gpsPoints: {
-                                upsert: {
-                                    update: {
-                                        lat: lat,
-                                        lng: lng
-                                    },
+                where: {
+                    id: userId
+                },
+                data: {
+                    farm: {
+                        upsert: {
+                            update: {
+                                totalLand,
+                                cultivatedLand,
+                                shareLocation,
+                                farmersAssociations,
+                                gpsPoints: {
+                                    upsert: {
+                                        update: {
+                                            lat: lat,
+                                            lng: lng
+                                        },
+                                        create: {
+                                            lat: lat,
+                                            lng: lng
+                                        }
+                                    }
+                                }
+                            },
+                            create: {
+                                totalLand,
+                                cultivatedLand,
+                                shareLocation,
+                                farmersAssociations,
+                                gpsPoints: {
                                     create: {
                                         lat: lat,
                                         lng: lng
                                     }
                                 }
                             }
-                        },
-                        create: {
-                            totalLand,
-                            cultivatedLand,
-                            shareLocation,
-                            farmersAssociations,
-                            gpsPoints: {
-                                create: {
-                                    lat: $lat,
-                                    lng: $lng
-                                }
-                            }
                         }
                     }
                 }
-            }
-        })
+            },
+            info
+        )
     },
 
     async createAddress(parent, {
