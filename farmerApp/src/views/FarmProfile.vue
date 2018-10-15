@@ -28,11 +28,7 @@
         label="Longitude"
         required
         ></v-text-field>
-        <v-autocomplete
-          label="Cultivation Approach"
-          :items="cultivationSelection"
-          v-model="farmProfile.cultivationApproach"
-        ></v-autocomplete>
+
         <v-text-field
         v-model="farmProfile.farmersAssociations"
         label="If you belong to any Farmer's Associations or groups please add them here"
@@ -48,12 +44,7 @@ import FarmMap from "@/components/profile/FarmMap";
 export default {
   data() {
     return {
-      cultivationSelection: [
-        "Organic",
-        "Certified Organic",
-        "Some Chemicals Used",
-        "Fully Chemical Approach"
-      ],
+
       alternatively: true,
       farmProfile: {
         totalLand: "",

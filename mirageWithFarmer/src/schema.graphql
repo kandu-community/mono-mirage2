@@ -3,6 +3,7 @@
 # import PersonalDetails from "./generated/prisma.graphql"
 # import Address from "./generated/prisma.graphql"
 # import FarmingActivities from "./generated/prisma.graphql"
+# import SalesCategories from "./generated/prisma.graphql"
 # import updateUser from "./generated/prisma.graphql"
 # import Farm from "./generated/prisma.graphql"
 
@@ -32,9 +33,12 @@ type Mutation {
     province: String
   ): Address
   updateStableInfo(
-    personalDetails: PersonalDetailsUpsertWithoutPersonInput!, 
-    address: AddressUpsertWithoutResidentInput!,
-    farmingActivities: FarmingActivitiesUpsertWithoutFarmerInput!
+    personalDetails1: PersonalDetailsUpdateWithoutPersonDataInput!
+    personalDetails2: PersonalDetailsCreateWithoutPersonInput!
+    farmingActivities1: FarmingActivitiesUpdateWithoutFarmerDataInput!
+    farmingActivities2: FarmingActivitiesCreateWithoutFarmerInput!
+    address1: AddressUpdateWithoutResidentDataInput!
+    address2: AddressCreateWithoutResidentInput!
   ): User
   createPersonalDetails(  
     lastName: String
@@ -43,9 +47,12 @@ type Mutation {
     idSA: String
   ): PersonalDetails
   createFarmingActivities(
-      category: String!
-      shortDescription: String
-      longDescription: String
+    category: String!
+    shortDescription: String
+    cultivationApproach: String
+    crops: Boolean
+    livestock: Boolean
+    products: Boolean
   ): FarmingActivities
   createFarm(
       totalLand: Int!

@@ -43,7 +43,14 @@ type FarmingActivities {
   category: String!
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogories
   farmer: User!  
+}
+
+type SalesCatogories {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
 }
 
 type Farm {

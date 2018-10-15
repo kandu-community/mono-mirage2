@@ -65,21 +65,72 @@ mutation addPersonalDetails(
     }
 }
 `
-export const FARMINGACTIVITIES_MUTATION = gql `
-mutation addFarmingActivites(
-      $category: String!,
-      $shortDescription: String,
-      $longDescription: String
+/**
+# Try to write your query here
+mutation createFarmingActivities(
+  $category: String!
+  $shortDescription: String
+  $cultivationApproach: String
+  $crops: Boolean
+  $livestock: Boolean
+  $products: Boolean
 ) {
-    createFarmingActivities(
-        category: $category,
-        shortDescription: $shortDescription,
-        longDescription: $longDescription
-    ) {
-            farmer {
-                name
-                email
-            }
+  createFarmingActivities(data: {
+    category: $category
+    shortDescription: $shortDescription
+    cultivationApproach: $cultivationApproach
+    selling: {
+      create: {
+        crops: $crops
+        livestock: $livestock
+        products: $products
+      }
     }
+    farmer: {
+      connect: {
+        email: "piet@piet.com"
+      }
+    }
+  }) {
+    category
+    shortDescription
+    cultivationApproach
+  }
 }
-`
+ */
+export const FARMINGACTIVITIES_MUTATION = gql`
+         mutation createFarmingActivities($category: String!, $shortDescription: String, $cultivationApproach: String, $crops: Boolean, $livestock: Boolean, $products: Boolean) {
+           createFarmingActivities(category: $category, shortDescription: $shortDescription, cultivationApproach: $cultivationApproach, crops: $crops, livestock: $livestock, products: $products) {
+             selling {
+               crops
+               livestock
+               products
+             }
+           }
+         }
+       `;
+
+export const CREATEFARM_MUTATION = gql `
+mutation createFarm(
+      $totalLand: Int!,
+      $cultivatedLand: Int!,
+      $shareLocation: Boolean!,
+      $farmersAssociations: String,
+      $lat: Float,
+      $lng: Float
+){
+  createFarm(
+    totalLand: $totalLand
+    cultivatedLand: $cultivatedLand
+    shareLocation: $shareLocation
+    farmersAssociations: $farmersAssociations
+    lat: $lat
+    lng: $lng    
+  ){
+    totalLand
+    farmer{
+      name
+    }
+  }
+}
+`;

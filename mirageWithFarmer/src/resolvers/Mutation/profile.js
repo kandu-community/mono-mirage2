@@ -3,46 +3,41 @@ const {
 } = require('../../utils')
 
 
-/**
-{
-  "personalDetails": {"update": {"cell": "88888888","idSA": "7777777777777", "landLine": "88888888", "lastName": "Wetter"},
-  										"create": {"cell": "88888888","idSA": "7777777777777", "landLine": "88888888", "lastName": "Wetter"}},
-  "address": {"update": {"area": "there","line1": "What there is","postalCode": "66644"},
-    						"create": {"area": "there","line1": "What there is","postalCode": "66644"}},
-  "farmingActivities": {"update": {"category": "Market Garden", "shortDescription": "Market Garden", "longDescription": "Carrots and Beans"},
-    											"create": {"category": "Market Garden", "shortDescription": "Market Garden", "longDescription": "Carrots and Beans"}}
-}
-
-
-
-
-
- */
 const profile = {
     async updateStableInfo(parent, {
-        personalDetails,
-        address,
-        farmingActivities
+        personalDetails1,
+        personalDetails2,
+        farmingActivities1,
+        farmingActivities2,
+        address1,
+        address2,
     }, ctx, info) {
         const userId = getUserId(ctx)
         return ctx.db.mutation.updateUser({
-                data: {
-                    personalDetails: {
-                        upsert: personalDetails
-                    },
-                    address: {
-                        upsert: address
-                    },
-                    farmingActivities: {
-                        upsert: farmingActivities
+            data: {
+                personalDetails: {
+                    upsert: {
+                        update: personalDetails1,
+                        create: personalDetails2
                     }
                 },
-                where: {
-                    id: userId
+                farmingActivities: {
+                    upsert: {
+                        update: farmingActivities1,
+                        create: farmingActivities2
+                    }
+                },
+                address: {
+                    upsert: {
+                        update: address1,
+                        create: address2
+                    }
                 }
+
             },
-            info
-        )
+
+        },
+            info)
     },
 
     /** Example from post.js
@@ -122,7 +117,10 @@ const profile = {
     async createFarmingActivities(parent, {
         category,
         shortDescription,
-        longDescription,
+        cultivationApproach,
+        crops,
+        livestock,
+        products
 
     }, ctx, info) {
         const userId = getUserId(ctx)
@@ -130,7 +128,14 @@ const profile = {
                 data: {
                     category,
                     shortDescription,
-                    longDescription,
+                    cultivationApproach,
+                    selling: {
+                        create: {
+                            crops,
+                            livestock,
+                            products,
+                        }
+                    },
                     farmer: {
                         connect: {
                             id: userId

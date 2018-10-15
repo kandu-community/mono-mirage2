@@ -1,7 +1,10 @@
 import apollo from '@/apollo'
 import {
-    ME_QUERY
+    ME_QUERY,
 } from '@/graphql/queries'
+import {
+    FARMINGACTIVITIES_MUTATION
+} from '@/graphql/mutations'
 import db from '@/api/pouchDB'
 import gql from 'graphql-tag'
 
@@ -132,7 +135,6 @@ const actions = {
     async sendProfile({
         state
     }) {
-
         // : state.personalDetails: state.address: state.farmingActivities
 
         function prepareForPrisma(dbObj) { // function that removes _id and _revision from objects I want to send to prisma
@@ -152,42 +154,30 @@ const actions = {
         }
         console.log('TCL: farmingActivities', farmingActivities);
 
-
-        const response = await apollo.mutate({
-            mutation: gql `
-                mutation updateStableInfo(
-                    $personalDetails: PersonalDetailsUpsertWithoutPersonInput!,
-                    $address: AddressUpsertWithoutResidentInput!,
-                    $farmingActivities: FarmingActivitiesUpsertWithoutFarmerInput!
-                ) {
-                    updateStableInfo(
-                            personalDetails: $personalDetails
-
-                            address: $address
-
-                            farmingActivities: $farmingActivities
-
-                        ) {
-                            address {
-                                line1
-                                line2
-                                line3
-                            }
-                            mainActivities {
-                                category
-                            }
-                            profile {
-                                idSA
-                            }
-                    }
+        const response = await apollo.mutate({ mutation: gql`
+            mutation updateStableInfo($personalDetails1: PersonalDetailsUpdateWithoutPersonDataInput!, $personalDetails2: PersonalDetailsCreateWithoutPersonInput!, $farmingActivities1: FarmingActivitiesUpdateWithoutFarmerDataInput!, $farmingActivities2: FarmingActivitiesCreateWithoutFarmerInput!, $address1: AddressUpdateWithoutResidentDataInput!, $address2: AddressCreateWithoutResidentInput!) {
+              updateStableInfo(personalDetails1: $personalDetails1, personalDetails2: $personalDetails2, farmingActivities1: $farmingActivities1, farmingActivities2: $farmingActivities2, address1: $address1, address2: $address2) {
+                email
+                personalDetails {
+                  cell
                 }
-            `,
-            variables: {
-                personalDetails,
-                address,
-                farmingActivities
+                address {
+                  line1
+                }
+                farmingActivities {
+                  category
+                  shortDescription
+                  cultivationApproach
+                  selling {
+                    crops
+                    livestock
+                    products
+                  }
+                }
+              }
             }
-        })
+          `, 
+          variables: { personalDetails1, address1, farmingActivities1, personalDetails2, address2, farmingActivities2 } });
         const data = await response.data
         console.log('TCL: data', data);
 
@@ -229,12 +219,13 @@ const actions = {
         var docName = "address"
         upsertToPouch(docName, payload)
     },
-    farmingActivities({
+    async farmingActivities({
         state
     }, payload) {
         var docName = "farmingActivities";
         console.log(`farmingActivities has: ${payload}`)
         upsertToPouch(docName, payload);
+
     },
     async fetchMe({
         state

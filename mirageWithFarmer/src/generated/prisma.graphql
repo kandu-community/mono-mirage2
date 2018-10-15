@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/public-forkbell-321/mirage-advanced/dev
-# timestamp: Sat Oct 13 2018 19:23:46 GMT+0200 (SAST)
+# timestamp: Sun Oct 14 2018 11:36:18 GMT+0200 (SAST)
 
 type _Produce {
   name: String!
@@ -866,6 +866,10 @@ type AggregatePost {
   count: Int!
 }
 
+type AggregateSalesCatogories {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -1092,6 +1096,7 @@ type FarmingActivities {
   category: String!
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogories
   farmer: User!
 }
 
@@ -1109,6 +1114,7 @@ input FarmingActivitiesCreateInput {
   category: String!
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogoriesCreateOneInput
   farmer: UserCreateOneWithoutFarmingActivitiesInput!
 }
 
@@ -1120,6 +1126,7 @@ input FarmingActivitiesCreateWithoutFarmerInput {
   category: String!
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogoriesCreateOneInput
 }
 
 """An edge in a connection."""
@@ -1195,6 +1202,7 @@ input FarmingActivitiesUpdateInput {
   category: String
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogoriesUpdateOneInput
   farmer: UserUpdateOneRequiredWithoutFarmingActivitiesInput
 }
 
@@ -1210,6 +1218,7 @@ input FarmingActivitiesUpdateWithoutFarmerDataInput {
   category: String
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogoriesUpdateOneInput
 }
 
 input FarmingActivitiesUpsertWithoutFarmerInput {
@@ -1346,6 +1355,7 @@ input FarmingActivitiesWhereInput {
 
   """All values not ending with the given string."""
   cultivationApproach_not_ends_with: String
+  selling: SalesCatogoriesWhereInput
   farmer: UserWhereInput
 }
 
@@ -1892,6 +1902,7 @@ type Mutation {
   create_ProduceTable(data: _ProduceTableCreateInput!): _ProduceTable!
   create_Produce(data: _ProduceCreateInput!): _Produce!
   createHarvestWindow(data: HarvestWindowCreateInput!): HarvestWindow!
+  createSalesCatogories(data: SalesCatogoriesCreateInput!): SalesCatogories!
   createLocation(data: LocationCreateInput!): Location!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
@@ -1912,6 +1923,7 @@ type Mutation {
   updateMany_ProduceTables(data: _ProduceTableUpdateInput!, where: _ProduceTableWhereInput): BatchPayload!
   updateMany_Produces(data: _ProduceUpdateInput!, where: _ProduceWhereInput): BatchPayload!
   updateManyHarvestWindows(data: HarvestWindowUpdateInput!, where: HarvestWindowWhereInput): BatchPayload!
+  updateManySalesCatogorieses(data: SalesCatogoriesUpdateInput!, where: SalesCatogoriesWhereInput): BatchPayload!
   updateManyLocations(data: LocationUpdateInput!, where: LocationWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -1923,6 +1935,7 @@ type Mutation {
   deleteMany_ProduceTables(where: _ProduceTableWhereInput): BatchPayload!
   deleteMany_Produces(where: _ProduceWhereInput): BatchPayload!
   deleteManyHarvestWindows(where: HarvestWindowWhereInput): BatchPayload!
+  deleteManySalesCatogorieses(where: SalesCatogoriesWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
 }
 
@@ -2600,6 +2613,7 @@ type Query {
   _ProduceTables(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_ProduceTable]!
   _Produces(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_Produce]!
   harvestWindows(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HarvestWindow]!
+  salesCatogorieses(where: SalesCatogoriesWhereInput, orderBy: SalesCatogoriesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SalesCatogories]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
@@ -2614,6 +2628,7 @@ type Query {
   _ProduceTablesConnection(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceTableConnection!
   _ProducesConnection(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceConnection!
   harvestWindowsConnection(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HarvestWindowConnection!
+  salesCatogoriesesConnection(where: SalesCatogoriesWhereInput, orderBy: SalesCatogoriesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SalesCatogoriesConnection!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
 
   """Fetches an object given its ID"""
@@ -2629,6 +2644,149 @@ enum Role {
   FARMER
 }
 
+type SalesCatogories {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+"""A connection to a list of items."""
+type SalesCatogoriesConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SalesCatogoriesEdge]!
+  aggregate: AggregateSalesCatogories!
+}
+
+input SalesCatogoriesCreateInput {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+input SalesCatogoriesCreateOneInput {
+  create: SalesCatogoriesCreateInput
+}
+
+"""An edge in a connection."""
+type SalesCatogoriesEdge {
+  """The item at the end of the edge."""
+  node: SalesCatogories!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum SalesCatogoriesOrderByInput {
+  crops_ASC
+  crops_DESC
+  livestock_ASC
+  livestock_DESC
+  products_ASC
+  products_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type SalesCatogoriesPreviousValues {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+type SalesCatogoriesSubscriptionPayload {
+  mutation: MutationType!
+  node: SalesCatogories
+  updatedFields: [String!]
+  previousValues: SalesCatogoriesPreviousValues
+}
+
+input SalesCatogoriesSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SalesCatogoriesSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SalesCatogoriesSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SalesCatogoriesSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: SalesCatogoriesWhereInput
+}
+
+input SalesCatogoriesUpdateDataInput {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+input SalesCatogoriesUpdateInput {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+input SalesCatogoriesUpdateOneInput {
+  create: SalesCatogoriesCreateInput
+  disconnect: Boolean
+  delete: Boolean
+  update: SalesCatogoriesUpdateDataInput
+  upsert: SalesCatogoriesUpsertNestedInput
+}
+
+input SalesCatogoriesUpsertNestedInput {
+  update: SalesCatogoriesUpdateDataInput!
+  create: SalesCatogoriesCreateInput!
+}
+
+input SalesCatogoriesWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SalesCatogoriesWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SalesCatogoriesWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SalesCatogoriesWhereInput!]
+  crops: Boolean
+
+  """All values that are not equal to given value."""
+  crops_not: Boolean
+  livestock: Boolean
+
+  """All values that are not equal to given value."""
+  livestock_not: Boolean
+  products: Boolean
+
+  """All values that are not equal to given value."""
+  products_not: Boolean
+}
+
 type Subscription {
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -2640,6 +2798,7 @@ type Subscription {
   _ProduceTable(where: _ProduceTableSubscriptionWhereInput): _ProduceTableSubscriptionPayload
   _Produce(where: _ProduceSubscriptionWhereInput): _ProduceSubscriptionPayload
   harvestWindow(where: HarvestWindowSubscriptionWhereInput): HarvestWindowSubscriptionPayload
+  salesCatogories(where: SalesCatogoriesSubscriptionWhereInput): SalesCatogoriesSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
 }
 
