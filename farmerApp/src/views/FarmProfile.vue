@@ -1,6 +1,12 @@
 <template>
     <v-container grid-list-xs>
-        <h3 class="display-1">Farm Profile</h3>
+        <h3 v-if="farmProfile.name === null" class="display-1">Farm Profile</h3>
+        <h3 v-else class="display-1">Farm Profile: {{farmProfile.name}}</h3>
+         <v-text-field
+        v-model="farmProfile.name"
+        label="Farm's Name"
+        required
+        ></v-text-field>       
         <v-text-field
         v-model="farmProfile.totalLand"
         label="Total Arable Land in Square Meters"
@@ -47,6 +53,7 @@ export default {
     return {
       alternatively: true,
       farmProfile: {
+        name: null,
         totalLand: "",
         cultivatedLand: "",
         cultivationApproach: "",

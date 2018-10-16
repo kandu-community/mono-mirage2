@@ -44,6 +44,7 @@ const profile = {
     },
 
     async updateFarm(parent, {
+        name,
         totalLand,
         cultivatedLand,
         shareLocation,
@@ -60,6 +61,7 @@ const profile = {
                     farm: {
                         upsert: {
                             update: {
+                                name,
                                 totalLand,
                                 cultivatedLand,
                                 shareLocation,
@@ -78,6 +80,7 @@ const profile = {
                                 }
                             },
                             create: {
+                                name,
                                 totalLand,
                                 cultivatedLand,
                                 shareLocation,

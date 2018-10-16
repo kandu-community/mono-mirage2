@@ -60,6 +60,7 @@ const actions = {
         const response = await apollo.mutate({
             mutation: gql `
             mutation updateFarm(
+                $name: String
                 $totalLand: Int!
                 $cultivatedLand: Int!
                 $shareLocation: Boolean!
@@ -68,9 +69,10 @@ const actions = {
                 $farmersAssociations: String
             ) {
                 updateFarm(
-                    totalLand: $totalLand cultivatedLand: $cultivatedLand shareLocation: $shareLocation lat: $lat lng: $lng farmersAssociations: $farmersAssociations
+                    name: $name totalLand: $totalLand cultivatedLand: $cultivatedLand shareLocation: $shareLocation lat: $lat lng: $lng farmersAssociations: $farmersAssociations
                 ) {
                     farm {
+                        name
                         totalLand
                         cultivatedLand
                         shareLocation
@@ -85,6 +87,7 @@ const actions = {
             }
             `,
             variables: {
+                name: payload.name,
                 totalLand: payload.totalLand,
                 cultivatedLand: payload.cultivatedLand,
                 shareLocation: payload.shareLocation,
