@@ -54,13 +54,15 @@ type SalesCatogories {
 }
 
 type Farm {
+  id: ID! @unique
+  name: String
   totalLand: Int!
   cultivatedLand: Int!
   shareLocation: Boolean!
   gpsPoints: Location!
   farmersAssociations: String
   farmer: User
-  crops: [Crop!]!
+  crops: [Crop!]! @relation(name:"FarmCrops")
 }
 
 type Crop {
@@ -69,7 +71,7 @@ type Crop {
   name: String!
   description: String!
   harvestWindow: HarvestWindow!
-  farm: Farm!
+  farm: Farm! @relation(name:"FarmCrops")
 }
 
 type _ProduceTable {

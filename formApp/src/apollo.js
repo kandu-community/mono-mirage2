@@ -42,8 +42,9 @@ const httpLinkAuth = setContext((_, { // Then we make use of the setContext obje
     headers
 }) => {
     // get the authentication token from localstorage if it exists
+    // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InNlcnZpY2UiOiJtaXJhZ2UtYWR2YW5jZWRAZGV2Iiwicm9sZXMiOlsiYWRtaW4iXX0sImlhdCI6MTUzOTY5NjYyMiwiZXhwIjoxNTQwMzAxNDIyfQ.DOfKoF0zm0tz6uGdcdNqYb9qwXdPHpCgg1VH3CgcswE"
     const token = localStorage.getItem('USER_TOKEN')
-
+    // const token = null
     // return the headers to the context so httpLink can read them
     return {
         headers: {

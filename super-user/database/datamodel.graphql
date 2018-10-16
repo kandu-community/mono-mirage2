@@ -17,6 +17,7 @@ type User {
   personalDetails: PersonalDetails
   address: Address
   farmingActivities: FarmingActivities
+  farm: Farm
   role: Role @default(value: "FARMER")
 }
 
@@ -42,21 +43,35 @@ type FarmingActivities {
   category: String!
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogories
   farmer: User!  
 }
 
+type SalesCatogories {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
 type Farm {
+  id: ID! @unique
+  name: String
   totalLand: Int!
   cultivatedLand: Int!
   shareLocation: Boolean!
   gpsPoints: Location!
   farmersAssociations: String
+  farmer: User
+  crops: [Crop!]! @relation(name:"FarmCrops")
 }
 
 type Crop {
+  id: ID! @unique
   category: CropCategory!
+  name: String!
   description: String!
   harvestWindow: HarvestWindow!
+  farm: Farm! @relation(name:"FarmCrops")
 }
 
 type _ProduceTable {

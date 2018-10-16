@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/public-forkbell-321/mirage-advanced/dev
-# timestamp: Fri Oct 12 2018 09:44:29 GMT+0200 (SAST)
+# timestamp: Tue Oct 16 2018 13:51:35 GMT+0200 (SAST)
 
 type _Produce {
   name: String!
@@ -866,6 +866,10 @@ type AggregatePost {
   count: Int!
 }
 
+type AggregateSalesCatogories {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -875,10 +879,13 @@ type BatchPayload {
   count: Long!
 }
 
-type Crop {
+type Crop implements Node {
+  id: ID!
   category: CropCategory!
+  name: String!
   description: String!
   harvestWindow: HarvestWindow!
+  farm: Farm!
 }
 
 enum CropCategory {
@@ -899,6 +906,20 @@ type CropConnection {
 
 input CropCreateInput {
   category: CropCategory!
+  name: String!
+  description: String!
+  harvestWindow: HarvestWindowCreateOneInput!
+  farm: FarmCreateOneWithoutCropsInput!
+}
+
+input CropCreateManyWithoutFarmInput {
+  create: [CropCreateWithoutFarmInput!]
+  connect: [CropWhereUniqueInput!]
+}
+
+input CropCreateWithoutFarmInput {
+  category: CropCategory!
+  name: String!
   description: String!
   harvestWindow: HarvestWindowCreateOneInput!
 }
@@ -913,12 +934,14 @@ type CropEdge {
 }
 
 enum CropOrderByInput {
-  category_ASC
-  category_DESC
-  description_ASC
-  description_DESC
   id_ASC
   id_DESC
+  category_ASC
+  category_DESC
+  name_ASC
+  name_DESC
+  description_ASC
+  description_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -926,7 +949,9 @@ enum CropOrderByInput {
 }
 
 type CropPreviousValues {
+  id: ID!
   category: CropCategory!
+  name: String!
   description: String!
 }
 
@@ -971,8 +996,37 @@ input CropSubscriptionWhereInput {
 
 input CropUpdateInput {
   category: CropCategory
+  name: String
   description: String
   harvestWindow: HarvestWindowUpdateOneRequiredInput
+  farm: FarmUpdateOneRequiredWithoutCropsInput
+}
+
+input CropUpdateManyWithoutFarmInput {
+  create: [CropCreateWithoutFarmInput!]
+  connect: [CropWhereUniqueInput!]
+  disconnect: [CropWhereUniqueInput!]
+  delete: [CropWhereUniqueInput!]
+  update: [CropUpdateWithWhereUniqueWithoutFarmInput!]
+  upsert: [CropUpsertWithWhereUniqueWithoutFarmInput!]
+}
+
+input CropUpdateWithoutFarmDataInput {
+  category: CropCategory
+  name: String
+  description: String
+  harvestWindow: HarvestWindowUpdateOneRequiredInput
+}
+
+input CropUpdateWithWhereUniqueWithoutFarmInput {
+  where: CropWhereUniqueInput!
+  data: CropUpdateWithoutFarmDataInput!
+}
+
+input CropUpsertWithWhereUniqueWithoutFarmInput {
+  where: CropWhereUniqueInput!
+  update: CropUpdateWithoutFarmDataInput!
+  create: CropCreateWithoutFarmInput!
 }
 
 input CropWhereInput {
@@ -984,6 +1038,46 @@ input CropWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [CropWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
   category: CropCategory
 
   """All values that are not equal to given value."""
@@ -994,6 +1088,46 @@ input CropWhereInput {
 
   """All values that are not contained in given list."""
   category_not_in: [CropCategory!]
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
   description: String
 
   """All values that are not equal to given value."""
@@ -1035,16 +1169,25 @@ input CropWhereInput {
   """All values not ending with the given string."""
   description_not_ends_with: String
   harvestWindow: HarvestWindowWhereInput
+  farm: FarmWhereInput
+}
+
+input CropWhereUniqueInput {
+  id: ID
 }
 
 scalar DateTime
 
-type Farm {
+type Farm implements Node {
+  id: ID!
+  name: String
   totalLand: Int!
   cultivatedLand: Int!
   shareLocation: Boolean!
   gpsPoints: Location!
   farmersAssociations: String
+  farmer: User
+  crops(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Crop!]
 }
 
 """A connection to a list of items."""
@@ -1058,11 +1201,44 @@ type FarmConnection {
 }
 
 input FarmCreateInput {
+  name: String
   totalLand: Int!
   cultivatedLand: Int!
   shareLocation: Boolean!
   farmersAssociations: String
   gpsPoints: LocationCreateOneInput!
+  farmer: UserCreateOneWithoutFarmInput
+  crops: CropCreateManyWithoutFarmInput
+}
+
+input FarmCreateOneWithoutCropsInput {
+  create: FarmCreateWithoutCropsInput
+  connect: FarmWhereUniqueInput
+}
+
+input FarmCreateOneWithoutFarmerInput {
+  create: FarmCreateWithoutFarmerInput
+  connect: FarmWhereUniqueInput
+}
+
+input FarmCreateWithoutCropsInput {
+  name: String
+  totalLand: Int!
+  cultivatedLand: Int!
+  shareLocation: Boolean!
+  farmersAssociations: String
+  gpsPoints: LocationCreateOneInput!
+  farmer: UserCreateOneWithoutFarmInput
+}
+
+input FarmCreateWithoutFarmerInput {
+  name: String
+  totalLand: Int!
+  cultivatedLand: Int!
+  shareLocation: Boolean!
+  farmersAssociations: String
+  gpsPoints: LocationCreateOneInput!
+  crops: CropCreateManyWithoutFarmInput
 }
 
 """An edge in a connection."""
@@ -1078,6 +1254,7 @@ type FarmingActivities {
   category: String!
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogories
   farmer: User!
 }
 
@@ -1095,6 +1272,7 @@ input FarmingActivitiesCreateInput {
   category: String!
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogoriesCreateOneInput
   farmer: UserCreateOneWithoutFarmingActivitiesInput!
 }
 
@@ -1106,6 +1284,7 @@ input FarmingActivitiesCreateWithoutFarmerInput {
   category: String!
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogoriesCreateOneInput
 }
 
 """An edge in a connection."""
@@ -1181,6 +1360,7 @@ input FarmingActivitiesUpdateInput {
   category: String
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogoriesUpdateOneInput
   farmer: UserUpdateOneRequiredWithoutFarmingActivitiesInput
 }
 
@@ -1196,6 +1376,7 @@ input FarmingActivitiesUpdateWithoutFarmerDataInput {
   category: String
   shortDescription: String
   cultivationApproach: String
+  selling: SalesCatogoriesUpdateOneInput
 }
 
 input FarmingActivitiesUpsertWithoutFarmerInput {
@@ -1332,10 +1513,15 @@ input FarmingActivitiesWhereInput {
 
   """All values not ending with the given string."""
   cultivationApproach_not_ends_with: String
+  selling: SalesCatogoriesWhereInput
   farmer: UserWhereInput
 }
 
 enum FarmOrderByInput {
+  id_ASC
+  id_DESC
+  name_ASC
+  name_DESC
   totalLand_ASC
   totalLand_DESC
   cultivatedLand_ASC
@@ -1344,8 +1530,6 @@ enum FarmOrderByInput {
   shareLocation_DESC
   farmersAssociations_ASC
   farmersAssociations_DESC
-  id_ASC
-  id_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1353,6 +1537,8 @@ enum FarmOrderByInput {
 }
 
 type FarmPreviousValues {
+  id: ID!
+  name: String
   totalLand: Int!
   cultivatedLand: Int!
   shareLocation: Boolean!
@@ -1399,11 +1585,60 @@ input FarmSubscriptionWhereInput {
 }
 
 input FarmUpdateInput {
+  name: String
   totalLand: Int
   cultivatedLand: Int
   shareLocation: Boolean
   farmersAssociations: String
   gpsPoints: LocationUpdateOneRequiredInput
+  farmer: UserUpdateOneWithoutFarmInput
+  crops: CropUpdateManyWithoutFarmInput
+}
+
+input FarmUpdateOneRequiredWithoutCropsInput {
+  create: FarmCreateWithoutCropsInput
+  connect: FarmWhereUniqueInput
+  update: FarmUpdateWithoutCropsDataInput
+  upsert: FarmUpsertWithoutCropsInput
+}
+
+input FarmUpdateOneWithoutFarmerInput {
+  create: FarmCreateWithoutFarmerInput
+  connect: FarmWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: FarmUpdateWithoutFarmerDataInput
+  upsert: FarmUpsertWithoutFarmerInput
+}
+
+input FarmUpdateWithoutCropsDataInput {
+  name: String
+  totalLand: Int
+  cultivatedLand: Int
+  shareLocation: Boolean
+  farmersAssociations: String
+  gpsPoints: LocationUpdateOneRequiredInput
+  farmer: UserUpdateOneWithoutFarmInput
+}
+
+input FarmUpdateWithoutFarmerDataInput {
+  name: String
+  totalLand: Int
+  cultivatedLand: Int
+  shareLocation: Boolean
+  farmersAssociations: String
+  gpsPoints: LocationUpdateOneRequiredInput
+  crops: CropUpdateManyWithoutFarmInput
+}
+
+input FarmUpsertWithoutCropsInput {
+  update: FarmUpdateWithoutCropsDataInput!
+  create: FarmCreateWithoutCropsInput!
+}
+
+input FarmUpsertWithoutFarmerInput {
+  update: FarmUpdateWithoutFarmerDataInput!
+  create: FarmCreateWithoutFarmerInput!
 }
 
 input FarmWhereInput {
@@ -1415,6 +1650,86 @@ input FarmWhereInput {
 
   """Logical NOT on all given filters combined by AND."""
   NOT: [FarmWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  name: String
+
+  """All values that are not equal to given value."""
+  name_not: String
+
+  """All values that are contained in given list."""
+  name_in: [String!]
+
+  """All values that are not contained in given list."""
+  name_not_in: [String!]
+
+  """All values less than the given value."""
+  name_lt: String
+
+  """All values less than or equal the given value."""
+  name_lte: String
+
+  """All values greater than the given value."""
+  name_gt: String
+
+  """All values greater than or equal the given value."""
+  name_gte: String
+
+  """All values containing the given string."""
+  name_contains: String
+
+  """All values not containing the given string."""
+  name_not_contains: String
+
+  """All values starting with the given string."""
+  name_starts_with: String
+
+  """All values not starting with the given string."""
+  name_not_starts_with: String
+
+  """All values ending with the given string."""
+  name_ends_with: String
+
+  """All values not ending with the given string."""
+  name_not_ends_with: String
   totalLand: Int
 
   """All values that are not equal to given value."""
@@ -1504,6 +1819,14 @@ input FarmWhereInput {
   """All values not ending with the given string."""
   farmersAssociations_not_ends_with: String
   gpsPoints: LocationWhereInput
+  farmer: UserWhereInput
+  crops_every: CropWhereInput
+  crops_some: CropWhereInput
+  crops_none: CropWhereInput
+}
+
+input FarmWhereUniqueInput {
+  id: ID
 }
 
 type HarvestWindow {
@@ -1855,15 +2178,22 @@ type Mutation {
   create_ProduceTable(data: _ProduceTableCreateInput!): _ProduceTable!
   create_Produce(data: _ProduceCreateInput!): _Produce!
   createHarvestWindow(data: HarvestWindowCreateInput!): HarvestWindow!
+  createSalesCatogories(data: SalesCatogoriesCreateInput!): SalesCatogories!
   createLocation(data: LocationCreateInput!): Location!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateFarm(data: FarmUpdateInput!, where: FarmWhereUniqueInput!): Farm
+  updateCrop(data: CropUpdateInput!, where: CropWhereUniqueInput!): Crop
   update_Produce(data: _ProduceUpdateInput!, where: _ProduceWhereUniqueInput!): _Produce
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteFarm(where: FarmWhereUniqueInput!): Farm
+  deleteCrop(where: CropWhereUniqueInput!): Crop
   delete_Produce(where: _ProduceWhereUniqueInput!): _Produce
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertFarm(where: FarmWhereUniqueInput!, create: FarmCreateInput!, update: FarmUpdateInput!): Farm!
+  upsertCrop(where: CropWhereUniqueInput!, create: CropCreateInput!, update: CropUpdateInput!): Crop!
   upsert_Produce(where: _ProduceWhereUniqueInput!, create: _ProduceCreateInput!, update: _ProduceUpdateInput!): _Produce!
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
@@ -1875,6 +2205,7 @@ type Mutation {
   updateMany_ProduceTables(data: _ProduceTableUpdateInput!, where: _ProduceTableWhereInput): BatchPayload!
   updateMany_Produces(data: _ProduceUpdateInput!, where: _ProduceWhereInput): BatchPayload!
   updateManyHarvestWindows(data: HarvestWindowUpdateInput!, where: HarvestWindowWhereInput): BatchPayload!
+  updateManySalesCatogorieses(data: SalesCatogoriesUpdateInput!, where: SalesCatogoriesWhereInput): BatchPayload!
   updateManyLocations(data: LocationUpdateInput!, where: LocationWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -1886,6 +2217,7 @@ type Mutation {
   deleteMany_ProduceTables(where: _ProduceTableWhereInput): BatchPayload!
   deleteMany_Produces(where: _ProduceWhereInput): BatchPayload!
   deleteManyHarvestWindows(where: HarvestWindowWhereInput): BatchPayload!
+  deleteManySalesCatogorieses(where: SalesCatogoriesWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
 }
 
@@ -2563,9 +2895,12 @@ type Query {
   _ProduceTables(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_ProduceTable]!
   _Produces(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_Produce]!
   harvestWindows(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HarvestWindow]!
+  salesCatogorieses(where: SalesCatogoriesWhereInput, orderBy: SalesCatogoriesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SalesCatogories]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
+  farm(where: FarmWhereUniqueInput!): Farm
+  crop(where: CropWhereUniqueInput!): Crop
   _Produce(where: _ProduceWhereUniqueInput!): _Produce
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -2577,6 +2912,7 @@ type Query {
   _ProduceTablesConnection(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceTableConnection!
   _ProducesConnection(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceConnection!
   harvestWindowsConnection(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HarvestWindowConnection!
+  salesCatogoriesesConnection(where: SalesCatogoriesWhereInput, orderBy: SalesCatogoriesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SalesCatogoriesConnection!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
 
   """Fetches an object given its ID"""
@@ -2592,6 +2928,149 @@ enum Role {
   FARMER
 }
 
+type SalesCatogories {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+"""A connection to a list of items."""
+type SalesCatogoriesConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [SalesCatogoriesEdge]!
+  aggregate: AggregateSalesCatogories!
+}
+
+input SalesCatogoriesCreateInput {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+input SalesCatogoriesCreateOneInput {
+  create: SalesCatogoriesCreateInput
+}
+
+"""An edge in a connection."""
+type SalesCatogoriesEdge {
+  """The item at the end of the edge."""
+  node: SalesCatogories!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum SalesCatogoriesOrderByInput {
+  crops_ASC
+  crops_DESC
+  livestock_ASC
+  livestock_DESC
+  products_ASC
+  products_DESC
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type SalesCatogoriesPreviousValues {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+type SalesCatogoriesSubscriptionPayload {
+  mutation: MutationType!
+  node: SalesCatogories
+  updatedFields: [String!]
+  previousValues: SalesCatogoriesPreviousValues
+}
+
+input SalesCatogoriesSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SalesCatogoriesSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SalesCatogoriesSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SalesCatogoriesSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: SalesCatogoriesWhereInput
+}
+
+input SalesCatogoriesUpdateDataInput {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+input SalesCatogoriesUpdateInput {
+  crops: Boolean
+  livestock: Boolean
+  products: Boolean
+}
+
+input SalesCatogoriesUpdateOneInput {
+  create: SalesCatogoriesCreateInput
+  disconnect: Boolean
+  delete: Boolean
+  update: SalesCatogoriesUpdateDataInput
+  upsert: SalesCatogoriesUpsertNestedInput
+}
+
+input SalesCatogoriesUpsertNestedInput {
+  update: SalesCatogoriesUpdateDataInput!
+  create: SalesCatogoriesCreateInput!
+}
+
+input SalesCatogoriesWhereInput {
+  """Logical AND on all given filters."""
+  AND: [SalesCatogoriesWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [SalesCatogoriesWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [SalesCatogoriesWhereInput!]
+  crops: Boolean
+
+  """All values that are not equal to given value."""
+  crops_not: Boolean
+  livestock: Boolean
+
+  """All values that are not equal to given value."""
+  livestock_not: Boolean
+  products: Boolean
+
+  """All values that are not equal to given value."""
+  products_not: Boolean
+}
+
 type Subscription {
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
@@ -2603,6 +3082,7 @@ type Subscription {
   _ProduceTable(where: _ProduceTableSubscriptionWhereInput): _ProduceTableSubscriptionPayload
   _Produce(where: _ProduceSubscriptionWhereInput): _ProduceSubscriptionPayload
   harvestWindow(where: HarvestWindowSubscriptionWhereInput): HarvestWindowSubscriptionPayload
+  salesCatogories(where: SalesCatogoriesSubscriptionWhereInput): SalesCatogoriesSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload
 }
 
@@ -2615,6 +3095,7 @@ type User implements Node {
   personalDetails: PersonalDetails
   address: Address
   farmingActivities: FarmingActivities
+  farm: Farm
   role: Role
 }
 
@@ -2637,6 +3118,7 @@ input UserCreateInput {
   personalDetails: PersonalDetailsCreateOneWithoutPersonInput
   address: AddressCreateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
+  farm: FarmCreateOneWithoutFarmerInput
 }
 
 input UserCreateOneWithoutAddressInput {
@@ -2646,6 +3128,11 @@ input UserCreateOneWithoutAddressInput {
 
 input UserCreateOneWithoutFarmingActivitiesInput {
   create: UserCreateWithoutFarmingActivitiesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutFarmInput {
+  create: UserCreateWithoutFarmInput
   connect: UserWhereUniqueInput
 }
 
@@ -2667,6 +3154,7 @@ input UserCreateWithoutAddressInput {
   posts: PostCreateManyWithoutAuthorInput
   personalDetails: PersonalDetailsCreateOneWithoutPersonInput
   farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
+  farm: FarmCreateOneWithoutFarmerInput
 }
 
 input UserCreateWithoutFarmingActivitiesInput {
@@ -2677,6 +3165,18 @@ input UserCreateWithoutFarmingActivitiesInput {
   posts: PostCreateManyWithoutAuthorInput
   personalDetails: PersonalDetailsCreateOneWithoutPersonInput
   address: AddressCreateOneWithoutResidentInput
+  farm: FarmCreateOneWithoutFarmerInput
+}
+
+input UserCreateWithoutFarmInput {
+  email: String!
+  password: String!
+  name: String!
+  role: Role
+  posts: PostCreateManyWithoutAuthorInput
+  personalDetails: PersonalDetailsCreateOneWithoutPersonInput
+  address: AddressCreateOneWithoutResidentInput
+  farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
 }
 
 input UserCreateWithoutPersonalDetailsInput {
@@ -2687,6 +3187,7 @@ input UserCreateWithoutPersonalDetailsInput {
   posts: PostCreateManyWithoutAuthorInput
   address: AddressCreateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
+  farm: FarmCreateOneWithoutFarmerInput
 }
 
 input UserCreateWithoutPostsInput {
@@ -2697,6 +3198,7 @@ input UserCreateWithoutPostsInput {
   personalDetails: PersonalDetailsCreateOneWithoutPersonInput
   address: AddressCreateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesCreateOneWithoutFarmerInput
+  farm: FarmCreateOneWithoutFarmerInput
 }
 
 """An edge in a connection."""
@@ -2781,6 +3283,7 @@ input UserUpdateInput {
   personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
   address: AddressUpdateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
+  farm: FarmUpdateOneWithoutFarmerInput
 }
 
 input UserUpdateOneRequiredWithoutAddressInput {
@@ -2811,6 +3314,15 @@ input UserUpdateOneRequiredWithoutPostsInput {
   upsert: UserUpsertWithoutPostsInput
 }
 
+input UserUpdateOneWithoutFarmInput {
+  create: UserCreateWithoutFarmInput
+  connect: UserWhereUniqueInput
+  disconnect: Boolean
+  delete: Boolean
+  update: UserUpdateWithoutFarmDataInput
+  upsert: UserUpsertWithoutFarmInput
+}
+
 input UserUpdateWithoutAddressDataInput {
   email: String
   password: String
@@ -2818,6 +3330,18 @@ input UserUpdateWithoutAddressDataInput {
   role: Role
   posts: PostUpdateManyWithoutAuthorInput
   personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
+  farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
+  farm: FarmUpdateOneWithoutFarmerInput
+}
+
+input UserUpdateWithoutFarmDataInput {
+  email: String
+  password: String
+  name: String
+  role: Role
+  posts: PostUpdateManyWithoutAuthorInput
+  personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
+  address: AddressUpdateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
 }
 
@@ -2829,6 +3353,7 @@ input UserUpdateWithoutFarmingActivitiesDataInput {
   posts: PostUpdateManyWithoutAuthorInput
   personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
   address: AddressUpdateOneWithoutResidentInput
+  farm: FarmUpdateOneWithoutFarmerInput
 }
 
 input UserUpdateWithoutPersonalDetailsDataInput {
@@ -2839,6 +3364,7 @@ input UserUpdateWithoutPersonalDetailsDataInput {
   posts: PostUpdateManyWithoutAuthorInput
   address: AddressUpdateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
+  farm: FarmUpdateOneWithoutFarmerInput
 }
 
 input UserUpdateWithoutPostsDataInput {
@@ -2849,6 +3375,7 @@ input UserUpdateWithoutPostsDataInput {
   personalDetails: PersonalDetailsUpdateOneWithoutPersonInput
   address: AddressUpdateOneWithoutResidentInput
   farmingActivities: FarmingActivitiesUpdateOneWithoutFarmerInput
+  farm: FarmUpdateOneWithoutFarmerInput
 }
 
 input UserUpsertWithoutAddressInput {
@@ -2859,6 +3386,11 @@ input UserUpsertWithoutAddressInput {
 input UserUpsertWithoutFarmingActivitiesInput {
   update: UserUpdateWithoutFarmingActivitiesDataInput!
   create: UserCreateWithoutFarmingActivitiesInput!
+}
+
+input UserUpsertWithoutFarmInput {
+  update: UserUpdateWithoutFarmDataInput!
+  create: UserCreateWithoutFarmInput!
 }
 
 input UserUpsertWithoutPersonalDetailsInput {
@@ -3056,6 +3588,7 @@ input UserWhereInput {
   personalDetails: PersonalDetailsWhereInput
   address: AddressWhereInput
   farmingActivities: FarmingActivitiesWhereInput
+  farm: FarmWhereInput
 }
 
 input UserWhereUniqueInput {
