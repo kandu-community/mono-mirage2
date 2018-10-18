@@ -4,6 +4,7 @@ import {
 } from "@/api/zaMapAxios";
 import apollo from '@/apollo'
 import gql from 'graphql-tag'
+import upsertToPouch from '@/helpers/upsertToPouch'
 
 
 const state = {
@@ -38,7 +39,8 @@ const actions = {
         state.farmLocation = payload
     },
     showFarmMap({
-        state
+        state,
+        rootState
     }, payload) {
         state.showFarmMap = payload
     },
@@ -53,7 +55,8 @@ const actions = {
 
     },
     async saveFarmProfile({
-        state
+        state,
+        rootState
     }, payload) {
         console.log('TCL: payload', payload);
         state.farmProfile = payload
@@ -72,6 +75,7 @@ const actions = {
                     name: $name totalLand: $totalLand cultivatedLand: $cultivatedLand shareLocation: $shareLocation lat: $lat lng: $lng farmersAssociations: $farmersAssociations
                 ) {
                     farm {
+                        id
                         name
                         totalLand
                         cultivatedLand
@@ -96,8 +100,12 @@ const actions = {
                 farmersAssociations: payload.farmersAssociations
             }
         })
-        let farmData = response.data
+        let farmData = response.data.updateFarm.farm
+        delete farmData.__typename
         console.log('TCL: farmData', farmData);
+        await upsertToPouch("farm", farmData)
+
+
     }
 }
 

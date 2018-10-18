@@ -5,9 +5,9 @@ import {
 import {
     FARMINGACTIVITIES_MUTATION
 } from '@/graphql/mutations'
-import db from '@/api/pouchDB'
-import gql from 'graphql-tag'
 
+import gql from 'graphql-tag'
+import upsertToPouch from '@/helpers/upsertToPouch'
 // import { idDataExtraction } from '@/helpers/idDataExtraction'
 
 // var zaId = "7701025046083"
@@ -17,23 +17,6 @@ import gql from 'graphql-tag'
 // idDataExtraction(zaId)
 
 
-function upsertToPouch(docName, data) {
-    db.upsert(docName, function (doc) {
-        doc = { ...data
-        }
-        return doc;
-    }).then(function (res) {
-        console.log('TCL: -------------');
-        console.log('TCL: res', res);
-        console.log('TCL: -------------');
-        // success, res is {rev: '1-xxx', updated: true, id: 'myDocId'}
-    }).catch(function (err) {
-        console.log('TCL: -------------');
-        console.log('TCL: err', err);
-        console.log('TCL: -------------');
-        // error
-    });
-}
 
 const state = {
     personalDetails: null,

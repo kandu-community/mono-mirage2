@@ -99,6 +99,36 @@ const profile = {
             info
         )
     },
+    async createCrop(parent, {
+        farmId,
+        category,
+        name,
+        description,
+        startDate,
+        endDate,
+    }, ctx, info) {
+        return ctx.db.mutation.createCrop({
+                data: {
+                    category,
+                    name,
+                    description,
+                    harvestWindow: {
+                        create: {
+                            from: startDate,
+                            to: endDate
+                        }
+                    },
+                    farm: {
+                        connect: {
+                            id: farmId
+                        }
+                    }
+                }
+            },
+            info
+        )
+    },
+
 
     async createAddress(parent, {
         line1,

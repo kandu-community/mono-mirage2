@@ -70,6 +70,22 @@
                 </v-menu>
             </v-flex>  
                 <v-btn @click="saveCrop" color="success">Save</v-btn>
+            <template v-if="currentCrops.length > 0">
+              <v-card>
+                <v-card-title class="display-1" primary-title>
+                  Scheduled Crops
+                </v-card-title>
+                <v-card-text>
+                  <v-flex xs12 v-for="(crop, index) in currentCrops" :key="index">
+                    Name: {{crop.name}}
+                    Category: {{crop.category}}
+                    Description: {{crop.description}}
+                    Harvest Begins: {{crop.harvestWindow.from}}
+                    Harvest Ends: {{crop.harvestWindow.to}}
+                  </v-flex>
+                </v-card-text>
+              </v-card>
+            </template>
         </v-layout>
     </v-container>
 </template>
@@ -78,6 +94,9 @@
 export default {
   beforeCreate() {
     this.$store.dispatch("getCropNames");
+  },
+  mounted() {
+    this.$store.dispatch("fetchCrops");
   },
   data() {
     return {
@@ -97,6 +116,9 @@ export default {
   computed: {
     vegOptions() {
       return this.$store.getters.vegOptions;
+    },
+    currentCrops() {
+      return this.$store.getters.crops;
     }
   },
   methods: {

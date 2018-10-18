@@ -17,6 +17,10 @@ type Query {
   me: User
   tenUsers: [User!]!
   produceList: [_Produce!]!
+  currentCrops(
+    farmId:ID!
+    today:DateTime
+  ): [Crop]!
 }
 
 type Mutation {
@@ -50,6 +54,15 @@ type Mutation {
     lng: Float!
     farmersAssociations: String
   ): User
+  createCrop(
+    farmId: ID!
+    category: CropCategory!
+    name: String!
+    description: String!
+    startDate: DateTime!
+    endDate: DateTime!
+    
+  ): Crop!
   createPersonalDetails(  
     lastName: String
     cell: String
@@ -102,3 +115,5 @@ type User {
   farmingActivities: FarmingActivities
   farm: Farm
 }
+
+
