@@ -5,12 +5,22 @@ const {
 
 const profile = {
     async updateStableInfo(parent, {
-        personalDetails1,
-        personalDetails2,
-        farmingActivities1,
-        farmingActivities2,
-        address1,
-        address2,
+        cell,
+        idSA,
+        landLine,
+        lastName,
+        addArea,
+        addOne,
+        addTwo,
+        addThree,
+        postalCode,
+        province,
+        farmingCategory,
+        farmingDescription,
+        farmingApproach,
+        sellingCrops,
+        sellingProducts,
+        sellingLivestock
     }, ctx, info) {
         const userId = getUserId(ctx)
         return ctx.db.mutation.updateUser({
@@ -20,23 +30,68 @@ const profile = {
                 data: {
                     personalDetails: {
                         upsert: {
-                            update: personalDetails1,
-                            create: personalDetails2
-                        }
-                    },
-                    farmingActivities: {
-                        upsert: {
-                            update: farmingActivities1,
-                            create: farmingActivities2
+                            update: {
+                                lastName: lastName,
+                                cell: cell,
+                                landLine: landLine,
+                                idSA: idSA
+                            },
+                            create: {
+                                lastName: lastName,
+                                cell: cell,
+                                landLine: landLine,
+                                idSA: idSA
+                            }
                         }
                     },
                     address: {
                         upsert: {
-                            update: address1,
-                            create: address2
+                            update: {
+                                line1: addOne,
+                                line2: addTwo,
+                                line3: addThree,
+                                area: addArea,
+                                postalCode: postalCode,
+                                province: province
+                            },
+                            create: {
+                                line1: addOne,
+                                line2: addTwo,
+                                line3: addThree,
+                                area: addArea,
+                                postalCode: postalCode,
+                                province: province
+                            }
+                        }
+                    },
+                    farmingActivities: {
+                        upsert: {
+                            update: {
+                                category: farmingCategory,
+                                shortDescription: farmingDescription,
+                                cultivationApproach: farmingApproach,
+                                selling: {
+                                    update: {
+                                        crops: sellingCrops,
+                                        livestock: sellingLivestock,
+                                        products: sellingProducts
+                                    }
+                                }
+                            },
+                            create: {
+                                category: farmingCategory,
+                                shortDescription: farmingDescription,
+                                cultivationApproach: farmingApproach,
+                                selling: {
+                                    create: {
+                                        crops: sellingCrops,
+                                        livestock: sellingLivestock,
+                                        products: sellingProducts
+                                    }
+                                }
+                            }
                         }
                     }
-
                 },
 
             },

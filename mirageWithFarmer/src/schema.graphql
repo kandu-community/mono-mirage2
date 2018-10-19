@@ -38,12 +38,22 @@ type Mutation {
     province: String
   ): Address
   updateStableInfo(
-    personalDetails1: PersonalDetailsUpdateWithoutPersonDataInput!
-    personalDetails2: PersonalDetailsCreateWithoutPersonInput!
-    farmingActivities1: FarmingActivitiesUpdateWithoutFarmerDataInput!
-    farmingActivities2: FarmingActivitiesCreateWithoutFarmerInput!
-    address1: AddressUpdateWithoutResidentDataInput!
-    address2: AddressCreateWithoutResidentInput!
+    cell: String!
+    idSA: String!
+    landLine: String!
+    lastName: String!
+    addArea: String!
+    addOne: String!
+    addTwo: String!
+    addThree: String!
+    postalCode: String!
+    province: String!
+    farmingCategory: String!
+    farmingDescription: String!
+    farmingApproach: String!
+    sellingCrops: Boolean!
+    sellingProducts: Boolean!
+    sellingLivestock: Boolean!
   ): User
   updateFarm(
     name: String

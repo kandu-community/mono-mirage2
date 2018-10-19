@@ -9,14 +9,19 @@ const Query = {
   }, ctx, info) {
     return ctx.db.query.crops({
       where: {
-        AND: {
-          farm: {
-            id: farmId
+        AND: [{
+            farm: {
+              id: farmId
+            }
           },
-          harvestWindow: {
-            to_gt: today
+          {
+            harvestWindow: {
+              to_gt: today
+            }
           }
-        }
+
+        ]
+
       },
       orderBy: "createdAt_DESC"
     }, info)

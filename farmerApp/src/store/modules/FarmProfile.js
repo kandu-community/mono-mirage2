@@ -33,6 +33,12 @@ const getters = {
 }
 
 const actions = {
+    farmProfile({
+        state
+    }, payload) {
+        state.farmProfile = payload
+        console.log('TCL: state.farmProfile', state.farmProfile);
+    },
     setFarmLocation({
         state
     }, payload) {
@@ -104,8 +110,6 @@ const actions = {
         delete farmData.__typename
         console.log('TCL: farmData', farmData);
         await upsertToPouch("farm", farmData)
-
-
     }
 }
 

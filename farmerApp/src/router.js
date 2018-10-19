@@ -6,6 +6,7 @@ import LogIn from './views/Login.vue';
 import SignUp from './views/SignUp.vue';
 import FarmProfile from './views/FarmProfile.vue';
 import CropCapture from './views/CropCapture.vue';
+import ProductCapture from './views/ProductCapture.vue';
 
 Vue.use(Router)
 
@@ -52,13 +53,21 @@ export default new Router({
       },
     },
     {
+      path: '/products',
+      name: 'ProductCapture',
+      component: ProductCapture,
+      meta: {
+        requiresAuth: true
+      },
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import ( /* webpackChunkName: "about" */ './views/About.vue')
+        import( /* webpackChunkName: "about" */ './views/About.vue')
     }
   ]
 })

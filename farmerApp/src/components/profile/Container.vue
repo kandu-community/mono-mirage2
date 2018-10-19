@@ -77,7 +77,11 @@ export default {
       }
     },
     name() {
-      return this.$store.getters.docs.me.nm; // TODO change to new deconstructed me object in AppState
+      if (this.$store.getters.me === null) {
+        return null;
+      } else {
+        return this.$store.getters.me.nm; // TODO change to new deconstructed me object in AppState
+      }
     },
     stepperData() {
       return this.$store.getters.stepperData;
