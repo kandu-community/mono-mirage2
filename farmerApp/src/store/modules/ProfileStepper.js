@@ -8,15 +8,6 @@ import {
 
 import gql from 'graphql-tag'
 import upsertToPouch from '@/helpers/upsertToPouch'
-// import { idDataExtraction } from '@/helpers/idDataExtraction'
-
-// var zaId = "7701025046083"
-// console.log('TCL: -----------');
-// console.log('TCL: zaId', zaId);
-// console.log('TCL: -----------');
-// idDataExtraction(zaId)
-
-
 
 const state = {
     personalDetails: null,
@@ -25,7 +16,6 @@ const state = {
     element: 1,
     draftDone: false,
     profileIsOnline: false,
-    // me: null
 }
 
 const getters = {
@@ -49,13 +39,11 @@ const getters = {
     }
 }
 
-
 const actions = {
 
     async sendProfile({
         state
     }) {
-        // : state.personalDetails: state.address: state.farmingActivities
 
         function prepareForPrisma(dbObj) { // function that removes _id and _revision from objects I want to send to prisma
             delete dbObj._id
@@ -150,6 +138,7 @@ const actions = {
         const data = await response.data
         console.log('TCL: data', data);
     },
+
     draftDone({
         state
     }, bool) {
@@ -158,6 +147,7 @@ const actions = {
         console.log('TCL: state.draftDone', state.draftDone);
         console.log('TCL: ---------------------------------------');
     },
+
     dbProfile({
         state
     }, payload) {
@@ -167,11 +157,13 @@ const actions = {
         state.farmingActivities = payload.farmingActivities
         //state.personalDetails.id
     },
+
     changeElement({
         state
     }, payload) {
         state.element = payload
     },
+
     personalDetails({
         state
     }, payload) {
@@ -181,12 +173,14 @@ const actions = {
         var docName = "personalDetails"
         upsertToPouch(docName, payload)
     },
+
     address({
         state
     }, payload) {
         var docName = "address"
         upsertToPouch(docName, payload)
     },
+
     async farmingActivities({
         state
     }, payload) {
@@ -194,6 +188,7 @@ const actions = {
         console.log(`farmingActivities has: ${payload}`)
         upsertToPouch(docName, payload);
     },
+
     async fetchMe({
         state
     }) {

@@ -11,7 +11,11 @@
             label="Product Description"
             single-line
         ></v-text-field>
-        
+        <v-cloudinary-upload 
+          v-model="image"
+          upload-preset="gi9lyrb6"
+          cloud-name="dylan-van-den-bosch"
+        />
     </v-container>
 </template>
 
@@ -19,6 +23,7 @@
 export default {
   data() {
     return {
+      image: null,
       units: [
         "Each/Item",
         "dozen",

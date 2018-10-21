@@ -4,6 +4,8 @@ import './plugins/vuetify'
 import Vuelidate from 'vuelidate'
 import VueOffline from 'vue-offline'
 import apolloClient from './apollo'
+import vuetifyCloudinaryUpload from 'vuetify-cloudinary-upload'
+
 
 import
 VueApollo
@@ -44,6 +46,7 @@ new Vue({
   router,
   store,
   provide: apolloProvider.provide(), // Lastly, we make use of the apolloProvider object by adding it in our Vue instance, the same way we would use Vue router.
+  components: { vuetifyCloudinaryUpload },
   render: h => h(App)
 }).$mount('#app')
 

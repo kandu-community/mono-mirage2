@@ -184,7 +184,6 @@ const profile = {
         )
     },
 
-
     async createAddress(parent, {
         line1,
         line2,
@@ -212,6 +211,7 @@ const profile = {
             info
         )
     },
+
     async createPersonalDetails(parent, {
         lastName,
         cell,
@@ -235,6 +235,7 @@ const profile = {
             info
         )
     },
+
     async createFarmingActivities(parent, {
         category,
         shortDescription,
@@ -267,6 +268,7 @@ const profile = {
             info
         )
     },
+    
     async createFarm(parent, {
         totalLand,
         cultivatedLand,
@@ -300,10 +302,6 @@ const profile = {
         )
     }
 }
-
-
-
-
 
 module.exports = {
     profile
