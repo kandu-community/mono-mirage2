@@ -37,6 +37,7 @@
 
 <script>
 import logo from "@/assets/kandu.png";
+
 export default {
   name: "App",
   created() {

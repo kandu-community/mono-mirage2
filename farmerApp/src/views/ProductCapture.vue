@@ -11,11 +11,7 @@
             label="Product Description"
             single-line
         ></v-text-field>
-        <v-cloudinary-upload 
-          v-model="image"
-          upload-preset="gi9lyrb6"
-          cloud-name="dylan-van-den-bosch"
-        />
+        <input type="file" accept="image/*">
     </v-container>
 </template>
 
@@ -23,7 +19,11 @@
 export default {
   data() {
     return {
-      image: null,
+      product: {
+        name: null,
+        description: null,
+        image: null
+      },
       units: [
         "Each/Item",
         "dozen",
@@ -33,6 +33,7 @@ export default {
         "Litres"
       ]
     };
-  }
+  },
+  components: { "v-cloudinary-upload": vuetifyCloudinaryUpload }
 };
 </script>
