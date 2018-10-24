@@ -11,18 +11,35 @@
             label="Product Description"
             single-line
         ></v-text-field>
-        <input type="file" accept="image/*">
+
+        <v-cloudinary-upload 
+          v-model="product.image"
+          :upload-preset="cloudinary.preset"
+          :cloud-name="cloudinary.name"
+          @input="gotImageSource"
+        />
+        <img
+          v-if="thumbnailSrc"
+          :src="thumbnailSrc" />
     </v-container>
+
 </template>
 
 <script>
+import vuetifyCloudinaryUpload from "vuetify-cloudinary-upload";
+import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 export default {
   data() {
     return {
+      thumbnailSrc: null,
       product: {
         name: null,
         description: null,
         image: null
+      },
+      cloudinary: {
+        name: "dylan-van-den-bosch",
+        preset: "gi9lyrb6"
       },
       units: [
         "Each/Item",
@@ -34,6 +51,17 @@ export default {
       ]
     };
   },
+  methods: {
+    gotImageSource(e) {
+      console.log("TCL: gotImageSource -> e", e);
+      const src = srcForCloudinary(this.cloudinary.name, e);
+      console.log("TCL: gotImageSource -> src", src);
+      this.thumbnailSrc = src;
+    }
+  },
   components: { "v-cloudinary-upload": vuetifyCloudinaryUpload }
 };
 </script>
+<style scoped>
+</style>
+
