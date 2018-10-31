@@ -44,7 +44,7 @@ type FarmingActivities {
   shortDescription: String
   cultivationApproach: String
   selling: SalesCatogories
-  farmer: User!  
+  farmer: User!
 }
 
 type SalesCatogories {
@@ -62,7 +62,8 @@ type Farm {
   gpsPoints: Location!
   farmersAssociations: String
   farmer: User
-  crops: [Crop!]! @relation(name:"FarmCrops")
+  crops: [Crop!]! @relation(name: "FarmCrops")
+  products: [Product!]! @relation(name: "FarmProducts")
 }
 
 type Crop {
@@ -71,7 +72,7 @@ type Crop {
   name: String!
   description: String!
   harvestWindow: HarvestWindow!
-  farm: Farm! @relation(name:"FarmCrops")
+  farm: Farm! @relation(name: "FarmCrops")
 }
 
 type _ProduceTable {
@@ -91,6 +92,18 @@ type _Produce {
 type Location {
   lat: Float!
   lng: Float!
+}
+
+type Product {
+  id: ID! @unique
+  name: String!
+  description: String
+  unit: String
+  stockLevel: Float
+  price: Float
+  imageSrc: String
+  imageName: String
+  farm: Farm! @relation(name: "FarmProducts")
 }
 
 # eg. datetime: "2015-11-22"

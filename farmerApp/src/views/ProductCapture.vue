@@ -11,7 +11,21 @@
             label="Product Description"
             single-line
         ></v-text-field>
-
+        <v-select
+          :items="units"
+          v-model="product.unit"
+          label="Unit of measure"
+        ></v-select>
+        <v-text-field
+          label="Available Units in Stock"
+          v-model="product.stockLevel"
+        ></v-text-field>
+        <v-text-field
+          label="Price"
+          v-model="product.price"
+          prefix="R"
+        ></v-text-field>
+        <p>How about a picture of your lovely product</p>
         <v-cloudinary-upload 
           v-model="product.image"
           :upload-preset="cloudinary.preset"
@@ -19,10 +33,10 @@
           @input="gotImageSource"
         />
         <img
-          v-if="thumbnailSrc"
-          :src="thumbnailSrc" />
+          v-if="product.imageSrc"
+          :src="product.imageSrc" />
+        <v-btn @click="submit"  color="success">Upload Your Product</v-btn>
     </v-container>
-
 </template>
 
 <script>
@@ -31,11 +45,13 @@ import srcForCloudinary from "@/helpers/srcForCloudinary.js";
 export default {
   data() {
     return {
-      thumbnailSrc: null,
       product: {
         name: null,
         description: null,
-        image: null
+        unit: null,
+        stockLevel: null,
+        price: null,
+        imageSrc: null
       },
       cloudinary: {
         name: "dylan-van-den-bosch",
@@ -56,7 +72,10 @@ export default {
       console.log("TCL: gotImageSource -> e", e);
       const src = srcForCloudinary(this.cloudinary.name, e);
       console.log("TCL: gotImageSource -> src", src);
-      this.thumbnailSrc = src;
+      this.product.imageSrc = src;
+    },
+    submit() {
+      this.$store.dispatch("saveProduct", this.product);
     }
   },
   components: { "v-cloudinary-upload": vuetifyCloudinaryUpload }

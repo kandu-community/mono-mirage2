@@ -184,6 +184,37 @@ const profile = {
         )
     },
 
+
+    async createProduct(parent, {
+        farmId,
+        name,
+        description,
+        unit,
+        stockLevel,
+        price,
+        imageSrc,
+        imageName,
+    }, ctx, info) {
+        return ctx.db.mutation.createProduct({
+                data: {
+                    name,
+                    description,
+                    unit,
+                    stockLevel,
+                    price,
+                    imageSrc,
+                    imageName,
+                    farm: {
+                        connect: {
+                            id: farmId
+                        }
+                    }
+                }
+            },
+            info
+        )
+    },
+
     async createAddress(parent, {
         line1,
         line2,
@@ -268,7 +299,7 @@ const profile = {
             info
         )
     },
-    
+
     async createFarm(parent, {
         totalLand,
         cultivatedLand,
