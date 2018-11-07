@@ -1,0 +1,26 @@
+# import Post from "./generated/prisma.graphql"
+# import Post from "./generated/prisma.graphql"
+# import User from "./generated/prisma.graphql"
+# import PersonalDetails from "./generated/prisma.graphql"
+# import Address from "./generated/prisma.graphql"
+# import FarmingActivities from "./generated/prisma.graphql"
+# import _ProduceTable from "./generated/prisma.graphql"
+# import _Produce from "./generated/prisma.graphql"
+
+# import Location from "./generated/prisma.graphql"
+# import HarvestWindow from "./generated/prisma.graphql"
+# import CropCategory from "./generated/prisma.graphql"
+# import Role from "./generated/prisma.graphql"
+# import _Produce from "./generated/prisma.graphql"
+
+
+type Query {
+  usersFilterByName(filter: String): [User!]!
+  produceList: [_Produce!]!
+}
+
+type Mutation {
+  createUser(data: UserCreateInput!): User!
+  create_ProduceTable(name: String, objArray: _ProduceCreateManyWithoutGroupInput): _ProduceTable!
+  addVeg(veg: _ProduceCreateInput!): _Produce!
+}

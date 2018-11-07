@@ -8,6 +8,11 @@
         hint="Whichever best describes your operation"
         persistent-hint
     ></v-select>
+    <v-autocomplete
+      label="Cultivation Approach"
+      :items="cultivationSelection"
+      v-model="farmingActivities.cultivationApproach"
+    ></v-autocomplete>
     <br>
     <p>What kind of things do you do? That is: What would you want to sell via our network?</p>        
     <v-checkbox label="I grow crops" v-model="farmingActivities.selling.crops"></v-checkbox>
@@ -36,10 +41,17 @@ export default {
   },
   data() {
     return {
+      cultivationSelection: [
+        "Organic",
+        "Certified Organic",
+        "Some Chemicals Used",
+        "Fully Chemical Approach"
+      ],
       activitiesSelection: ["Commercial", "Semi-Commercial", "Market-Farmer"],
       farmingActivities: {
         category: "",
         shortDescription: "",
+        cultivationApproach: "",
         selling: {
           crops: true,
           livestock: false,
@@ -77,7 +89,6 @@ export default {
   //         shortDescription: null,
   //         longDescription: this.longDescription
   //       })
-  //   // TODO Move this out
   //   this.$apollo
   //     .mutate({
   //       mutation: FARMINGACTIVITIES_MUTATION,

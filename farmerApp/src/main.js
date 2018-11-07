@@ -3,22 +3,10 @@ import Vue from 'vue'
 import './plugins/vuetify'
 import Vuelidate from 'vuelidate'
 import VueOffline from 'vue-offline'
+import apolloClient from './apollo'
 
-import {
-  ApolloClient
-} from 'apollo-client'
-import {
-  HttpLink
-} from 'apollo-link-http'
-import {
-  setContext
-} from 'apollo-link-context'
-import {
-  onError
-} from "apollo-link-error";
-import {
-  InMemoryCache
-} from 'apollo-cache-inmemory'
+
+
 import
 VueApollo
 from 'vue-apollo'
@@ -35,54 +23,6 @@ Vue.config.productionTip = false
 
 // install the vue-moment plugin
 Vue.use(VueOffline, vueMoment, Vuelidate.default); // I've always done this wrong: importing into each component that uses it instead of here as a "global"
-
-const httpLink = new HttpLink({ // Here, we create a new instance of httpLink with the URL ( http://localhost:4000/) of our GraphQL server.
-  // uri: 'https://mirage-advanced-frdudlwdkj.now.sh/'
-  uri: 'http://localhost:4000/'
-})
-
-const errorLink = onError(
-  // TODO find out how apollo-link-error works
-  ({
-    operation,
-    response,
-    graphQLErrors,
-    networkError
-  }) => {
-    // temp to see what's wrong with signup
-    if (graphQLErrors) {
-      console.log("gqlError", {
-        graphQLErrors
-      });
-    }
-    if (networkError) console.log({
-      networkError
-    });
-  }
-);
-
-const httpLinkAuth = setContext((_, { // Then we make use of the setContext object to create an httpLinkAuth that gets the user token from local storage and return the headers, which contain the Authorization header.
-  headers
-}) => {
-  // get the authentication token from localstorage if it exists
-  const token = localStorage.getItem('USER_TOKEN')
-
-  // return the headers to the context so httpLink can read them
-  return {
-    headers: {
-      ...headers,
-      Authorization: token ? `Bearer ${token}` : '' // TODO Dylan: IN Monthly reports app: use this method in place of string concatenation
-    }
-  }
-})
-var link = errorLink.concat(httpLink)
-link = httpLinkAuth.concat(link)
-
-// Next, we create an Apollo client using the httpLink and httpLinkAuth created above and specify we want an in-memory cache.
-const apolloClient = new ApolloClient({
-  link,
-  cache: new InMemoryCache()
-})
 
 // install the vue plugin
 Vue.use(VueApollo)
@@ -106,7 +46,6 @@ new Vue({
   router,
   store,
   provide: apolloProvider.provide(), // Lastly, we make use of the apolloProvider object by adding it in our Vue instance, the same way we would use Vue router.
+
   render: h => h(App)
 }).$mount('#app')
-
-export default apolloClient

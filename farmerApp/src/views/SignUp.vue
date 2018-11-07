@@ -42,7 +42,7 @@ fluid
 <script>
 import { SIGNUP_MUTATION } from "@/graphql/mutations";
 
-import db from "@/api/pouchDB";
+import upsertToPouch from '@/helpers/upsertToPouch'
 
 export default {
   name: "SignUp",
@@ -81,11 +81,13 @@ export default {
           pw: this.password,
           em: this.email
         };
-        db.put(doc);
-        this.$router.replace("/");
-        db.get("me").then(function(doc) {
-          console.log(doc);
-        });
+        
+        upsertToPouch("me", doc)
+        // db.put(doc);
+        // this.$router.replace("/");
+        // db.get("me").then(function(doc) {
+        //   console.log(doc);
+        // });
 
         this.$apollo
           .mutate({

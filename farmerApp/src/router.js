@@ -4,6 +4,9 @@ import Home from './views/Home.vue'
 import ProfileForm from './views/ProfileForm.vue';
 import LogIn from './views/Login.vue';
 import SignUp from './views/SignUp.vue';
+import FarmProfile from './views/FarmProfile.vue';
+import CropCapture from './views/CropCapture.vue';
+import ProductCapture from './views/ProductCapture.vue';
 
 Vue.use(Router)
 
@@ -27,11 +30,35 @@ export default new Router({
     },
     {
       path: '/profile',
-      name: 'profile',
+      name: 'ProfileForm',
       component: ProfileForm,
       meta: {
         requiresAuth: true
       }
+    },
+    {
+      path: '/farm-profile',
+      name: 'FarmProfile',
+      component: FarmProfile,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/crop-capture',
+      name: 'CropCapture',
+      component: CropCapture,
+      meta: {
+        requiresAuth: true
+      },
+    },
+    {
+      path: '/products',
+      name: 'ProductCapture',
+      component: ProductCapture,
+      meta: {
+        requiresAuth: true
+      },
     },
     {
       path: '/about',
@@ -40,7 +67,7 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: () =>
-        import ( /* webpackChunkName: "about" */ './views/About.vue')
+        import( /* webpackChunkName: "about" */ './views/About.vue')
     }
   ]
 })

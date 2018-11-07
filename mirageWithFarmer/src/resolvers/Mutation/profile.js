@@ -3,72 +3,218 @@ const {
 } = require('../../utils')
 
 
-/**
-{
-  "personalDetails": {"update": {"cell": "88888888","idSA": "7777777777777", "landLine": "88888888", "lastName": "Wetter"},
-  										"create": {"cell": "88888888","idSA": "7777777777777", "landLine": "88888888", "lastName": "Wetter"}},
-  "address": {"update": {"area": "there","line1": "What there is","postalCode": "66644"},
-    						"create": {"area": "there","line1": "What there is","postalCode": "66644"}},
-  "farmingActivities": {"update": {"category": "Market Garden", "shortDescription": "Market Garden", "longDescription": "Carrots and Beans"},
-    											"create": {"category": "Market Garden", "shortDescription": "Market Garden", "longDescription": "Carrots and Beans"}}
-}
-
-
-
-
-
- */
 const profile = {
     async updateStableInfo(parent, {
-        personalDetails,
-        address,
-        farmingActivities
+        cell,
+        idSA,
+        landLine,
+        lastName,
+        addArea,
+        addOne,
+        addTwo,
+        addThree,
+        postalCode,
+        province,
+        farmingCategory,
+        farmingDescription,
+        farmingApproach,
+        sellingCrops,
+        sellingProducts,
+        sellingLivestock
     }, ctx, info) {
         const userId = getUserId(ctx)
         return ctx.db.mutation.updateUser({
-                data: {
-                    personalDetails: {
-                        upsert: personalDetails
-                    },
-                    address: {
-                        upsert: address
-                    },
-                    farmingActivities: {
-                        upsert: farmingActivities
-                    }
-                },
                 where: {
                     id: userId
+                },
+                data: {
+                    personalDetails: {
+                        upsert: {
+                            update: {
+                                lastName: lastName,
+                                cell: cell,
+                                landLine: landLine,
+                                idSA: idSA
+                            },
+                            create: {
+                                lastName: lastName,
+                                cell: cell,
+                                landLine: landLine,
+                                idSA: idSA
+                            }
+                        }
+                    },
+                    address: {
+                        upsert: {
+                            update: {
+                                line1: addOne,
+                                line2: addTwo,
+                                line3: addThree,
+                                area: addArea,
+                                postalCode: postalCode,
+                                province: province
+                            },
+                            create: {
+                                line1: addOne,
+                                line2: addTwo,
+                                line3: addThree,
+                                area: addArea,
+                                postalCode: postalCode,
+                                province: province
+                            }
+                        }
+                    },
+                    farmingActivities: {
+                        upsert: {
+                            update: {
+                                category: farmingCategory,
+                                shortDescription: farmingDescription,
+                                cultivationApproach: farmingApproach,
+                                selling: {
+                                    update: {
+                                        crops: sellingCrops,
+                                        livestock: sellingLivestock,
+                                        products: sellingProducts
+                                    }
+                                }
+                            },
+                            create: {
+                                category: farmingCategory,
+                                shortDescription: farmingDescription,
+                                cultivationApproach: farmingApproach,
+                                selling: {
+                                    create: {
+                                        crops: sellingCrops,
+                                        livestock: sellingLivestock,
+                                        products: sellingProducts
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+
+            },
+            info)
+    },
+
+    async updateFarm(parent, {
+        name,
+        totalLand,
+        cultivatedLand,
+        shareLocation,
+        lat,
+        lng,
+        farmersAssociations,
+    }, ctx, info) {
+        const userId = getUserId(ctx)
+        return ctx.db.mutation.updateUser({
+                where: {
+                    id: userId
+                },
+                data: {
+                    farm: {
+                        upsert: {
+                            update: {
+                                name,
+                                totalLand,
+                                cultivatedLand,
+                                shareLocation,
+                                farmersAssociations,
+                                gpsPoints: {
+                                    upsert: {
+                                        update: {
+                                            lat: lat,
+                                            lng: lng
+                                        },
+                                        create: {
+                                            lat: lat,
+                                            lng: lng
+                                        }
+                                    }
+                                }
+                            },
+                            create: {
+                                name,
+                                totalLand,
+                                cultivatedLand,
+                                shareLocation,
+                                farmersAssociations,
+                                gpsPoints: {
+                                    create: {
+                                        lat: lat,
+                                        lng: lng
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            info
+        )
+    },
+    async createCrop(parent, {
+        farmId,
+        category,
+        name,
+        description,
+        startDate,
+        endDate,
+    }, ctx, info) {
+        return ctx.db.mutation.createCrop({
+                data: {
+                    category,
+                    name,
+                    description,
+                    harvestWindow: {
+                        create: {
+                            from: startDate,
+                            to: endDate
+                        }
+                    },
+                    farm: {
+                        connect: {
+                            id: farmId
+                        }
+                    }
                 }
             },
             info
         )
     },
 
-    /** Example from post.js
-     * 
-        async createDraft(parent, {
-            title,
-            text
-        }, ctx, info) {
-            const userId = getUserId(ctx)
-            return ctx.db.mutation.createPost({
-                    data: {
-                        title,
-                        text,
-                        isPublished: false,
-                        author: {
-                            connect: {
-                                id: userId
-                            },
-                        },
-                    },
-                },
-                info
-            )
-        },
-     */
-    // TODO: Change these to update mutations
+
+    async createProduct(parent, {
+        farmId,
+        name,
+        description,
+        unit,
+        stockLevel,
+        price,
+        imageSrc,
+        imageName,
+    }, ctx, info) {
+        return ctx.db.mutation.createProduct({
+                data: {
+                    name,
+                    description,
+                    unit,
+                    stockLevel,
+                    price,
+                    imageSrc,
+                    imageName,
+                    farm: {
+                        connect: {
+                            id: farmId
+                        }
+                    }
+                }
+            },
+            info
+        )
+    },
+
     async createAddress(parent, {
         line1,
         line2,
@@ -96,6 +242,7 @@ const profile = {
             info
         )
     },
+
     async createPersonalDetails(parent, {
         lastName,
         cell,
@@ -119,10 +266,14 @@ const profile = {
             info
         )
     },
+
     async createFarmingActivities(parent, {
         category,
         shortDescription,
-        longDescription,
+        cultivationApproach,
+        crops,
+        livestock,
+        products
 
     }, ctx, info) {
         const userId = getUserId(ctx)
@@ -130,7 +281,14 @@ const profile = {
                 data: {
                     category,
                     shortDescription,
-                    longDescription,
+                    cultivationApproach,
+                    selling: {
+                        create: {
+                            crops,
+                            livestock,
+                            products,
+                        }
+                    },
                     farmer: {
                         connect: {
                             id: userId
@@ -142,8 +300,38 @@ const profile = {
         )
     },
 
+    async createFarm(parent, {
+        totalLand,
+        cultivatedLand,
+        shareLocation,
+        farmersAssociations,
+        lat,
+        lng
+    }, ctx, info) {
+        const userId = getUserId(ctx)
 
-
+        return ctx.db.mutation.createFarm({
+                data: {
+                    totalLand,
+                    cultivatedLand,
+                    shareLocation,
+                    farmersAssociations,
+                    gpsPoints: {
+                        create: {
+                            lat,
+                            lng
+                        }
+                    },
+                    farmer: {
+                        connect: {
+                            id: userId
+                        }
+                    }
+                }
+            },
+            info
+        )
+    }
 }
 
 module.exports = {

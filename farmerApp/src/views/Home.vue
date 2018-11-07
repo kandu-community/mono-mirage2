@@ -1,16 +1,23 @@
 <template>
-  <v-container fluid>
-      <v-flex xs12 sm10 offset-sm1 md8 offset-md2 lg6 offset-lg3 xl4  offset-xl2>
+  <v-container grid-list-lg fluid>
+    <v-layout justify-center row wrap>
+      <v-flex xs12 sm10 md8 lg6 xl4  >
 
-        <v-btn to="/profile" block color="primary" dark>My Profile</v-btn>
-        <v-btn block color="primary" dark>The Farm</v-btn>
-        <v-btn block color="primary" dark>Our Crops</v-btn>
-        <v-btn block color="primary" dark>Our Products</v-btn>
-        <v-btn block color="primary" dark>Our Livestock</v-btn>
+        <v-btn to="/profile" 
+          block color="primary" dark>My Profile</v-btn>
+        <v-btn to="/farm-profile" 
+          block color="primary" dark>The Farm</v-btn>
+        <v-btn to="/crop-capture" v-if="farmProfile !== null && farmingActivities.selling.crops === true"
+          block color="primary" dark>Capture A Crop</v-btn>
+        <v-btn to="/products" v-if="farmProfile !== null && farmingActivities.selling.products === true"
+          block color="primary" dark>Our Products</v-btn>
+        <!-- <v-btn block color="primary" dark>Our Livestock</v-btn> -->
         <br>
         <v-btn @click="logout" block color="secondary" dark>Log Out</v-btn>
   
       </v-flex>
+      
+    </v-layout>
     
   </v-container>
 
@@ -21,6 +28,14 @@ export default {
     logout() {
       localStorage.removeItem("USER_TOKEN");
       this.$router.replace("/login");
+    }
+  },
+  computed: {
+    farmProfile() {
+      return this.$store.getters.farmProfile;
+    },
+    farmingActivities() {
+      return this.$store.getters.farmingActivities;
     }
   }
 };

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const auth = {
   async signup(parent, args, ctx, info) {
-    const password = await bcrypt.hash(args.password, 10) // In the signup mutation, the first thing to do is encrypting the User’s password using the bcryptjs library which you’ll install later.
+    const password = await bcrypt.hash(args.password, 10) // In the signup mutation, the first thing to do is encrypting the User’s password using the bcryptjs library 
     const user = await ctx.db.mutation.createUser({ // The next step is to use the Prisma binding instance to store the new User in the database. Notice that you’re hardcoding the id in the selection set - nothing else. We’ll discuss this in more in detail soon.
       data: { ...args,
         password

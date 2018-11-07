@@ -10,7 +10,7 @@
         <v-icon>menu</v-icon>
       </v-btn>
       <v-toolbar-title>
-        Kandu Farms
+        Kandu Food
       </v-toolbar-title>
       <v-spacer></v-spacer>
         
@@ -37,18 +37,18 @@
 
 <script>
 import logo from "@/assets/kandu.png";
+
 export default {
   name: "App",
-  created () {
-    this.$on('online', function () {
-      this.onlineState = "I'm online now!"
-      this.$store.dispatch('isOnline', true) 
-
-    })
-    this.$on('offline', function () {
-      this.onlineState = "I'm offline now!"
-      this.$store.dispatch('isOnline', false) 
-    })
+  created() {
+    this.$on("online", function() {
+      this.onlineState = "I'm online now!";
+      this.$store.dispatch("isOnline", true);
+    });
+    this.$on("offline", function() {
+      this.onlineState = "I'm offline now!";
+      this.$store.dispatch("isOnline", false);
+    });
   },
   data() {
     return {

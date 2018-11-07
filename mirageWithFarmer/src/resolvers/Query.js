@@ -3,6 +3,29 @@ const {
 } = require('../utils')
 
 const Query = {
+  async currentCrops(parent, {
+    farmId,
+    today
+  }, ctx, info) {
+    return ctx.db.query.crops({
+      where: {
+        AND: [{
+            farm: {
+              id: farmId
+            }
+          },
+          {
+            harvestWindow: {
+              to_gt: today
+            }
+          }
+
+        ]
+
+      },
+      orderBy: "createdAt_DESC"
+    }, info)
+  },
 
   feed(parent, args, ctx, info) {
     return ctx.db.query.posts({
@@ -71,6 +94,13 @@ const Query = {
       }
     }, '{ name email role id }')
   },
+  produceList(parent, args, ctx, info) {
+    return ctx.db.query._Produces({}, info)
+  },
+
+
+
+
 }
 
 module.exports = {

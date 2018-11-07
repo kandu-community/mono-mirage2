@@ -1,5 +1,7 @@
 import db from '@/api/pouchDB'
-import {store} from "../store";
+import {
+  store
+} from "../store";
 
 
 // https://bl.ocks.org/nolanlawson/3e096160b848689f1058
@@ -47,39 +49,49 @@ function arrangeState(docsObj) {
   var address = {}
   var personalDetails = {}
   var farmingActivities = {}
+  var farmProfile = {}
+  var crops = []
   var me = {}
 
+  if (typeof docsObj.me === "undefined") {
+    me = null;
+  } else {
+    me = docsObj.me;
+  }
   if (typeof docsObj.address === 'undefined') { // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
     address = null
   } else {
     address = docsObj.address
   }
   if (typeof docsObj.personalDetails === "undefined") {
-    // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
     personalDetails = null;
   } else {
     personalDetails = docsObj.personalDetails;
   }
   if (typeof docsObj.farmingActivities === "undefined") {
-    // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
     farmingActivities = null;
   } else {
     farmingActivities = docsObj.farmingActivities;
   }
-  if (typeof docsObj.me === "undefined") {
-    // from https://flaviocopes.com/how-to-check-undefined-property-javascript/
-    me = null;
+  if (typeof docsObj.farm === "undefined") {
+    farmProfile = null;
   } else {
-    me = docsObj.me;
+    farmProfile = docsObj.farm;
   }
+  if (typeof docsObj.crops === "undefined") {
+    crops = null;
+  } else {
+    crops = docsObj.crops;
+  }
+
   state.me = me
   var payload = {
     address,
     personalDetails,
     farmingActivities,
-    
   }
   store.dispatch('dbProfile', payload)
+  store.dispatch('farmProfile', farmProfile)
 }
 
 
@@ -88,7 +100,7 @@ function fetchInitialDocs() {
     include_docs: true
   }).then(function (res) {
     docs = res.rows.map(
-      function(row) {
+      function (row) {
         return row.doc;
       }
     );
@@ -149,16 +161,26 @@ const getters = {
   },
   docsIsInitialized(state) {
     return state.docsIsInitialized
+  },
+  me(state) {
+    return state.me
   }
 };
 
 const actions = {
-    isOnline({ state }, payload) {
-        state.isOnline = payload;
-        console.log('TCL: -----------------------------------------------');
-        console.log('TCL: isOnline -> state.isOnline', state.isOnline);
-        console.log('TCL: -----------------------------------------------');
+  isOnline({
+    state
+  }, payload) {
+    state.isOnline = payload;
+    console.log('TCL: -----------------------------------------------');
+    console.log('TCL: isOnline -> state.isOnline', state.isOnline);
+    console.log('TCL: -----------------------------------------------');
   },
+  swAlertOffline({
+    state
+  }) {
+    console.log('Service Worker has let vuex know that we be offline')
+  }
 };
 
 export default {

@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/public-forkbell-321/mirage-advanced/dev
-# timestamp: Wed Oct 24 2018 18:18:03 GMT+0200 (SAST)
+# timestamp: Tue Oct 16 2018 13:51:35 GMT+0200 (SAST)
 
 type _Produce {
   name: String!
@@ -866,10 +866,6 @@ type AggregatePost {
   count: Int!
 }
 
-type AggregateProduct {
-  count: Int!
-}
-
 type AggregateSalesCatogories {
   count: Int!
 }
@@ -1192,7 +1188,6 @@ type Farm implements Node {
   farmersAssociations: String
   farmer: User
   crops(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Crop!]
-  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product!]
 }
 
 """A connection to a list of items."""
@@ -1214,7 +1209,6 @@ input FarmCreateInput {
   gpsPoints: LocationCreateOneInput!
   farmer: UserCreateOneWithoutFarmInput
   crops: CropCreateManyWithoutFarmInput
-  products: ProductCreateManyWithoutFarmInput
 }
 
 input FarmCreateOneWithoutCropsInput {
@@ -1227,11 +1221,6 @@ input FarmCreateOneWithoutFarmerInput {
   connect: FarmWhereUniqueInput
 }
 
-input FarmCreateOneWithoutProductsInput {
-  create: FarmCreateWithoutProductsInput
-  connect: FarmWhereUniqueInput
-}
-
 input FarmCreateWithoutCropsInput {
   name: String
   totalLand: Int!
@@ -1240,7 +1229,6 @@ input FarmCreateWithoutCropsInput {
   farmersAssociations: String
   gpsPoints: LocationCreateOneInput!
   farmer: UserCreateOneWithoutFarmInput
-  products: ProductCreateManyWithoutFarmInput
 }
 
 input FarmCreateWithoutFarmerInput {
@@ -1250,18 +1238,6 @@ input FarmCreateWithoutFarmerInput {
   shareLocation: Boolean!
   farmersAssociations: String
   gpsPoints: LocationCreateOneInput!
-  crops: CropCreateManyWithoutFarmInput
-  products: ProductCreateManyWithoutFarmInput
-}
-
-input FarmCreateWithoutProductsInput {
-  name: String
-  totalLand: Int!
-  cultivatedLand: Int!
-  shareLocation: Boolean!
-  farmersAssociations: String
-  gpsPoints: LocationCreateOneInput!
-  farmer: UserCreateOneWithoutFarmInput
   crops: CropCreateManyWithoutFarmInput
 }
 
@@ -1617,7 +1593,6 @@ input FarmUpdateInput {
   gpsPoints: LocationUpdateOneRequiredInput
   farmer: UserUpdateOneWithoutFarmInput
   crops: CropUpdateManyWithoutFarmInput
-  products: ProductUpdateManyWithoutFarmInput
 }
 
 input FarmUpdateOneRequiredWithoutCropsInput {
@@ -1625,13 +1600,6 @@ input FarmUpdateOneRequiredWithoutCropsInput {
   connect: FarmWhereUniqueInput
   update: FarmUpdateWithoutCropsDataInput
   upsert: FarmUpsertWithoutCropsInput
-}
-
-input FarmUpdateOneRequiredWithoutProductsInput {
-  create: FarmCreateWithoutProductsInput
-  connect: FarmWhereUniqueInput
-  update: FarmUpdateWithoutProductsDataInput
-  upsert: FarmUpsertWithoutProductsInput
 }
 
 input FarmUpdateOneWithoutFarmerInput {
@@ -1651,7 +1619,6 @@ input FarmUpdateWithoutCropsDataInput {
   farmersAssociations: String
   gpsPoints: LocationUpdateOneRequiredInput
   farmer: UserUpdateOneWithoutFarmInput
-  products: ProductUpdateManyWithoutFarmInput
 }
 
 input FarmUpdateWithoutFarmerDataInput {
@@ -1661,18 +1628,6 @@ input FarmUpdateWithoutFarmerDataInput {
   shareLocation: Boolean
   farmersAssociations: String
   gpsPoints: LocationUpdateOneRequiredInput
-  crops: CropUpdateManyWithoutFarmInput
-  products: ProductUpdateManyWithoutFarmInput
-}
-
-input FarmUpdateWithoutProductsDataInput {
-  name: String
-  totalLand: Int
-  cultivatedLand: Int
-  shareLocation: Boolean
-  farmersAssociations: String
-  gpsPoints: LocationUpdateOneRequiredInput
-  farmer: UserUpdateOneWithoutFarmInput
   crops: CropUpdateManyWithoutFarmInput
 }
 
@@ -1684,11 +1639,6 @@ input FarmUpsertWithoutCropsInput {
 input FarmUpsertWithoutFarmerInput {
   update: FarmUpdateWithoutFarmerDataInput!
   create: FarmCreateWithoutFarmerInput!
-}
-
-input FarmUpsertWithoutProductsInput {
-  update: FarmUpdateWithoutProductsDataInput!
-  create: FarmCreateWithoutProductsInput!
 }
 
 input FarmWhereInput {
@@ -1873,9 +1823,6 @@ input FarmWhereInput {
   crops_every: CropWhereInput
   crops_some: CropWhereInput
   crops_none: CropWhereInput
-  products_every: ProductWhereInput
-  products_some: ProductWhereInput
-  products_none: ProductWhereInput
 }
 
 input FarmWhereUniqueInput {
@@ -2230,7 +2177,6 @@ type Mutation {
   createCrop(data: CropCreateInput!): Crop!
   create_ProduceTable(data: _ProduceTableCreateInput!): _ProduceTable!
   create_Produce(data: _ProduceCreateInput!): _Produce!
-  createProduct(data: ProductCreateInput!): Product!
   createHarvestWindow(data: HarvestWindowCreateInput!): HarvestWindow!
   createSalesCatogories(data: SalesCatogoriesCreateInput!): SalesCatogories!
   createLocation(data: LocationCreateInput!): Location!
@@ -2239,19 +2185,16 @@ type Mutation {
   updateFarm(data: FarmUpdateInput!, where: FarmWhereUniqueInput!): Farm
   updateCrop(data: CropUpdateInput!, where: CropWhereUniqueInput!): Crop
   update_Produce(data: _ProduceUpdateInput!, where: _ProduceWhereUniqueInput!): _Produce
-  updateProduct(data: ProductUpdateInput!, where: ProductWhereUniqueInput!): Product
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
   deleteFarm(where: FarmWhereUniqueInput!): Farm
   deleteCrop(where: CropWhereUniqueInput!): Crop
   delete_Produce(where: _ProduceWhereUniqueInput!): _Produce
-  deleteProduct(where: ProductWhereUniqueInput!): Product
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertFarm(where: FarmWhereUniqueInput!, create: FarmCreateInput!, update: FarmUpdateInput!): Farm!
   upsertCrop(where: CropWhereUniqueInput!, create: CropCreateInput!, update: CropUpdateInput!): Crop!
   upsert_Produce(where: _ProduceWhereUniqueInput!, create: _ProduceCreateInput!, update: _ProduceUpdateInput!): _Produce!
-  upsertProduct(where: ProductWhereUniqueInput!, create: ProductCreateInput!, update: ProductUpdateInput!): Product!
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyPersonalDetailses(data: PersonalDetailsUpdateInput!, where: PersonalDetailsWhereInput): BatchPayload!
@@ -2261,7 +2204,6 @@ type Mutation {
   updateManyCrops(data: CropUpdateInput!, where: CropWhereInput): BatchPayload!
   updateMany_ProduceTables(data: _ProduceTableUpdateInput!, where: _ProduceTableWhereInput): BatchPayload!
   updateMany_Produces(data: _ProduceUpdateInput!, where: _ProduceWhereInput): BatchPayload!
-  updateManyProducts(data: ProductUpdateInput!, where: ProductWhereInput): BatchPayload!
   updateManyHarvestWindows(data: HarvestWindowUpdateInput!, where: HarvestWindowWhereInput): BatchPayload!
   updateManySalesCatogorieses(data: SalesCatogoriesUpdateInput!, where: SalesCatogoriesWhereInput): BatchPayload!
   updateManyLocations(data: LocationUpdateInput!, where: LocationWhereInput): BatchPayload!
@@ -2274,7 +2216,6 @@ type Mutation {
   deleteManyCrops(where: CropWhereInput): BatchPayload!
   deleteMany_ProduceTables(where: _ProduceTableWhereInput): BatchPayload!
   deleteMany_Produces(where: _ProduceWhereInput): BatchPayload!
-  deleteManyProducts(where: ProductWhereInput): BatchPayload!
   deleteManyHarvestWindows(where: HarvestWindowWhereInput): BatchPayload!
   deleteManySalesCatogorieses(where: SalesCatogoriesWhereInput): BatchPayload!
   deleteManyLocations(where: LocationWhereInput): BatchPayload!
@@ -2943,477 +2884,6 @@ input PostWhereUniqueInput {
   id: ID
 }
 
-type Product implements Node {
-  id: ID!
-  name: String!
-  description: String
-  unit: String
-  stockLevel: Float
-  price: Float
-  imageSrc: String
-  imageName: String
-  farm: Farm!
-}
-
-"""A connection to a list of items."""
-type ProductConnection {
-  """Information to aid in pagination."""
-  pageInfo: PageInfo!
-
-  """A list of edges."""
-  edges: [ProductEdge]!
-  aggregate: AggregateProduct!
-}
-
-input ProductCreateInput {
-  name: String!
-  description: String
-  unit: String
-  stockLevel: Float
-  price: Float
-  imageSrc: String
-  imageName: String
-  farm: FarmCreateOneWithoutProductsInput!
-}
-
-input ProductCreateManyWithoutFarmInput {
-  create: [ProductCreateWithoutFarmInput!]
-  connect: [ProductWhereUniqueInput!]
-}
-
-input ProductCreateWithoutFarmInput {
-  name: String!
-  description: String
-  unit: String
-  stockLevel: Float
-  price: Float
-  imageSrc: String
-  imageName: String
-}
-
-"""An edge in a connection."""
-type ProductEdge {
-  """The item at the end of the edge."""
-  node: Product!
-
-  """A cursor for use in pagination."""
-  cursor: String!
-}
-
-enum ProductOrderByInput {
-  id_ASC
-  id_DESC
-  name_ASC
-  name_DESC
-  description_ASC
-  description_DESC
-  unit_ASC
-  unit_DESC
-  stockLevel_ASC
-  stockLevel_DESC
-  price_ASC
-  price_DESC
-  imageSrc_ASC
-  imageSrc_DESC
-  imageName_ASC
-  imageName_DESC
-  updatedAt_ASC
-  updatedAt_DESC
-  createdAt_ASC
-  createdAt_DESC
-}
-
-type ProductPreviousValues {
-  id: ID!
-  name: String!
-  description: String
-  unit: String
-  stockLevel: Float
-  price: Float
-  imageSrc: String
-  imageName: String
-}
-
-type ProductSubscriptionPayload {
-  mutation: MutationType!
-  node: Product
-  updatedFields: [String!]
-  previousValues: ProductPreviousValues
-}
-
-input ProductSubscriptionWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ProductSubscriptionWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ProductSubscriptionWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ProductSubscriptionWhereInput!]
-
-  """
-  The subscription event gets dispatched when it's listed in mutation_in
-  """
-  mutation_in: [MutationType!]
-
-  """
-  The subscription event gets only dispatched when one of the updated fields names is included in this list
-  """
-  updatedFields_contains: String
-
-  """
-  The subscription event gets only dispatched when all of the field names included in this list have been updated
-  """
-  updatedFields_contains_every: [String!]
-
-  """
-  The subscription event gets only dispatched when some of the field names included in this list have been updated
-  """
-  updatedFields_contains_some: [String!]
-  node: ProductWhereInput
-}
-
-input ProductUpdateInput {
-  name: String
-  description: String
-  unit: String
-  stockLevel: Float
-  price: Float
-  imageSrc: String
-  imageName: String
-  farm: FarmUpdateOneRequiredWithoutProductsInput
-}
-
-input ProductUpdateManyWithoutFarmInput {
-  create: [ProductCreateWithoutFarmInput!]
-  connect: [ProductWhereUniqueInput!]
-  disconnect: [ProductWhereUniqueInput!]
-  delete: [ProductWhereUniqueInput!]
-  update: [ProductUpdateWithWhereUniqueWithoutFarmInput!]
-  upsert: [ProductUpsertWithWhereUniqueWithoutFarmInput!]
-}
-
-input ProductUpdateWithoutFarmDataInput {
-  name: String
-  description: String
-  unit: String
-  stockLevel: Float
-  price: Float
-  imageSrc: String
-  imageName: String
-}
-
-input ProductUpdateWithWhereUniqueWithoutFarmInput {
-  where: ProductWhereUniqueInput!
-  data: ProductUpdateWithoutFarmDataInput!
-}
-
-input ProductUpsertWithWhereUniqueWithoutFarmInput {
-  where: ProductWhereUniqueInput!
-  update: ProductUpdateWithoutFarmDataInput!
-  create: ProductCreateWithoutFarmInput!
-}
-
-input ProductWhereInput {
-  """Logical AND on all given filters."""
-  AND: [ProductWhereInput!]
-
-  """Logical OR on all given filters."""
-  OR: [ProductWhereInput!]
-
-  """Logical NOT on all given filters combined by AND."""
-  NOT: [ProductWhereInput!]
-  id: ID
-
-  """All values that are not equal to given value."""
-  id_not: ID
-
-  """All values that are contained in given list."""
-  id_in: [ID!]
-
-  """All values that are not contained in given list."""
-  id_not_in: [ID!]
-
-  """All values less than the given value."""
-  id_lt: ID
-
-  """All values less than or equal the given value."""
-  id_lte: ID
-
-  """All values greater than the given value."""
-  id_gt: ID
-
-  """All values greater than or equal the given value."""
-  id_gte: ID
-
-  """All values containing the given string."""
-  id_contains: ID
-
-  """All values not containing the given string."""
-  id_not_contains: ID
-
-  """All values starting with the given string."""
-  id_starts_with: ID
-
-  """All values not starting with the given string."""
-  id_not_starts_with: ID
-
-  """All values ending with the given string."""
-  id_ends_with: ID
-
-  """All values not ending with the given string."""
-  id_not_ends_with: ID
-  name: String
-
-  """All values that are not equal to given value."""
-  name_not: String
-
-  """All values that are contained in given list."""
-  name_in: [String!]
-
-  """All values that are not contained in given list."""
-  name_not_in: [String!]
-
-  """All values less than the given value."""
-  name_lt: String
-
-  """All values less than or equal the given value."""
-  name_lte: String
-
-  """All values greater than the given value."""
-  name_gt: String
-
-  """All values greater than or equal the given value."""
-  name_gte: String
-
-  """All values containing the given string."""
-  name_contains: String
-
-  """All values not containing the given string."""
-  name_not_contains: String
-
-  """All values starting with the given string."""
-  name_starts_with: String
-
-  """All values not starting with the given string."""
-  name_not_starts_with: String
-
-  """All values ending with the given string."""
-  name_ends_with: String
-
-  """All values not ending with the given string."""
-  name_not_ends_with: String
-  description: String
-
-  """All values that are not equal to given value."""
-  description_not: String
-
-  """All values that are contained in given list."""
-  description_in: [String!]
-
-  """All values that are not contained in given list."""
-  description_not_in: [String!]
-
-  """All values less than the given value."""
-  description_lt: String
-
-  """All values less than or equal the given value."""
-  description_lte: String
-
-  """All values greater than the given value."""
-  description_gt: String
-
-  """All values greater than or equal the given value."""
-  description_gte: String
-
-  """All values containing the given string."""
-  description_contains: String
-
-  """All values not containing the given string."""
-  description_not_contains: String
-
-  """All values starting with the given string."""
-  description_starts_with: String
-
-  """All values not starting with the given string."""
-  description_not_starts_with: String
-
-  """All values ending with the given string."""
-  description_ends_with: String
-
-  """All values not ending with the given string."""
-  description_not_ends_with: String
-  unit: String
-
-  """All values that are not equal to given value."""
-  unit_not: String
-
-  """All values that are contained in given list."""
-  unit_in: [String!]
-
-  """All values that are not contained in given list."""
-  unit_not_in: [String!]
-
-  """All values less than the given value."""
-  unit_lt: String
-
-  """All values less than or equal the given value."""
-  unit_lte: String
-
-  """All values greater than the given value."""
-  unit_gt: String
-
-  """All values greater than or equal the given value."""
-  unit_gte: String
-
-  """All values containing the given string."""
-  unit_contains: String
-
-  """All values not containing the given string."""
-  unit_not_contains: String
-
-  """All values starting with the given string."""
-  unit_starts_with: String
-
-  """All values not starting with the given string."""
-  unit_not_starts_with: String
-
-  """All values ending with the given string."""
-  unit_ends_with: String
-
-  """All values not ending with the given string."""
-  unit_not_ends_with: String
-  stockLevel: Float
-
-  """All values that are not equal to given value."""
-  stockLevel_not: Float
-
-  """All values that are contained in given list."""
-  stockLevel_in: [Float!]
-
-  """All values that are not contained in given list."""
-  stockLevel_not_in: [Float!]
-
-  """All values less than the given value."""
-  stockLevel_lt: Float
-
-  """All values less than or equal the given value."""
-  stockLevel_lte: Float
-
-  """All values greater than the given value."""
-  stockLevel_gt: Float
-
-  """All values greater than or equal the given value."""
-  stockLevel_gte: Float
-  price: Float
-
-  """All values that are not equal to given value."""
-  price_not: Float
-
-  """All values that are contained in given list."""
-  price_in: [Float!]
-
-  """All values that are not contained in given list."""
-  price_not_in: [Float!]
-
-  """All values less than the given value."""
-  price_lt: Float
-
-  """All values less than or equal the given value."""
-  price_lte: Float
-
-  """All values greater than the given value."""
-  price_gt: Float
-
-  """All values greater than or equal the given value."""
-  price_gte: Float
-  imageSrc: String
-
-  """All values that are not equal to given value."""
-  imageSrc_not: String
-
-  """All values that are contained in given list."""
-  imageSrc_in: [String!]
-
-  """All values that are not contained in given list."""
-  imageSrc_not_in: [String!]
-
-  """All values less than the given value."""
-  imageSrc_lt: String
-
-  """All values less than or equal the given value."""
-  imageSrc_lte: String
-
-  """All values greater than the given value."""
-  imageSrc_gt: String
-
-  """All values greater than or equal the given value."""
-  imageSrc_gte: String
-
-  """All values containing the given string."""
-  imageSrc_contains: String
-
-  """All values not containing the given string."""
-  imageSrc_not_contains: String
-
-  """All values starting with the given string."""
-  imageSrc_starts_with: String
-
-  """All values not starting with the given string."""
-  imageSrc_not_starts_with: String
-
-  """All values ending with the given string."""
-  imageSrc_ends_with: String
-
-  """All values not ending with the given string."""
-  imageSrc_not_ends_with: String
-  imageName: String
-
-  """All values that are not equal to given value."""
-  imageName_not: String
-
-  """All values that are contained in given list."""
-  imageName_in: [String!]
-
-  """All values that are not contained in given list."""
-  imageName_not_in: [String!]
-
-  """All values less than the given value."""
-  imageName_lt: String
-
-  """All values less than or equal the given value."""
-  imageName_lte: String
-
-  """All values greater than the given value."""
-  imageName_gt: String
-
-  """All values greater than or equal the given value."""
-  imageName_gte: String
-
-  """All values containing the given string."""
-  imageName_contains: String
-
-  """All values not containing the given string."""
-  imageName_not_contains: String
-
-  """All values starting with the given string."""
-  imageName_starts_with: String
-
-  """All values not starting with the given string."""
-  imageName_not_starts_with: String
-
-  """All values ending with the given string."""
-  imageName_ends_with: String
-
-  """All values not ending with the given string."""
-  imageName_not_ends_with: String
-  farm: FarmWhereInput
-}
-
-input ProductWhereUniqueInput {
-  id: ID
-}
-
 type Query {
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
@@ -3424,7 +2894,6 @@ type Query {
   crops(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Crop]!
   _ProduceTables(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_ProduceTable]!
   _Produces(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [_Produce]!
-  products(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Product]!
   harvestWindows(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [HarvestWindow]!
   salesCatogorieses(where: SalesCatogoriesWhereInput, orderBy: SalesCatogoriesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SalesCatogories]!
   locations(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Location]!
@@ -3433,7 +2902,6 @@ type Query {
   farm(where: FarmWhereUniqueInput!): Farm
   crop(where: CropWhereUniqueInput!): Crop
   _Produce(where: _ProduceWhereUniqueInput!): _Produce
-  product(where: ProductWhereUniqueInput!): Product
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   personalDetailsesConnection(where: PersonalDetailsWhereInput, orderBy: PersonalDetailsOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PersonalDetailsConnection!
@@ -3443,7 +2911,6 @@ type Query {
   cropsConnection(where: CropWhereInput, orderBy: CropOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CropConnection!
   _ProduceTablesConnection(where: _ProduceTableWhereInput, orderBy: _ProduceTableOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceTableConnection!
   _ProducesConnection(where: _ProduceWhereInput, orderBy: _ProduceOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): _ProduceConnection!
-  productsConnection(where: ProductWhereInput, orderBy: ProductOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ProductConnection!
   harvestWindowsConnection(where: HarvestWindowWhereInput, orderBy: HarvestWindowOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): HarvestWindowConnection!
   salesCatogoriesesConnection(where: SalesCatogoriesWhereInput, orderBy: SalesCatogoriesOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SalesCatogoriesConnection!
   locationsConnection(where: LocationWhereInput, orderBy: LocationOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LocationConnection!
@@ -3614,7 +3081,6 @@ type Subscription {
   crop(where: CropSubscriptionWhereInput): CropSubscriptionPayload
   _ProduceTable(where: _ProduceTableSubscriptionWhereInput): _ProduceTableSubscriptionPayload
   _Produce(where: _ProduceSubscriptionWhereInput): _ProduceSubscriptionPayload
-  product(where: ProductSubscriptionWhereInput): ProductSubscriptionPayload
   harvestWindow(where: HarvestWindowSubscriptionWhereInput): HarvestWindowSubscriptionPayload
   salesCatogories(where: SalesCatogoriesSubscriptionWhereInput): SalesCatogoriesSubscriptionPayload
   location(where: LocationSubscriptionWhereInput): LocationSubscriptionPayload

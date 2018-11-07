@@ -3,16 +3,22 @@
 # import PersonalDetails from "./generated/prisma.graphql"
 # import Address from "./generated/prisma.graphql"
 # import FarmingActivities from "./generated/prisma.graphql"
+# import SalesCategories from "./generated/prisma.graphql"
 # import updateUser from "./generated/prisma.graphql"
+# import Farm from "./generated/prisma.graphql"
+# import Crop from "./generated/prisma.graphql"
+# import Product from "./generated/prisma.graphql"
 
 type Query {
   feed: [Post!]!
   # Every user should only be able to access their own drafts (i.e. where they're set as the author of the Post
-  drafts: [Post!]! 
+  drafts: [Post!]!
   # Only the author of a Post or an ADMIN user should be able to access Post nodes using the post query.
   post(id: ID!): Post
   me: User
   tenUsers: [User!]!
+  produceList: [_Produce!]!
+  currentCrops(farmId: ID!, today: DateTime): [Crop]!
 }
 
 type Mutation {
@@ -30,24 +36,73 @@ type Mutation {
     province: String
   ): Address
   updateStableInfo(
-    personalDetails: PersonalDetailsUpsertWithoutPersonInput!, 
-    address: AddressUpsertWithoutResidentInput!,
-    farmingActivities: FarmingActivitiesUpsertWithoutFarmerInput!
+    cell: String!
+    idSA: String!
+    landLine: String!
+    lastName: String!
+    addArea: String!
+    addOne: String!
+    addTwo: String!
+    addThree: String!
+    postalCode: String!
+    province: String!
+    farmingCategory: String!
+    farmingDescription: String!
+    farmingApproach: String!
+    sellingCrops: Boolean!
+    sellingProducts: Boolean!
+    sellingLivestock: Boolean!
   ): User
-  createPersonalDetails(  
+  updateFarm(
+    name: String
+    totalLand: Int!
+    cultivatedLand: Int!
+    shareLocation: Boolean!
+    lat: Float!
+    lng: Float!
+    farmersAssociations: String
+  ): User
+  createCrop(
+    farmId: ID!
+    category: CropCategory!
+    name: String!
+    description: String!
+    startDate: DateTime!
+    endDate: DateTime!
+  ): Crop!
+  createProduct(
+    farmId: ID!
+    name: String!
+    description: String
+    unit: String
+    stockLevel: Float
+    price: Float
+    imageSrc: String
+    imageName: String
+  ): Product
+  createPersonalDetails(
     lastName: String
     cell: String
     landLine: String
     idSA: String
   ): PersonalDetails
   createFarmingActivities(
-      category: String!
-      shortDescription: String
-      longDescription: String
+    category: String!
+    shortDescription: String
+    cultivationApproach: String
+    crops: Boolean
+    livestock: Boolean
+    products: Boolean
   ): FarmingActivities
- 
+  createFarm(
+    totalLand: Int!
+    cultivatedLand: Int!
+    shareLocation: Boolean!
+    farmersAssociations: String
+    lat: Float
+    lng: Float
+  ): Farm!
 }
-
 
 # type PersonalDetails {
 #   lastName: String
@@ -71,7 +126,8 @@ type User {
   email: String!
   name: String!
   posts: [Post!]!
-  profile: PersonalDetails
+  personalDetails: PersonalDetails
   address: Address
-  mainActivities: FarmingActivities
+  farmingActivities: FarmingActivities
+  farm: Farm
 }
