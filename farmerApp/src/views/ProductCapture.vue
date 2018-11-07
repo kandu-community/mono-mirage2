@@ -27,10 +27,11 @@
         ></v-text-field>
         <p>How about a picture of your lovely product</p>
         <v-cloudinary-upload 
-          v-model="product.image"
+          v-model="product.imageSrc"
           :upload-preset="cloudinary.preset"
           :cloud-name="cloudinary.name"
           @input="gotImageSource"
+          button-icon="fa-home"
         />
         <img
           v-if="product.imageSrc"
