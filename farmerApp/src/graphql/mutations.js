@@ -23,17 +23,13 @@ mutation LoginMutation($email: String!, $password: String!) {
 `
 export const ADDRESS_MUTATION = gql `
 mutation addAddress(
-    $line1: String,
-    $line2: String,
-    $line3: String,
+    $street: String,
     $area: String,
     $postalCode: String,
     $province: String
 ) {
     createAddress(
-    line1: $line1,
-    line2: $line2,
-    line3: $line3,
+    street: $street,
     area: $area,
     postalCode: $postalCode,
     province: $province
@@ -47,12 +43,14 @@ mutation addAddress(
 `
 export const PERSONALDETAILS_MUTATION = gql `
 mutation addPersonalDetails(
+    $firstName: String,
     $lastName: String,
     $cell: String,
     $landLine: String,
     $idSA: String
 ) {
     createPersonalDetails(
+        firstName: $firstName,
         lastName: $lastName,
         cell: $cell,
         landLine: $landLine,
@@ -99,12 +97,14 @@ mutation createFarmingActivities(
 }
  */
 export const FARMINGACTIVITIES_MUTATION = gql`
-         mutation createFarmingActivities($category: String!, $shortDescription: String, $cultivationApproach: String, $crops: Boolean, $livestock: Boolean, $products: Boolean) {
-           createFarmingActivities(category: $category, shortDescription: $shortDescription, cultivationApproach: $cultivationApproach, crops: $crops, livestock: $livestock, products: $products) {
+         mutation createFarmingActivities($category: String!, $shortDescription: String, $cultivationApproach: String, $crops: Boolean, $livestock: Boolean, $products: Boolean, $seeds: Boolean, $distributors: Boolean) {
+           createFarmingActivities(category: $category, shortDescription: $shortDescription, cultivationApproach: $cultivationApproach, crops: $crops, livestock: $livestock, products: $products, seeds: $seeds, distributors: $distributors) {
              selling {
                crops
                livestock
                products
+               seeds
+               distributors
              }
            }
          }
@@ -112,20 +112,34 @@ export const FARMINGACTIVITIES_MUTATION = gql`
 
 export const CREATEFARM_MUTATION = gql `
 mutation createFarm(
+      $name: String,
       $totalLand: Int!,
       $cultivatedLand: Int!,
       $shareLocation: Boolean!,
       $farmersAssociations: String,
       $lat: Float,
-      $lng: Float
+      $lng: Float,
+      $area: String,
+      $post_code: Int,
+      $short_description: String,
+      $long_description: String,
+      $website: String,
+      $visible_ofn: Boolean,
+      $activities: String,
+      $cooperative: Boolean,
+      $date_started: DateTime,
+      $soil_structure: String,
+      $soil_ph: String,
+      $methodz: String,
+      $erosion_control: String,
+      $water_source: String,
+      $water_storage: String,
+      $irrigation: String,
+      $fertilizer: String
 ){
   createFarm(
-    totalLand: $totalLand
-    cultivatedLand: $cultivatedLand
-    shareLocation: $shareLocation
-    farmersAssociations: $farmersAssociations
-    lat: $lat
-    lng: $lng    
+name: $name totalLand: $totalLand cultivatedLand: $cultivatedLand shareLocation: $shareLocation lat: $lat lng: $lng farmersAssociations: $farmersAssociations area: $area post_code: $post_code short_description: $short_description long_description: $long_description website: $website visible_ofn: $visible_ofn activities: $activities cooperative: $cooperative date_started: $date_started soil_structure: $soil_structure soil_ph: $soil_ph methodz: $methodz erosion_control: $erosion_control water_source: $water_source water_storage: $water_storage irrigation: $irrigation fertilizer: $fertilizer 
+ 
   ){
     totalLand
     farmer{
