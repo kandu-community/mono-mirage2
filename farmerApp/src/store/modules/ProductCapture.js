@@ -23,32 +23,41 @@ const actions = {
                 mutation createProduct(
                     $farmId: ID!
                     $name: String!
+                    $productype: String
                     $description: String
                     $unit: String
                     $stockLevel: Float
                     $price: Float
                     $imageSrc: String
                     $imageName: String
+                    $imageSrctoo: String
+                    $imageNametoo: String
                 ) {
                     createProduct(
                         farmId: $farmId 
                         name: $name 
+                        productype: $productype 
                         description: $description 
                         unit: $unit 
                         stockLevel: $stockLevel 
                         price: $price
                         imageSrc: $imageSrc
                         imageName: $imageName
+                        imageSrctoo: $imageSrctoo
+                        imageNametoo: $imageNametoo
         
                     ) {
                         id
                         name
+                        productype
                         description
                         unit
                         stockLevel
                         price
                         imageSrc
                         imageName
+                        imageSrctoo
+                        imageNametoo
                         farm {
                             id
                         }

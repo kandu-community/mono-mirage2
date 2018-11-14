@@ -6,41 +6,41 @@ import moment from 'moment'
 
 const state = {
     vegOptions: null,
-    crops: []
+    seeds: []
 }
 
 const getters = {
     vegOptions(state) {
         return state.vegOptions
     },
-    crops(state) {
-        return state.crops
+    seeds(state) {
+        return state.seeds
     },
 }
 
 const actions = {
-    async getCropNames({
+    async getSeedNames({
         state
     }) {
         const response = await apollo.query({
             query: gql `
-                query produceList {
-                    produceList {
+                query seedList {
+                    seedList {
+                        category
                         name
-                        type
-                        spacing
-                        plantsPerM
-                        group {
-                            name
-                        }
+                        description
+                        unit
+                        stockLevel
+                        price
+                        harvestDate
                     }
                 }
             `
         })
-        state.vegOptions = response.data.produceList
+        state.vegOptions = response.data.seedList
         console.log('TCL: state.vegOptions', state.vegOptions);
     },
-    async saveCrop({
+    async saveSeed({
         state,
         rootState,
         dispatch
@@ -52,40 +52,32 @@ const actions = {
 
         const response = await apollo.mutate({
             mutation: gql `
-                mutation createCrop(
+                mutation createSeed(
                     $farmId: ID!
-                    $category: CropCategory!
+                    $category: SeedCategory!
                     $name: String!
                     $description: String!
-                    $spacing: String!
-                    $squareMeters: String!
-                    $harvestWindow: DateTime!
-                    $imageSrc: String!
-                    $imageName: String!
-
-
-
- 
+                    $unit: String!
+                    $stockLevel: String!
+                    $price: String!
+                    $harvestDate: DateTime!
 
                 ) {
-                    createCrop(
-                        category: $category name: $name description: $description spacing: $spacing squareMeters: $squareMeters harvestWindow: $harvestWindow imageSrc: $imageSrc imageName: $imageName farmId: $farmId
+                    createSeed(
+                        category: $category name: $name description: $description unit: $unit stockLevel: $stockLevel price: $price harvestDate: $harvestDate farmId: $farmId
                     ) {
                         id
                         category
-                        description
-                        spacing
-                        squareMeters
-                        harvestWindow {
-                            from
-                            to
-                        }
                         name
+                        description
+                        unit
+                        stockLevel
+                        price
+                        harvestDate
                         farm {
                             id
                             name
                         }
-                        imageSrc
                     }
                 }
             `,
@@ -96,38 +88,35 @@ const actions = {
             }
         })
 
-        console.log('TCL: response', response.data.createCrop);
-        const docName = "crop/" + response.data.createCrop.id
-        delete response.data.createCrop.__typename
-        upsertToPouch(docName, response.data.createCrop)
-        dispatch('fetchCrops')
+        console.log('TCL: response', response.data.createSeed);
+        const docName = "seed/" + response.data.createSeed.id
+        delete response.data.createSeed.__typename
+        upsertToPouch(docName, response.data.createSeed)
+        dispatch('fetchSeeds')
     },
 
-    async fetchCrops({
+    async fetchSeeds({
         rootState,
         state
     }) {
         var response = await apollo.query({
             query: gql `
-            query currentCrops($farmId: ID!, $today: DateTime!) {
-                currentCrops(
+            query currentSeeds($farmId: ID!, $today: DateTime!) {
+                currentSeeds(
                     farmId: $farmId today: $today
                 ) {
                     id
                     category
                     name
                     description
-                    spacing
-                    squareMeters
-                    harvestWindow {
-                        from
-                        to
-                    }
+                    unit
+                    stockLevel
+                    price
+                    harvestDate
                     farm {
                         id
                         name
                     }
-                    imageSrc
 
                 }
             }
@@ -137,10 +126,10 @@ const actions = {
                 today: moment()
             }
         })
-        var crops = response.data.currentCrops
-        console.log('TCL: crops', crops);
+        var seeds = response.data.currentSeeds
+        console.log('TCL: seeds', seeds);
 
-        state.crops = crops
+        state.seeds = seeds
 
     }
 }

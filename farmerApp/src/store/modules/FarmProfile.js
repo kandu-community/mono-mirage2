@@ -76,9 +76,29 @@ const actions = {
                 $lat: Float!
                 $lng: Float!
                 $farmersAssociations: String
+                $area: String
+                $post_code: Int
+                $short_description: String
+                $long_description: String
+                $website: String
+                $visible_ofn: Boolean
+                $activities: String
+                $cooperative: Boolean
+                $date_started: DateTime
+                $soil_structure: String
+                $soil_ph: String
+                $methodz: String
+                $erosion_control: String
+                $water_source: String
+                $water_storage: String
+                $irrigation: String
+                $fertilizer: String
+
+
+
             ) {
                 updateFarm(
-                    name: $name totalLand: $totalLand cultivatedLand: $cultivatedLand shareLocation: $shareLocation lat: $lat lng: $lng farmersAssociations: $farmersAssociations
+                    name: $name totalLand: $totalLand cultivatedLand: $cultivatedLand shareLocation: $shareLocation lat: $lat lng: $lng farmersAssociations: $farmersAssociations area: $area post_code: $post_code short_description: $short_description long_description: $long_description website: $website visible_ofn: $visible_ofn activities: $activities cooperative: $cooperative date_started: $date_started soil_structure: $soil_structure soil_ph: $soil_ph methodz: $methodz erosion_control: $erosion_control water_source: $water_source water_storage: $water_storage irrigation: $irrigation fertilizer: $fertilizer 
                 ) {
                     farm {
                         id
@@ -91,6 +111,24 @@ const actions = {
                             lng
                         }
                         farmersAssociations
+                        area
+                        post_code
+                        short_description
+                        long_description
+                        website
+                        visible_ofn
+                        activities
+                        cooperative
+                        date_started
+                        soil_structure
+                        soil_ph
+                        methodz
+                        erosion_control
+                        water_source
+                        water_storage
+                        irrigation
+                        fertilizer
+
                     }
 
                 }
@@ -103,7 +141,24 @@ const actions = {
                 shareLocation: payload.shareLocation,
                 lat: payload.gpsPoints.lat,
                 lng: payload.gpsPoints.lng,
-                farmersAssociations: payload.farmersAssociations
+                farmersAssociations: payload.farmersAssociations,
+                area: payload.area,
+                post_code: payload.post_code,
+                short_description: payload.short_description,
+                long_description: payload.long_description,
+                website: payload.website,
+                visible_ofn: payload.visible_ofn,
+                activities: payload.activities,
+                cooperative: payload.cooperative,
+                date_started: payload.date_started,
+                soil_structure: payload.soil_structure,
+                soil_ph: payload.soil_ph,
+                methodz: payload.methodz,
+                erosion_control: payload.erosion_control,
+                water_source: payload.water_source,
+                water_storage: payload.water_storage,
+                irrigation: payload.irrigation,
+                fertilizer: payload.fertilizer,
             }
         })
         let farmData = response.data.updateFarm.farm

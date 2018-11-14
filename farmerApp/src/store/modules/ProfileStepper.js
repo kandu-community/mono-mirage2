@@ -64,11 +64,10 @@ const actions = {
                     $cell: String!
                     $idSA: String!
                     $landLine: String!
+                    $firstName: String!
                     $lastName: String!
+                    $addStreet: String!
                     $addArea: String!
-                    $addOne: String!
-                    $addTwo: String!
-                    $addThree: String!
                     $postalCode: String!
                     $province: String!
                     $farmingCategory: String!
@@ -82,11 +81,10 @@ const actions = {
                                       cell: $cell
                                       idSA: $idSA
                                       landLine: $landLine
+                                      firstName: $firstName
                                       lastName: $lastName
                                       addArea: $addArea
-                                      addOne: $addOne
-                                      addTwo: $addTwo
-                                      addThree: $addThree
+                                      addStreet: $addStreet
                                       postalCode: $postalCode
                                       province: $province
                                       farmingCategory: $farmingCategory
@@ -111,6 +109,8 @@ const actions = {
                           crops
                           livestock
                           products
+                          seeds
+                          distributors
                       }
                   }
               }
@@ -120,11 +120,10 @@ const actions = {
                 cell: combo.cell,
                 idSA: combo.idSA,
                 landLine: combo.landLine,
+                firstName: combo.firstName,
                 lastName: combo.lastName,
                 addArea: combo.area,
-                addOne: combo.line1,
-                addTwo: combo.line2,
-                addThree: combo.line3,
+                addStreet: combo.street,
                 postalCode: combo.postalCode,
                 province: combo.province,
                 farmingCategory: combo.category,
