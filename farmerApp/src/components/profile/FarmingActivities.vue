@@ -17,7 +17,9 @@
     <p>What kind of things do you do? That is: What would you want to sell via our network?</p>        
     <v-checkbox label="I grow crops" v-model="farmingActivities.selling.crops"></v-checkbox>
     <v-checkbox label="I raise livestock" v-model="farmingActivities.selling.livestock"></v-checkbox>
-    <v-checkbox label="I value-add and have crafts or products to sell" v-model="farmingActivities.selling.products"></v-checkbox>
+    <v-checkbox label="I value-add and have food products to sell" v-model="farmingActivities.selling.products"></v-checkbox>
+    <v-checkbox label="I have seeds to bank, sell or share" v-model="farmingActivities.selling.seeds"></v-checkbox>
+    <v-checkbox label="I can suggest a trusted distributor" v-model="farmingActivities.selling.distributors"></v-checkbox>
     <v-textarea
         v-model="farmingActivities.shortDescription"
         label="Care to go into more detail?"
@@ -42,8 +44,9 @@ export default {
   data() {
     return {
       cultivationSelection: [
-        "Organic",
+        "Organic & Natural - not certified",
         "Certified Organic",
+        "Certified PGS",
         "Some Chemicals Used",
         "Fully Chemical Approach"
       ],
@@ -55,7 +58,9 @@ export default {
         selling: {
           crops: true,
           livestock: false,
-          products: false
+          products: false,
+          seeds: false,
+          distributors: false
         }
       }
     };
@@ -80,6 +85,8 @@ export default {
   //       this.crops = newVal.selling.crops
   //       this.livestock = newVal.selling.livestock
   //       this.products = newVal.selling.products
+  //       this.seeds = newVal.selling.seeds
+  //       this.distributors = newVal.selling.distributors
   //     }
   //   }
   // }

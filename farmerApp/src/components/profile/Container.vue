@@ -1,7 +1,7 @@
 <template>
   <v-layout row justify-center>
 
-    <v-flex v-if="name !== null" xs12 sm8 lg4 xl4>
+    <v-flex xs12 sm8 lg4 xl4>
       <!-- <template v-if="me.name !== ''">
         <div v-if="$apollo.loading">Loading...</div>
         <div v-else>Hi {{ me.name }}, please share a bit more about yourself for us...</div>

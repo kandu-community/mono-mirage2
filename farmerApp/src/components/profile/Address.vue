@@ -1,19 +1,10 @@
 <template>
   <div>
     <v-text-field
-        label="Address Line 1"
+        label="Street Address"
         hint="Required of you want to sell through us"
-        v-model="address.line1"
-    ></v-text-field>   
-    <v-text-field
-        label="Address Line 2"
-        hint="Required of you want to sell through us"
-        v-model="address.line2"
-    ></v-text-field>     
-    <v-text-field
-        label="Address Line 3"
-        v-model="address.line3"
-    ></v-text-field>
+        v-model="address.street"
+    ></v-text-field>  
     <v-text-field
         label="Area"
         v-model="address.area"
@@ -51,9 +42,7 @@ export default {
   },
   data: () => ({
     address: {
-      line1: null,
-      line2: null,
-      line3: null,
+      street: null,
       area: null,
       postalCode: null,
       province: null
@@ -95,9 +84,7 @@ export default {
     //     .mutate({
     //       mutation: ADDRESS_MUTATION,
     //       variables: {
-    //         line1: this.address.line1,
-    //         line2: this.address.line2,
-    //         line3: this.address.line3,
+    //         street: this.address.street,
     //         area: this.address.area,
     //         postalCode: this.address.postalCode,
     //         province: this.address.province

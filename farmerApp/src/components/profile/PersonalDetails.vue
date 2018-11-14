@@ -2,6 +2,11 @@
     <v-card>
         <v-card-text>
             <v-text-field
+                label="First Name"
+                v-model="person.firstName"
+                required
+            ></v-text-field>
+            <v-text-field
                 label="Last Name"
                 v-model="person.lastName"
                 required
@@ -62,6 +67,7 @@ export default {
         dialog: false,
         idData: null,
         person: {
+            firstName: null,
             lastName: null,
             cell: null,
             landLine: null,
@@ -95,6 +101,7 @@ export default {
 //     .mutate({
 //       mutation: PERSONALDETAILS_MUTATION,
 //       variables: {
+//         firstName: this.person.lastName,
 //         lastName: this.person.lastName,
 //         cellNo: this.person.cellNo,
 //         landLine: this.person.landLine,
