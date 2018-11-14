@@ -7,6 +7,9 @@ import SignUp from './views/SignUp.vue';
 import FarmProfile from './views/FarmProfile.vue';
 import CropCapture from './views/CropCapture.vue';
 import ProductCapture from './views/ProductCapture.vue';
+import SeedCapture from './views/SeedCapture.vue';
+import DistributorCapture from './views/DistributorCapture.vue';
+import SupportCapture from './views/SupportCapture.vue';
 
 Vue.use(Router)
 
@@ -33,7 +36,7 @@ export default new Router({
       name: 'ProfileForm',
       component: ProfileForm,
       meta: {
-        requiresAuth: true
+//        requiresAuth: true
       }
     },
     {
@@ -41,7 +44,7 @@ export default new Router({
       name: 'FarmProfile',
       component: FarmProfile,
       meta: {
-        requiresAuth: true
+//        requiresAuth: true
       }
     },
     {
@@ -49,17 +52,41 @@ export default new Router({
       name: 'CropCapture',
       component: CropCapture,
       meta: {
-        requiresAuth: true
-      },
+//        requiresAuth: true
+      }
     },
     {
       path: '/products',
       name: 'ProductCapture',
       component: ProductCapture,
       meta: {
-        requiresAuth: true
-      },
+//        requiresAuth: true
+      }
     },
+//    {
+//      path: '/seeds',
+//      name: 'SeedCapture',
+//      component: SeedCapture,
+//      meta: {
+////        requiresAuth: true
+//      }
+//    },
+//    {
+//      path: '/distributors',
+//      name: 'DistributorCapture',
+//      component: DistributorCapture,
+//      meta: {
+////        requiresAuth: true
+//      }
+//    },
+//    {
+//      path: '/support',
+//      name: 'SupportCapture',
+//      component: SupportCapture,
+//      meta: {
+////        requiresAuth: true
+//      }
+//    },
     {
       path: '/about',
       name: 'about',
