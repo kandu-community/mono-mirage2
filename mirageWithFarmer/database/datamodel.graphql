@@ -22,6 +22,7 @@ type User {
 }
 
 type PersonalDetails {
+  firstName: String
   lastName: String
   cell: String
   landLine: String
@@ -30,9 +31,7 @@ type PersonalDetails {
 }
 
 type Address {
-  line1: String
-  line2: String
-  line3: String
+  street: String
   area: String
   postalCode: String
   province: String
@@ -51,7 +50,10 @@ type SalesCatogories {
   crops: Boolean
   livestock: Boolean
   products: Boolean
+  seeds: Boolean
+  distributors: Boolean
 }
+
 
 type Farm {
   id: ID! @unique
@@ -61,19 +63,94 @@ type Farm {
   shareLocation: Boolean!
   gpsPoints: Location!
   farmersAssociations: String
+  area: String
+  post_code: Int
+  short_description: String
+  long_description: String
+  website: String
+  visible_ofn: Boolean
+  activities: String
+  cooperative: Boolean
+  date_started: DateTime
+  soil_structure: String
+  soil_ph: String
+  methodz: String
+  erosion_control: String
+  water_source: String
+  water_storage: String
+  irrigation: String
+  fertilizer: String 
   farmer: User
   crops: [Crop!]! @relation(name: "FarmCrops")
   products: [Product!]! @relation(name: "FarmProducts")
+  seeds: [Seed!]! @relation(name: "FarmSeeds")
+  distributors: [Distributor!]! @relation(name: "FarmDistributors")
+  support: [Support!]! @relation(name: "FarmSupport")
 }
+
+
 
 type Crop {
   id: ID! @unique
   category: CropCategory!
   name: String!
   description: String!
+  spacing: String!
+  squareMeters: Int!
   harvestWindow: HarvestWindow!
+  imageCrop: String
+  imageName: String
   farm: Farm! @relation(name: "FarmCrops")
 }
+
+
+    
+
+
+
+
+
+
+  type Seed { 
+    id: ID! @unique
+    category: CropCategory!
+    name: String!
+    description: String!
+    unit: String
+    stockLevel: Float
+    price: Float
+    harvestDate: DateTime!
+    farm: Farm! @relation(name: "FarmSeeds")
+ }
+
+
+
+
+
+
+  type Distributor {
+    id: ID! @unique
+    name: String
+    phone: String
+    ownerDriver: Boolean
+    vehicleMake: String
+    vehicleType: String
+    registration: String
+    description: String
+    roadworthy: String
+    driverLicense: String
+    vehicleLicense: String
+    imaSrc: String
+    imaName: String
+    imaSrctoo: String
+    imaNametoo: String
+    farm: Farm! @relation(name: "FarmDistributors")
+  }
+
+
+
+
+
 
 type _ProduceTable {
   name: String
@@ -97,14 +174,35 @@ type Location {
 type Product {
   id: ID! @unique
   name: String!
+  productype: String!
   description: String
   unit: String
   stockLevel: Float
   price: Float
   imageSrc: String
   imageName: String
+  imageSrctoo: String
+  imageNametoo: String
   farm: Farm! @relation(name: "FarmProducts")
 }
+
+
+type Support {
+  id: ID! @unique
+  date: DateTime!
+  challenge: String!
+  challengetype: String!
+  escalation: String
+  description: String
+  resolve: Boolean
+  notes: String
+  image1Src: String
+  image1Name: String
+  image2Src: String
+  image2Name: String
+  farm: Farm! @relation(name: "FarmSupport")
+}
+
 
 # eg. datetime: "2015-11-22"
 type HarvestWindow {
@@ -113,9 +211,10 @@ type HarvestWindow {
 }
 
 enum CropCategory {
-  VEGETABLE
-  FRUIT
-  HERB
+  Vegetable
+  Fruit
+  Herb
+  Medicine
 }
 
 enum Role {
